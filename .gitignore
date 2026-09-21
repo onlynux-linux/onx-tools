@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+gentoo/
+tatami/
+build-output/
+candidate-recipes/
