@@ -3,6 +3,7 @@ import json
 import subprocess
 from pathlib import Path
 from .importer import import_packages
+from .propose import propose
 from .recipe import read
 from .build import plan, fetch, build, inner_build
 
@@ -14,6 +15,12 @@ def main():
     imp.add_argument("--policy", required=True)
     imp.add_argument("--gentoo")
     imp.add_argument("--output", required=True)
+    draft = sub.add_parser("propose", help="Draft an ONXBUILD from any pinned Gentoo CPV; review required")
+    draft.add_argument("cpv")
+    draft.add_argument("--gentoo", required=True)
+    draft.add_argument("--policy", required=True)
+    draft.add_argument("--output", required=True)
+    draft.add_argument("--use", action="append", default=[])
     lint = sub.add_parser("lint")
     lint.add_argument("root")
     planner = sub.add_parser("plan")
@@ -37,6 +44,8 @@ def main():
     try:
         if a.command == "import":
             print(json.dumps(import_packages(a.policy, a.packages, a.output, a.gentoo)))
+        elif a.command == "propose":
+            print(propose(a.gentoo, a.cpv, a.output, json.loads(Path(a.policy).read_text()), a.use))
         elif a.command == "lint":
             paths = list(Path(a.root).glob("main/*/ONXBUILD"))
             if not paths:

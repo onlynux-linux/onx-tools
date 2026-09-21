@@ -93,3 +93,34 @@ class Recipes(unittest.TestCase):
             with self.assertRaises(ValueError): import_packages(p,["app"],Path(d)/"out")
 if __name__ == "__main__":
     unittest.main()
+
+
+class Proposals(unittest.TestCase):
+    def test_preserves_unresolved_dependencies_and_blocks_build(self):
+        from unittest.mock import patch
+        from onx.propose import propose
+        metadata={"EAPI":"8","IUSE":"ssl","SRC_URI":"mirror://gnu/demo/demo-1.0.tar.xz",
+                  "INHERITED":"autotools","DESCRIPTION":"Demo","HOMEPAGE":"https://example.org",
+                  "LICENSE":"GPL-3+","BDEPEND":"","DEPEND":"","RDEPEND":"unknown/library:0",
+                  "REQUIRED_USE":"","PDEPEND":"","IDEPEND":"","RESTRICT":""}
+        evidence={"name":"demo","version":"1.0","metadata":metadata}
+        with tempfile.TemporaryDirectory() as d:
+            with patch("onx.propose.evaluate",return_value=evidence), patch("onx.propose.manifest_hash",return_value="a"*128):
+                propose("/unused","app/demo-1.0",d,{"arch":"x86_64"})
+            m=read(Path(d)/"drafts/demo/ONXBUILD")
+            self.assertEqual(m["status"],"draft")
+            self.assertEqual(m["source"]["url"],"https://ftp.gnu.org/gnu/demo/demo-1.0.tar.xz")
+            report=json.loads((Path(d)/"drafts/demo/import-report.json").read_text())
+            self.assertEqual(report["evidence"]["metadata"]["RDEPEND"],"unknown/library:0")
+            self.assertTrue(any("requires explicit" in x for x in report["review_required"]))
+            write(Path(d)/"main/demo",m,report)
+            with self.assertRaisesRegex(ValueError,"draft"): plan(d,["demo"])
+
+    def test_no_silent_archive_selection(self):
+        from unittest.mock import patch
+        from onx.propose import propose
+        evidence={"name":"demo","version":"1.0","metadata":{
+            "EAPI":"8","IUSE":"","SRC_URI":"https://example.org/a.tar.xz https://example.org/b.tar.xz"}}
+        with patch("onx.propose.evaluate",return_value=evidence):
+            with self.assertRaisesRegex(ValueError,"ambiguous"):
+                propose("/unused","app/demo-1.0","/unused",{})

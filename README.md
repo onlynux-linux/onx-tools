@@ -67,3 +67,14 @@ Python 3.12+: `python -m unittest discover -s tests -v`.
 Portage is only required for Gentoo imports. CI pins Gentoo, Portage and Tatami revisions.
 
 Original code: GPL-3.0-or-later. Source packages retain upstream licenses. Gentoo ebuild code is not copied.
+
+## Draft a new Gentoo package
+
+```sh
+python -m onx.cli propose app-arch/gzip-1.14 \\
+  --gentoo /path/to/gentoo --policy policies/base.json --output proposed
+```
+
+This command creates `drafts/gzip/ONXBUILD` and a report preserving the original metadata, selected features and every unresolved dependency. It never executes Gentoo build phases. Review the upstream instructions and add an adapter to `policies/base.json` before importing/building the dependency closure. `--use=+flag` or `--use=-flag` selects explicit feature overrides. Complex source sets require an explicit adapter.
+
+The **Propose Gentoo ONXBUILD** workflow accepts a pinned Gentoo CPV in the GitHub Actions UI and returns an `onx-draft` artifact. It does not promote drafts into the tested recipe repository.

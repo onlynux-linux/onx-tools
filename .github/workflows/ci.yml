@@ -40,6 +40,7 @@ jobs:
       - name: Generate independent ONXBUILD recipes
         run: |
           python -m onx.cli import gzip sed zlib --policy policies/base.json --gentoo gentoo --output candidate-recipes
+          python -m onx.cli propose app-arch/gzip-1.14 --gentoo gentoo --policy policies/base.json --output draft-recipes
           python -m onx.cli lint candidate-recipes
           python -m onx.cli plan gzip sed zlib --recipes candidate-recipes
       - uses: actions/checkout@v4
