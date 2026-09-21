@@ -1,0 +1,65 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "configure_args": [
+      "--disable-gcc-warnings"
+    ],
+    "cpv": "app-arch/gzip-1.14",
+    "license": "GPL-3.0-or-later",
+    "references": [
+      "https://www.gnu.org/software/gzip/"
+    ],
+    "review_reason": "Build the upstream release with its INSTALL instructions. Do not import Gentoo's gzip-reference renaming, alternatives package, symlink patch, blocker or post-install phase. Bootstrap supplies GNU build tools; scripts require shell, grep and sed.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "bash",
+        "grep",
+        "sed"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "gzip-{version}.tar.xz",
+      "url": "https://ftp.gnu.org/gnu/gzip/gzip-{version}.tar.xz"
+    }
+  },
+  "dependency_decision": "Build the upstream release with its INSTALL instructions. Do not import Gentoo's gzip-reference renaming, alternatives package, symlink patch, blocker or post-install phase. Bootstrap supplies GNU build tools; scripts require shell, grep and sed.",
+  "evidence": {
+    "cpv": "app-arch/gzip-1.14",
+    "ebuild_sha256": "9dfc73d425a1be57c3a04fadca84ba71b9ac67f0770921ecf24e6d415ee0c2f2",
+    "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+    "metadata": {
+      "BDEPEND": "verify-sig? ( sec-keys/openpgp-keys-gzip ) verify-sig? ( || ( app-alternatives/gpg app-crypt/gnupg[-alternatives(-)] ) >=app-portage/gemato-20 )",
+      "DEFINED_PHASES": "configure install postinst unpack",
+      "DEPEND": "",
+      "DESCRIPTION": "Standard GNU compressor",
+      "EAPI": "8",
+      "HOMEPAGE": "https://www.gnu.org/software/gzip/",
+      "IDEPEND": "",
+      "INHERITED": "eapi9-ver toolchain-funcs flag-o-matic eapi9-pipestatus verify-sig",
+      "IUSE": "pic static verify-sig",
+      "LICENSE": "GPL-3+",
+      "PDEPEND": "app-alternatives/gzip",
+      "RDEPEND": "!app-arch/pigz[symlink(-)]",
+      "REQUIRED_USE": "",
+      "RESTRICT": "",
+      "SLOT": "0",
+      "SRC_URI": "mirror://gnu/gzip/gzip-1.14.tar.xz verify-sig? ( mirror://gnu/gzip/gzip-1.14.tar.xz.sig )"
+    },
+    "name": "gzip",
+    "version": "1.14"
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

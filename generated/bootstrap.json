@@ -1,0 +1,8 @@
+{
+  "gcc": "Bootstrap image C compiler; replace with Onlynux recipe for self hosting.",
+  "make": "Bootstrap make",
+  "binutils": "Bootstrap linker",
+  "glibc": "Bootstrap C library; minimum runtime ABI set by the build image",
+  "bash": "Bootstrap shell",
+  "grep": "GNU grep used by gzip helper scripts"
+}

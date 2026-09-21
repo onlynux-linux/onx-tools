@@ -1,0 +1,65 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "configure_args": [
+      "--disable-acl",
+      "--disable-nls",
+      "--disable-xattr",
+      "--without-selinux"
+    ],
+    "cpv": "sys-apps/sed-4.10-r1",
+    "license": "GPL-3.0-or-later",
+    "references": [
+      "https://www.gnu.org/software/sed/"
+    ],
+    "review_reason": "Upstream sed installed under its canonical name. Initial minimal feature profile disables ACL, NLS, xattr and SELinux using upstream options. Gentoo's gsed rename, branding and system symlink are not imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "sed-{version}.tar.xz",
+      "url": "https://ftp.gnu.org/gnu/sed/sed-{version}.tar.xz"
+    }
+  },
+  "dependency_decision": "Upstream sed installed under its canonical name. Initial minimal feature profile disables ACL, NLS, xattr and SELinux using upstream options. Gentoo's gsed rename, branding and system symlink are not imported.",
+  "evidence": {
+    "cpv": "sys-apps/sed-4.10-r1",
+    "ebuild_sha256": "2b5773195ff5de3c1b8ffac054594e1dadfeee20ca0d340c91a249249de36b41",
+    "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+    "metadata": {
+      "BDEPEND": "nls? ( sys-devel/gettext ) verify-sig? ( sec-keys/openpgp-keys-sed ) verify-sig? ( || ( app-alternatives/gpg app-crypt/gnupg[-alternatives(-)] ) >=app-portage/gemato-20 )",
+      "DEFINED_PHASES": "configure install test unpack",
+      "DEPEND": "!static? ( acl? ( virtual/acl ) nls? ( virtual/libintl ) selinux? ( sys-libs/libselinux ) xattr? ( sys-apps/attr ) ) static? ( acl? ( virtual/acl[static-libs(+)] ) nls? ( virtual/libintl[static-libs(+)] ) selinux? ( sys-libs/libselinux[static-libs(+)] ) xattr? ( sys-apps/attr[static-libs(+)] ) )",
+      "DESCRIPTION": "Super-useful stream editor",
+      "EAPI": "8",
+      "HOMEPAGE": "https://www.gnu.org/software/sed/",
+      "IDEPEND": "",
+      "INHERITED": "branding toolchain-funcs flag-o-matic eapi9-pipestatus verify-sig",
+      "IUSE": "acl nls selinux static test-full xattr verify-sig",
+      "LICENSE": "GPL-3+",
+      "PDEPEND": "",
+      "RDEPEND": "!static? ( acl? ( virtual/acl ) nls? ( virtual/libintl ) selinux? ( sys-libs/libselinux ) xattr? ( sys-apps/attr ) )",
+      "REQUIRED_USE": "",
+      "RESTRICT": "",
+      "SLOT": "0",
+      "SRC_URI": "mirror://gnu/sed/sed-4.10.tar.xz verify-sig? ( mirror://gnu/sed/sed-4.10.tar.xz.sig )"
+    },
+    "name": "sed",
+    "version": "4.10"
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
