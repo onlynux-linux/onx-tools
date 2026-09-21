@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "onlynux-onx-tools"
+version = "0.1.0"
+description = "Gentoo-informed ONXBUILD importer and Tatami package builder"
+requires-python = ">=3.12"
+license = {text = "GPL-3.0-or-later"}
+
+[project.scripts]
+onx = "onx.cli:main"
+
+[tool.setuptools]
+packages = ["onx"]

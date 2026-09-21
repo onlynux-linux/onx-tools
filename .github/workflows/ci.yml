@@ -1,0 +1,92 @@
+name: ONX import, build and install
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['generated/**']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -v
+  build:
+    needs: test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Portage metadata evaluator
+        run: python -m pip install 'git+https://github.com/gentoo/portage.git@8c2b6e0c3f789f3dec267565d84791a9fe716cdc'
+      - uses: actions/checkout@v4
+        with:
+          repository: gentoo/gentoo
+          ref: 0e4ff85c8ca9036d26b5c028a93742aaca63733a
+          path: gentoo
+          persist-credentials: false
+      - name: Generate independent ONXBUILD recipes
+        run: |
+          python -m onx.cli import gzip sed zlib --policy policies/base.json --gentoo gentoo --output candidate-recipes
+          python -m onx.cli lint candidate-recipes
+          python -m onx.cli plan gzip sed zlib --recipes candidate-recipes
+      - uses: actions/checkout@v4
+        with:
+          repository: onlynux-linux/tatami
+          ref: ffdece8c0bae9eacd7655f793eced92aaef22e82
+          path: tatami
+          persist-credentials: false
+      - name: Build Linux bootstrap image with native Tatami
+        run: docker build -f ci/Dockerfile -t onx-build:ci .
+      - name: Build and test upstream sources in networkless containers
+        run: python -m onx.cli build gzip sed zlib --recipes candidate-recipes --work build-output --image onx-build:ci --allow-unsigned
+      - name: Install real ONX packages and exercise the programs
+        run: |
+          docker run --rm --network=none \
+            -v "$PWD/build-output/packages:/packages:ro" \
+            -v "$PWD/ci/install_smoke.py:/install_smoke.py:ro" \
+            onx-build:ci python3 /install_smoke.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-recipes
+          path: candidate-recipes/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-development-onx
+          path: build-output/packages/
+  publish-generated:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-recipes
+          path: generated
+      - name: Record build-verified recipes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "onlynux-build"
+          git config user.email "onlynux-build@users.noreply.github.com"
+          git add generated
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Record ONXBUILD recipes verified by Linux CI"
+          git -c credential.helper='!gh auth git-credential' push origin HEAD:main

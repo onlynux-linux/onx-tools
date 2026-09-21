@@ -1,0 +1,118 @@
+{
+  "format": 1,
+  "arch": "x86_64",
+  "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+  "profile": "default/linux/amd64/23.0",
+  "bootstrap": {
+    "gcc": "Bootstrap image C compiler; replace with Onlynux recipe for self hosting.",
+    "make": "Bootstrap make",
+    "binutils": "Bootstrap linker",
+    "glibc": "Bootstrap C library; minimum runtime ABI set by the build image",
+    "bash": "Bootstrap shell",
+    "grep": "GNU grep used by gzip helper scripts"
+  },
+  "providers": {
+    "sys-libs/glibc": "glibc",
+    "sys-libs/zlib": "zlib",
+    "sys-devel/gcc": "gcc",
+    "dev-build/make": "make"
+  },
+  "packages": {
+    "gzip": {
+      "cpv": "app-arch/gzip-1.14",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/gzip/gzip-{version}.tar.xz",
+        "filename": "gzip-{version}.tar.xz"
+      },
+      "configure_args": [
+        "--disable-gcc-warnings"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39",
+          "bash",
+          "grep",
+          "sed"
+        ]
+      },
+      "review_reason": "Build the upstream release with its INSTALL instructions. Do not import Gentoo's gzip-reference renaming, alternatives package, symlink patch, blocker or post-install phase. Bootstrap supplies GNU build tools; scripts require shell, grep and sed.",
+      "references": [
+        "https://www.gnu.org/software/gzip/"
+      ]
+    },
+    "sed": {
+      "cpv": "sys-apps/sed/sed-4.10-r1",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/sed/sed-{version}.tar.xz",
+        "filename": "sed-{version}.tar.xz"
+      },
+      "configure_args": [
+        "--disable-acl",
+        "--disable-nls",
+        "--disable-xattr",
+        "--without-selinux"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Upstream sed installed under its canonical name. Initial minimal feature profile disables ACL, NLS, xattr and SELinux using upstream options. Gentoo's gsed rename, branding and system symlink are not imported.",
+      "references": [
+        "https://www.gnu.org/software/sed/"
+      ]
+    },
+    "zlib": {
+      "cpv": "sys-libs/zlib/zlib-1.3.2-r1",
+      "license": "Zlib",
+      "build_system": "configure",
+      "source": {
+        "url": "https://github.com/madler/zlib/releases/download/v{version}/zlib-{version}.tar.xz",
+        "filename": "zlib-{version}.tar.xz"
+      },
+      "configure_args": [
+        "--shared"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Use zlib's own configure/Makefile instructions, not Autoconf. Build shared zlib; omit Gentoo multilib, minizip and distribution patches. Headers stay in this initial unsplit package.",
+      "references": [
+        "https://github.com/madler/zlib/blob/develop/README"
+      ]
+    }
+  }
+}
