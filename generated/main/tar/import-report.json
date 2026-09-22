@@ -1,0 +1,66 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "configure_args": [
+      "--disable-nls",
+      "--without-selinux",
+      "--without-posix-acls",
+      "--without-xattrs"
+    ],
+    "cpv": "app-arch/tar-1.35-r1",
+    "license": "GPL-3.0-or-later",
+    "references": [
+      "https://ftp.gnu.org/gnu/tar/tar-1.35.tar.xz"
+    ],
+    "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "tar-1.35.tar.xz",
+      "url": "https://ftp.gnu.org/gnu/tar/tar-1.35.tar.xz"
+    }
+  },
+  "dependency_decision": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+  "evidence": {
+    "cpv": "app-arch/tar-1.35-r1",
+    "ebuild_sha256": "d80f349aaa197083794719f3e6e98232291f67b6282d341ff2f42a57e32c8d85",
+    "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+    "metadata": {
+      "BDEPEND": "nls? ( sys-devel/gettext ) verify-sig? ( sec-keys/openpgp-keys-tar ) verify-sig? ( || ( app-alternatives/gpg app-crypt/gnupg[-alternatives(-)] ) >=app-portage/gemato-20 )",
+      "DEFINED_PHASES": "configure install postinst pretend setup test unpack",
+      "DEPEND": "acl? ( virtual/acl ) selinux? ( sys-libs/libselinux ) xattr? ( elibc_glibc? ( sys-apps/attr ) )",
+      "DESCRIPTION": "Use this to make tarballs :)",
+      "EAPI": "8",
+      "HOMEPAGE": "https://www.gnu.org/software/tar/",
+      "IDEPEND": "",
+      "INHERITED": "branding check-reqs multiprocessing toolchain-funcs eapi9-pipestatus verify-sig",
+      "IUSE": "acl minimal nls selinux test xattr verify-sig",
+      "KEYWORDS": "~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86 ~arm64-macos ~x64-macos ~x64-solaris",
+      "LICENSE": "GPL-3+",
+      "PDEPEND": "app-alternatives/tar",
+      "RDEPEND": "acl? ( virtual/acl ) selinux? ( sys-libs/libselinux )",
+      "REQUIRED_USE": "",
+      "RESTRICT": "!test? ( test )",
+      "SLOT": "0",
+      "SRC_URI": "mirror://gnu/tar/tar-1.35.tar.xz https://alpha.gnu.org/gnu/tar/tar-1.35.tar.xz verify-sig? ( mirror://gnu/tar/tar-1.35.tar.xz.sig https://alpha.gnu.org/gnu/tar/tar-1.35.tar.xz.sig )"
+    },
+    "name": "tar",
+    "version": "1.35"
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

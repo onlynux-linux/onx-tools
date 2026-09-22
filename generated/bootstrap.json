@@ -4,5 +4,7 @@
   "binutils": "Bootstrap linker",
   "glibc": "Bootstrap C library; minimum runtime ABI set by the build image",
   "bash": "Bootstrap shell",
-  "grep": "GNU grep used by gzip helper scripts"
+  "grep": "GNU grep used by gzip helper scripts",
+  "g++": "Bootstrap C++ compiler needed by upstream configure checks",
+  "glibc-locales": "Bootstrap locales used only while testing locale-sensitive packages"
 }
