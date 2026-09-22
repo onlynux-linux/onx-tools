@@ -11,9 +11,24 @@ with tempfile.TemporaryDirectory() as d:
                         "--info","version:"+version,"--info","arch:x86_64"],check=True)
         files.append(p)
     subprocess.run(["tatami","--allow-untrusted","--initdb","install",*files],check=True)
-packages=sorted(str(p) for p in Path("/packages/x86_64").glob("*.onx"))
+packages=sorted(Path("/packages/x86_64").glob("*.onx"))
 assert packages
-subprocess.run(["tatami","--allow-untrusted","install",*packages],check=True)
+# Detect payload collisions explicitly; a sequence of independent transactions
+# also avoids conflating a Tatami multi-package transaction error with archive
+# corruption.
+owners={}
+for package in packages:
+    manifest=subprocess.check_output(
+        ["tatami","--allow-untrusted","manifest",str(package)],text=True)
+    for line in manifest.splitlines():
+        checksum,path=line.split(" ",1)
+        if path in owners and owners[path][0] != checksum:
+            raise RuntimeError(f"payload conflict: {path}: {owners[path][1]} vs {package.name}")
+        owners[path]=(checksum,package.name)
+preferred={"gzip":0,"sed":1}
+packages.sort(key=lambda p:(preferred.get(p.name.split("-",1)[0],2),p.name))
+for package in packages:
+    subprocess.run(["tatami","--allow-untrusted","install",str(package)],check=True)
 payload=b"Onlynux GNU/Linux ONX smoke test\n"*100
 compressed=subprocess.check_output(["/usr/bin/gzip","-c"],input=payload)
 assert subprocess.check_output(["/usr/bin/gzip","-dc"],input=compressed)==payload
