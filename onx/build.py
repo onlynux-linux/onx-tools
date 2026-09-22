@@ -25,8 +25,8 @@ def plan(root, targets):
         recipes[m["name"]] = (p, m)
     bootstrap = json.loads((root / "bootstrap.json").read_text()) if (root / "bootstrap.json").exists() else {}
     active, done, ordered = [], set(), []
-    def visit(name):
-        if name in done or name in bootstrap:
+    def visit(name, root_target=False):
+        if name in done or (name in bootstrap and not root_target):
             return
         if name in active:
             raise ValueError("dependency cycle: " + " -> ".join(active + [name]))
@@ -43,9 +43,9 @@ def plan(root, targets):
         done.add(name)
         ordered.append(name)
     for name in targets:
-        if name in bootstrap:
-            raise ValueError("target is a bootstrap boundary, not a buildable recipe: " + name)
-        visit(name)
+        # A bootstrap provider may itself be rebuilt as a root target. During its
+        # build, the disposable image still supplies the previous-stage version.
+        visit(name, root_target=True)
     return ordered, recipes, bootstrap
 
 def fetch(source, cache):

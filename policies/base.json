@@ -82,6 +82,222 @@
       "references": [
         "https://www.gnu.org/software/sed/"
       ]
+    },
+    "coreutils": {
+      "cpv": "sys-apps/coreutils-9.11-r1",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/coreutils/coreutils-{version}.tar.xz",
+        "filename": "coreutils-{version}.tar.xz"
+      },
+      "configure_args": [
+        "--disable-nls",
+        "--disable-acl",
+        "--disable-xattr",
+        "--without-gmp",
+        "--without-selinux"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+      "references": [
+        "https://ftp.gnu.org/gnu/coreutils/coreutils-"
+      ]
+    },
+    "findutils": {
+      "cpv": "sys-apps/findutils-4.11.0",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/findutils/findutils-{version}.tar.xz",
+        "filename": "findutils-{version}.tar.xz"
+      },
+      "configure_args": [
+        "--disable-nls"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+      "references": [
+        "https://ftp.gnu.org/gnu/findutils/findutils-"
+      ]
+    },
+    "diffutils": {
+      "cpv": "sys-apps/diffutils-3.12",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/diffutils/diffutils-{version}.tar.xz",
+        "filename": "diffutils-{version}.tar.xz"
+      },
+      "configure_args": [
+        "--disable-nls"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+      "references": [
+        "https://ftp.gnu.org/gnu/diffutils/diffutils-"
+      ]
+    },
+    "grep": {
+      "cpv": "sys-apps/grep-3.12",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/grep/grep-{version}.tar.xz",
+        "filename": "grep-{version}.tar.xz"
+      },
+      "configure_args": [
+        "--disable-nls",
+        "--disable-perl-regexp"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+      "references": [
+        "https://ftp.gnu.org/gnu/grep/grep-"
+      ]
+    },
+    "gawk": {
+      "cpv": "sys-apps/gawk-5.3.2",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/gawk/gawk-{version}.tar.xz",
+        "filename": "gawk-{version}.tar.xz"
+      },
+      "configure_args": [
+        "--disable-nls"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+      "references": [
+        "https://ftp.gnu.org/gnu/gawk/gawk-"
+      ]
+    },
+    "which": {
+      "cpv": "sys-apps/which-2.23",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/which/which-{version}.tar.gz",
+        "filename": "which-{version}.tar.gz"
+      },
+      "configure_args": [],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+      "references": [
+        "https://ftp.gnu.org/gnu/which/which-"
+      ]
+    },
+    "tar": {
+      "cpv": "app-arch/tar-1.35-r1",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/tar/tar-1.35.tar.xz",
+        "filename": "tar-1.35.tar.xz"
+      },
+      "configure_args": [
+        "--disable-nls",
+        "--without-selinux",
+        "--without-posix-acls",
+        "--without-xattrs"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+      "references": [
+        "https://ftp.gnu.org/gnu/tar/tar-1.35.tar.xz"
+      ]
     }
   }
 }

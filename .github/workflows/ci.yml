@@ -21,7 +21,7 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,10 +39,10 @@ jobs:
           persist-credentials: false
       - name: Generate independent ONXBUILD recipes
         run: |
-          python -m onx.cli import gzip sed --policy policies/base.json --gentoo gentoo --output candidate-recipes
+          python -m onx.cli import gzip sed coreutils findutils diffutils grep gawk which tar --policy policies/base.json --gentoo gentoo --output candidate-recipes
           python -m onx.cli propose app-arch/gzip-1.14 --gentoo gentoo --policy policies/base.json --output draft-recipes
           python -m onx.cli lint candidate-recipes
-          python -m onx.cli plan gzip sed --recipes candidate-recipes
+          python -m onx.cli plan gzip sed coreutils findutils diffutils grep gawk which tar --recipes candidate-recipes
       - uses: actions/checkout@v4
         with:
           repository: onlynux-linux/tatami
@@ -52,7 +52,7 @@ jobs:
       - name: Build Linux bootstrap image with native Tatami
         run: docker build -f ci/Dockerfile -t onx-build:ci .
       - name: Build and test upstream sources in networkless containers
-        run: python -m onx.cli build gzip sed --recipes candidate-recipes --work build-output --image onx-build:ci --allow-unsigned
+        run: python -m onx.cli build gzip sed coreutils findutils diffutils grep gawk which tar --recipes candidate-recipes --work build-output --image onx-build:ci --allow-unsigned
       - name: Install real ONX packages and exercise the programs
         run: |
           docker run --rm --network=none \
