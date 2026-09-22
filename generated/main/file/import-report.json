@@ -1,0 +1,48 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "configure_args": [
+      "--disable-libseccomp",
+      "--disable-zlib",
+      "--disable-bzlib",
+      "--disable-xzlib"
+    ],
+    "license": "BSD-2-Clause",
+    "provider": "upstream",
+    "references": [
+      "https://www.darwinsys.com/file/"
+    ],
+    "review_reason": "Build pristine file 5.48 with optional compression and seccomp integrations disabled for the initial base closure. No Gentoo phases or patches are copied.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "file-{version}.tar.gz",
+      "sha512": "9672504f9473e41ed047bb019f1a003965b3f12e16b77d090e819e094805e42d66d07582402eb9df6be98932161ee6a014a549dbcca9cef10c236b0a3a71a642",
+      "url": "https://astron.com/pub/file/file-{version}.tar.gz"
+    },
+    "version": "5.48"
+  },
+  "dependency_decision": "Build pristine file 5.48 with optional compression and seccomp integrations disabled for the initial base closure. No Gentoo phases or patches are copied.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://www.darwinsys.com/file/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

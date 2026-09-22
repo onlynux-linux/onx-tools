@@ -1,0 +1,56 @@
+{
+  "adapter": {
+    "build_system": "meson",
+    "configure_args": [
+      "-Di18n=disabled",
+      "-Ddocs=disabled",
+      "-Daudit=disabled",
+      "-Deconf=disabled",
+      "-Dlogind=disabled",
+      "-Delogind=disabled",
+      "-Dpwaccess=disabled",
+      "-Dselinux=disabled",
+      "-Dnis=disabled",
+      "-Dpam_userdb=disabled",
+      "-Dexamples=false"
+    ],
+    "license": "BSD-3-Clause",
+    "provider": "upstream",
+    "references": [
+      "https://github.com/linux-pam/linux-pam"
+    ],
+    "review_reason": "Build pristine Linux-PAM with Meson, explicitly disabling optional integrations not yet in the Onlynux base closure. Only upstream sources and build definitions are used.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "Linux-PAM-{version}.tar.xz",
+      "sha512": "b035c0abeb5afb6b3067341767ace6d68ded4c061870afff2ab9494713b1dc9d2ff0995a5d1f0852a49b6e8b2123a7cc2f40342e16c7863a58df3c102b9010c5",
+      "url": "https://github.com/linux-pam/linux-pam/releases/download/v{version}/Linux-PAM-{version}.tar.xz"
+    },
+    "source_dir": "Linux-PAM-{version}",
+    "version": "1.7.2"
+  },
+  "dependency_decision": "Build pristine Linux-PAM with Meson, explicitly disabling optional integrations not yet in the Onlynux base closure. Only upstream sources and build definitions are used.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://github.com/linux-pam/linux-pam"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

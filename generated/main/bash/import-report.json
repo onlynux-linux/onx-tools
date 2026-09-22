@@ -1,0 +1,49 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "check_command": "make tests",
+    "configure_args": [
+      "--disable-nls",
+      "--without-bash-malloc"
+    ],
+    "license": "GPL-3.0-or-later",
+    "provider": "upstream",
+    "references": [
+      "https://www.gnu.org/software/bash/"
+    ],
+    "review_reason": "Build pristine GNU Bash 5.3 using the system allocator and Onlynux ncurses. Distribution patchsets, profiles and Gentoo install phases are not imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "ncurses"
+      ],
+      "targetdeps": [
+        "glibc",
+        "ncurses"
+      ]
+    },
+    "source": {
+      "filename": "bash-{version}.tar.gz",
+      "sha512": "426702c8b0fb9e0c9956259973ce5b657890fd47f4f807a64febf20077bb48d0b91474ed6e843d2ef277186b46c5fffa79b808da9b48d4ec027d5e2de1b28ed8",
+      "url": "https://ftp.gnu.org/gnu/bash/bash-{version}.tar.gz"
+    },
+    "version": "5.3"
+  },
+  "dependency_decision": "Build pristine GNU Bash 5.3 using the system allocator and Onlynux ncurses. Distribution patchsets, profiles and Gentoo install phases are not imported.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://www.gnu.org/software/bash/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
