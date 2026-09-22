@@ -20,7 +20,7 @@ assert packages
 owners={}
 for package in packages:
     manifest=subprocess.check_output(
-        ["tatami","--allow-untrusted","manifest",str(package)],text=True)
+        ["tatami","--root",root,"--allow-untrusted","manifest",str(package)],text=True)
     for line in manifest.splitlines():
         checksum,path=line.split(" ",1)
         if path in owners and owners[path][0] != checksum:
