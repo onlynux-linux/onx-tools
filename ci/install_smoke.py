@@ -3,6 +3,7 @@ import json
 import subprocess
 import tempfile
 from pathlib import Path
+root="/tmp/onlynux-root"
 with tempfile.TemporaryDirectory() as d:
     files=[]
     for name,version in json.loads(Path("/etc/onx-bootstrap.json").read_text()).items():
@@ -10,7 +11,7 @@ with tempfile.TemporaryDirectory() as d:
         subprocess.run(["tatami","mkpkg","--output",p,"--info","name:"+name,
                         "--info","version:"+version,"--info","arch:x86_64"],check=True)
         files.append(p)
-    subprocess.run(["tatami","--allow-untrusted","--initdb","install",*files],check=True)
+    subprocess.run(["tatami","--root",root,"--allow-untrusted","--initdb","install",*files],check=True)
 packages=sorted(Path("/packages/x86_64").glob("*.onx"))
 assert packages
 # Detect payload collisions explicitly; a sequence of independent transactions
@@ -28,9 +29,9 @@ for package in packages:
 preferred={"sed":0,"gzip":1,"ncurses":2,"less":3,"nano":3}
 packages.sort(key=lambda p:(preferred.get(p.name.split("-",1)[0],4),p.name))
 for package in packages:
-    subprocess.run(["tatami","-vv","--allow-untrusted","--force-overwrite","install",str(package)],check=True)
+    subprocess.run(["tatami","--root",root,"-vv","--allow-untrusted","install",str(package)],check=True)
 payload=b"Onlynux GNU/Linux ONX smoke test\n"*100
-compressed=subprocess.check_output(["/usr/bin/gzip","-c"],input=payload)
-assert subprocess.check_output(["/usr/bin/gzip","-dc"],input=compressed)==payload
-assert subprocess.check_output(["/usr/bin/sed","s/old/new/"],input=b"old\n")==b"new\n"
+compressed=subprocess.check_output([root+"/usr/bin/gzip","-c"],input=payload)
+assert subprocess.check_output([root+"/usr/bin/gzip","-dc"],input=compressed)==payload
+assert subprocess.check_output([root+"/usr/bin/sed","s/old/new/"],input=b"old\n")==b"new\n"
 print("Native ONX installation, gzip roundtrip and sed transformation passed.")
