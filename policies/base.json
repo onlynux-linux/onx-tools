@@ -481,7 +481,7 @@
       "provider": "upstream",
       "version": "1.7.2",
       "license": "BSD-3-Clause",
-      "build_system": "autotools",
+      "build_system": "meson",
       "source": {
         "url": "https://github.com/linux-pam/linux-pam/releases/download/v{version}/Linux-PAM-{version}.tar.xz",
         "filename": "Linux-PAM-{version}.tar.xz",
@@ -489,9 +489,17 @@
       },
       "source_dir": "Linux-PAM-{version}",
       "configure_args": [
-        "--disable-doc",
-        "--disable-audit",
-        "--disable-selinux"
+        "-Di18n=disabled",
+        "-Ddocs=disabled",
+        "-Daudit=disabled",
+        "-Deconf=disabled",
+        "-Dlogind=disabled",
+        "-Delogind=disabled",
+        "-Dpwaccess=disabled",
+        "-Dselinux=disabled",
+        "-Dnis=disabled",
+        "-Dpam_userdb=disabled",
+        "-Dexamples=false"
       ],
       "reviewed_dependencies": {
         "builddeps": [
@@ -507,7 +515,7 @@
           "glibc>=2.39"
         ]
       },
-      "review_reason": "Build pristine Linux-PAM with documentation, audit and SELinux integrations disabled for the initial vanilla base. Only upstream sources and phases are used.",
+      "review_reason": "Build pristine Linux-PAM with Meson, explicitly disabling optional integrations not yet in the Onlynux base closure. Only upstream sources and build definitions are used.",
       "references": [
         "https://github.com/linux-pam/linux-pam"
       ]
