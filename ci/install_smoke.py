@@ -25,7 +25,7 @@ for package in packages:
         if path in owners and owners[path][0] != checksum:
             raise RuntimeError(f"payload conflict: {path}: {owners[path][1]} vs {package.name}")
         owners[path]=(checksum,package.name)
-preferred={"gzip":0,"sed":1}
+preferred={"sed":0,"gzip":1}
 packages.sort(key=lambda p:(preferred.get(p.name.split("-",1)[0],2),p.name))
 for package in packages:
     subprocess.run(["tatami","--allow-untrusted","install",str(package)],check=True)
