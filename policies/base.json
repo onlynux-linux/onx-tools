@@ -305,6 +305,106 @@
       "references": [
         "https://ftp.gnu.org/gnu/tar/tar-1.35.tar.xz"
       ]
+    },
+    "ncurses": {
+      "provider": "upstream",
+      "version": "6.5",
+      "license": "X11",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://invisible-mirror.net/archives/ncurses/ncurses-{version}.tar.gz",
+        "filename": "ncurses-{version}.tar.gz",
+        "sha512": "fc5a13409d2a530a1325776dcce3a99127ddc2c03999cfeb0065d0eee2d68456274fb1c7b3cc99c1937bc657d0e7fca97016e147f93c7821b5a4a6837db821e8"
+      },
+      "configure_args": [
+        "--with-shared",
+        "--without-debug",
+        "--without-ada",
+        "--enable-widec",
+        "--enable-pc-files",
+        "--with-pkg-config-libdir=/usr/lib/pkgconfig"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build the pristine ncurses 6.5 upstream release with shared wide-character libraries. Gentoo metadata is not used for phases or patches.",
+      "references": [
+        "https://invisible-island.net/ncurses/"
+      ]
+    },
+    "less": {
+      "cpv": "sys-apps/less-704",
+      "license": "GPL-3.0-or-later OR BSD-2-Clause",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://www.greenwoodsoftware.com/less/less-{version}.tar.gz",
+        "filename": "less-{version}.tar.gz"
+      },
+      "configure_args": [],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc",
+          "ncurses"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39",
+          "ncurses"
+        ]
+      },
+      "review_reason": "Build the pristine upstream release with the standard configure and make flow. ncurses is an explicit Onlynux dependency; no Gentoo phases or patches are copied.",
+      "references": [
+        "https://www.greenwoodsoftware.com/less/"
+      ]
+    },
+    "nano": {
+      "cpv": "app-editors/nano-9.2",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://www.nano-editor.org/dist/v9/nano-{version}.tar.xz",
+        "filename": "nano-{version}.tar.xz"
+      },
+      "configure_args": [
+        "--disable-nls",
+        "--enable-utf8"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc",
+          "ncurses"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39",
+          "ncurses"
+        ]
+      },
+      "review_reason": "Build the pristine upstream release with UTF-8 and without translated message catalogs. ncurses is built as an Onlynux dependency; no Gentoo phases or patches are copied.",
+      "references": [
+        "https://www.nano-editor.org/"
+      ]
     }
   }
 }
