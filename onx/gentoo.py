@@ -74,7 +74,12 @@ def select_cpv(repo, atom, profile="default/linux/amd64/23.0"):
         (etc / "make.conf").write_text('ACCEPT_KEYWORDS="amd64"\n')
         trees = portage.create_trees(config_root=str(config), target_root=str(config / "root"))
         tree = next(iter(trees.values()))
-        cpv = tree["porttree"].dbapi.xmatch("bestmatch-visible", atom)
+        db = tree["porttree"].dbapi
+        cpv = db.xmatch("bestmatch-visible", atom)
+        if not cpv:
+            # Auditing must still inventory packages that Gentoo marks testing or
+            # masked. Promotion remains a separate, reviewed Onlynux decision.
+            cpv = portage.best(db.match(atom))
     if not cpv:
-        raise ValueError("no stable amd64 Gentoo package for " + atom)
+        raise ValueError("no Gentoo package found for " + atom)
     return cpv
