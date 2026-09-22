@@ -35,9 +35,9 @@ def validate(meta):
     for option in meta.get("configure_args", []):
         if not isinstance(option, str) or '\n' in option:
             raise ValueError("invalid configure argument")
-    if "check_command" in meta and (not isinstance(meta["check_command"], str) or
-                                     '\n' in meta["check_command"]):
-        raise ValueError("invalid check command")
+    for key in ("configure_command", "build_command", "check_command", "package_command"):
+        if key in meta and (not isinstance(meta[key], str) or \"\n\" in meta[key] or not meta[key].strip()):
+            raise ValueError("invalid " + key)
     src = meta["source"]
     if not src["url"].startswith("https://"):
         raise ValueError("source must use HTTPS")
