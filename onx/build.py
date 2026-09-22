@@ -185,6 +185,11 @@ def inner_build(recipe, source, out, bootstrap, dependency, allow_unsigned):
         script = 'set -eu\n. "$1"\nconfigure\nbuild\ncheck\npackage\n'
         subprocess.run(["bash", "-c", script, "onx", str(Path(recipe).resolve())],
                        cwd=src, env=environment, user=65534, group=65534, extra_groups=[], check=True)
+        # install-info owns this generated cross-package index. Shipping one copy
+        # per GNU package creates file conflicts and stale global state.
+        info_index = dest / "usr/share/info/dir"
+        if info_index.is_file() or info_index.is_symlink():
+            info_index.unlink()
         if not any(dest.rglob("*")):
             raise ValueError("empty package")
         elf = []
