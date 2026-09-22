@@ -10,7 +10,8 @@
     "glibc": "Bootstrap C library; minimum runtime ABI set by the build image",
     "bash": "Bootstrap shell",
     "grep": "GNU grep used by gzip helper scripts",
-    "g++": "Bootstrap C++ compiler needed by upstream configure checks"
+    "g++": "Bootstrap C++ compiler needed by upstream configure checks",
+    "glibc-locales": "Bootstrap locales used only while testing locale-sensitive packages"
   },
   "providers": {
     "sys-libs/glibc": "glibc",
@@ -231,12 +232,14 @@
         "targetdeps": [
           "glibc"
         ],
-        "checkdeps": [],
+        "checkdeps": [
+          "glibc-locales"
+        ],
         "rundeps": [
           "glibc>=2.39"
         ]
       },
-      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported. The optional persistent-memory allocator is disabled because its upstream test crashes under the locked-down no-new-privileges build sandbox; ordinary awk functionality and the remaining upstream suite stay enabled.",
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported. The optional persistent-memory allocator is disabled because its upstream test crashes under the locked-down no-new-privileges build sandbox; ordinary awk functionality and the remaining upstream suite stay enabled. Locale-sensitive upstream tests run with generated en_US, fr_FR, ru_RU, ja_JP and he_IL UTF-8 locales.",
       "references": [
         "https://ftp.gnu.org/gnu/gawk/gawk-"
       ]

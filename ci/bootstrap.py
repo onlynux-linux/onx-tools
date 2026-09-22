@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 commands={"gcc":["gcc","-dumpfullversion"],"g++":["g++","-dumpfullversion"],"make":["make","--version"],
           "binutils":["ld","--version"],"glibc":["getconf","GNU_LIBC_VERSION"],
+          "glibc-locales":["locale","--version"],
           "bash":["bash","--version"],"grep":["grep","--version"]}
 versions={}
 for name,command in commands.items():
