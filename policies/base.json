@@ -405,6 +405,112 @@
       "references": [
         "https://www.nano-editor.org/"
       ]
+    },
+    "file": {
+      "provider": "upstream",
+      "version": "5.48",
+      "license": "BSD-2-Clause",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://astron.com/pub/file/file-{version}.tar.gz",
+        "filename": "file-{version}.tar.gz",
+        "sha512": "9672504f9473e41ed047bb019f1a003965b3f12e16b77d090e819e094805e42d66d07582402eb9df6be98932161ee6a014a549dbcca9cef10c236b0a3a71a642"
+      },
+      "configure_args": [
+        "--disable-libseccomp",
+        "--disable-zlib",
+        "--disable-bzlib",
+        "--disable-xzlib"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build pristine file 5.48 with optional compression and seccomp integrations disabled for the initial base closure. No Gentoo phases or patches are copied.",
+      "references": [
+        "https://www.darwinsys.com/file/"
+      ]
+    },
+    "bash": {
+      "provider": "upstream",
+      "version": "5.3",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/bash/bash-{version}.tar.gz",
+        "filename": "bash-{version}.tar.gz",
+        "sha512": "426702c8b0fb9e0c9956259973ce5b657890fd47f4f807a64febf20077bb48d0b91474ed6e843d2ef277186b46c5fffa79b808da9b48d4ec027d5e2de1b28ed8"
+      },
+      "configure_args": [
+        "--disable-nls",
+        "--without-bash-malloc"
+      ],
+      "check_command": "make tests",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc",
+          "ncurses"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39",
+          "ncurses"
+        ]
+      },
+      "review_reason": "Build pristine GNU Bash 5.3 using the system allocator and Onlynux ncurses. Distribution patchsets, profiles and Gentoo install phases are not imported.",
+      "references": [
+        "https://www.gnu.org/software/bash/"
+      ]
+    },
+    "pam": {
+      "provider": "upstream",
+      "version": "1.7.2",
+      "license": "BSD-3-Clause",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://github.com/linux-pam/linux-pam/releases/download/v{version}/Linux-PAM-{version}.tar.xz",
+        "filename": "Linux-PAM-{version}.tar.xz",
+        "sha512": "b035c0abeb5afb6b3067341767ace6d68ded4c061870afff2ab9494713b1dc9d2ff0995a5d1f0852a49b6e8b2123a7cc2f40342e16c7863a58df3c102b9010c5"
+      },
+      "source_dir": "Linux-PAM-{version}",
+      "configure_args": [
+        "--disable-doc",
+        "--disable-audit",
+        "--disable-selinux"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build pristine Linux-PAM with documentation, audit and SELinux integrations disabled for the initial vanilla base. Only upstream sources and phases are used.",
+      "references": [
+        "https://github.com/linux-pam/linux-pam"
+      ]
     }
   }
 }
