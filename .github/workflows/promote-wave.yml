@@ -1,0 +1,82 @@
+name: Promote a verified base plus a new ONX wave
+on:
+  workflow_dispatch:
+    inputs:
+      base_run:
+        description: Previously install-verified CI run
+        required: true
+        type: string
+      wave_run:
+        description: CI run containing the new wave
+        required: true
+        type: string
+permissions:
+  actions: read
+  contents: write
+jobs:
+  smoke-and-promote:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: git rm -r --ignore-unmatch generated/main generated/bootstrap.json
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ inputs.base_run }}
+          github-token: ${{ github.token }}
+          pattern: package-*
+          path: build-output/packages
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ inputs.wave_run }}
+          github-token: ${{ github.token }}
+          pattern: package-ncurses
+          path: build-output/packages
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ inputs.wave_run }}
+          github-token: ${{ github.token }}
+          pattern: package-less
+          path: build-output/packages
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ inputs.wave_run }}
+          github-token: ${{ github.token }}
+          pattern: package-nano
+          path: build-output/packages
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ inputs.wave_run }}
+          github-token: ${{ github.token }}
+          name: candidate-recipes
+          path: generated
+      - uses: actions/checkout@v4
+        with:
+          repository: onlynux-linux/tatami
+          ref: ffdece8c0bae9eacd7655f793eced92aaef22e82
+          path: tatami
+          persist-credentials: false
+      - run: docker build -f ci/Dockerfile -t onx-build:ci .
+      - name: Install the combined set through Tatami
+        run: |
+          docker run --rm --network=none \
+            -v "$PWD/build-output/packages:/packages:ro" \
+            -v "$PWD/ci/install_smoke.py:/install_smoke.py:ro" \
+            onx-build:ci python3 /install_smoke.py
+      - name: Publish the install-verified combined recipe set
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WAVE_RUN: ${{ inputs.wave_run }}
+        run: |
+          git config user.name "onlynux-build"
+          git config user.email "onlynux-build@users.noreply.github.com"
+          git add -A generated
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Promote ONXBUILD wave verified by CI run $WAVE_RUN"
+          git -c "credential.helper=!gh auth git-credential" push origin HEAD:main
