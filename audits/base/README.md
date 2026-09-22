@@ -4,8 +4,8 @@ Requested base packages: 51
 
 | Status | Count |
 |---|---:|
-| adapter-required | 7 |
-| draft-generated | 39 |
+| adapter-required | 6 |
+| draft-generated | 40 |
 | internal-recipe-required | 1 |
 | split-output-required | 2 |
 | upstream-adapter-required | 2 |
@@ -59,7 +59,7 @@ Requested base packages: 51
 | systemd | sys-apps/systemd-261.2 | draft-generated |
 | dbus | sys-apps/dbus-1.16.2 | draft-generated |
 | pam | sys-libs/pam-1.7.2 | draft-generated |
-| linux-firmware | sys-kernel/linux-firmware-99999999 | adapter-required |
+| linux-firmware | sys-kernel/linux-firmware-20260916 | draft-generated |
 | ca-certificates | app-misc/ca-certificates-20260601.3.112.5 | draft-generated |
 | openssl | dev-libs/openssl-3.5.8 | draft-generated |
 | onlynux-filesystem | — | internal-recipe-required |

@@ -1380,33 +1380,33 @@
       "version": "1.7.2"
     },
     {
-      "cpv": "sys-kernel/linux-firmware-99999999",
-      "ebuild_sha256": "3ec096aac20d32e8b7eefc5622995eaeeefe5259739a341cbe5ea90b38456a4b",
+      "cpv": "sys-kernel/linux-firmware-20260916",
+      "draft": "proposals/linux-firmware/drafts/linux-firmware",
+      "ebuild_sha256": "bd8b4a13244baedf4e511b32379ead17c7fc2b9556f00425326623657329fd7b",
       "gentoo_atom": "sys-kernel/linux-firmware",
       "kind": "source",
       "membership": "base",
       "metadata": {
-        "BDEPEND": "initramfs? ( app-alternatives/cpio ) compress-xz? ( app-arch/xz-utils ) compress-zstd? ( app-arch/zstd ) deduplicate? ( app-misc/rdfind ) >=dev-vcs/git-1.8.2.1[curl]",
+        "BDEPEND": "initramfs? ( app-alternatives/cpio ) compress-xz? ( app-arch/xz-utils ) compress-zstd? ( app-arch/zstd ) deduplicate? ( app-misc/rdfind )",
         "DEFINED_PHASES": "install postinst postrm preinst prepare prerm pretend setup unpack",
         "DEPEND": "",
         "DESCRIPTION": "Linux firmware files",
         "HOMEPAGE": "https://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git",
         "IDEPEND": "dist-kernel? ( initramfs? ( sys-kernel/installkernel ) )",
-        "INHERITED": "dist-kernel-utils eapi9-ver git-r3 linux-info mount-boot mount-boot-utils portability savedconfig toolchain-funcs",
+        "INHERITED": "dist-kernel-utils eapi9-ver linux-info mount-boot mount-boot-utils portability savedconfig toolchain-funcs",
         "IUSE": "bindist compress-xz compress-zstd deduplicate dist-kernel +initramfs +redistributable savedconfig",
-        "KEYWORDS": "",
+        "KEYWORDS": "~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86",
         "LICENSE": "GPL-2 GPL-2+ GPL-3 BSD MIT || ( MPL-1.1 GPL-2 ) redistributable? ( linux-fw-redistributable BSD-2 BSD BSD-4 ISC MIT )",
         "PDEPEND": "",
         "RDEPEND": "!savedconfig? ( redistributable? ( !sys-firmware/alsa-firmware[alsa_cards_ca0132,-deduplicate(-)] !sys-block/qla-fc-firmware !sys-firmware/raspberrypi-wifi-ucode ) ) dist-kernel? ( virtual/dist-kernel initramfs? ( app-alternatives/cpio ) )",
         "REQUIRED_USE": "initramfs? ( redistributable ) ?? ( compress-xz compress-zstd ) savedconfig? ( !deduplicate )",
         "RESTRICT": "binchecks strip test !bindist? ( bindist )",
         "SLOT": "0",
-        "SRC_URI": ""
+        "SRC_URI": "https://mirrors.edge.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260916.tar.xz"
       },
       "name": "linux-firmware",
-      "reason": "ambiguous/unsupported source set; add an explicit upstream policy adapter",
-      "status": "adapter-required",
-      "version": "99999999"
+      "status": "draft-generated",
+      "version": "20260916"
     },
     {
       "cpv": "app-misc/ca-certificates-20260601.3.112.5",
