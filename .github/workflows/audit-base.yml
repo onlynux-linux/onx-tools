@@ -11,7 +11,7 @@ on:
       - 'policies/base.json'
       - '.github/workflows/audit-base.yml'
 permissions:
-  contents: read
+  contents: write
 jobs:
   audit:
     runs-on: ubuntu-24.04
@@ -31,7 +31,33 @@ jobs:
           path: gentoo
           persist-credentials: false
       - name: Audit all requested base packages
-        run: python -m onx.cli audit-base --catalog catalog/base.json --policy policies/base.json --gentoo gentoo --output base-audit
+        id: audit
+        shell: bash
+        run: |
+          set +e
+          python -m onx.cli audit-base --catalog catalog/base.json --policy policies/base.json --gentoo gentoo --output base-audit
+          status=$?
+          set -e
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          cat base-audit/SUMMARY.md
+      - name: Publish auditable inventory
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p audits/base
+          cp base-audit/base-audit.json audits/base/base-audit.json
+          cp base-audit/SUMMARY.md audits/base/README.md
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add audits/base
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish complete base package audit"
+            git push
+          fi
+      - name: Enforce catalog validity
+        if: always()
+        shell: bash
+        run: test "${{ steps.audit.outputs.exit_code }}" = 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
