@@ -20,6 +20,10 @@ def audit_catalog(repo, catalog_path, policy_path, output):
             if item["kind"]=="internal":
                 row["status"]="internal-recipe-required"
                 row["reason"]="Onlynux-owned filesystem layout has no upstream/Gentoo source recipe."
+            elif item["kind"]=="upstream-source":
+                row["status"]="upstream-adapter-required"
+                row["upstream"]=item["upstream"]
+                row["reason"]="Package is absent from the pinned Gentoo tree; derive the ONX recipe from upstream."
             else:
                 cpv=select_cpv(repo,item["gentoo_atom"],policy.get("profile","default/linux/amd64/23.0"))
                 row["cpv"]=cpv
