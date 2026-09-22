@@ -1,0 +1,261 @@
+{
+  "format": 1,
+  "policy": "The base set is exactly this requested list. Dependency packages may be added to the repository but never to the base set automatically.",
+  "packages": [
+    {
+      "name": "ncurses",
+      "gentoo_atom": "sys-libs/ncurses",
+      "kind": "source"
+    },
+    {
+      "name": "coreutils",
+      "gentoo_atom": "sys-apps/coreutils",
+      "kind": "source"
+    },
+    {
+      "name": "findutils",
+      "gentoo_atom": "sys-apps/findutils",
+      "kind": "source"
+    },
+    {
+      "name": "diffutils",
+      "gentoo_atom": "sys-apps/diffutils",
+      "kind": "source"
+    },
+    {
+      "name": "libgcc",
+      "gentoo_atom": "sys-devel/gcc",
+      "kind": "split-output"
+    },
+    {
+      "name": "bash",
+      "gentoo_atom": "app-shells/bash",
+      "kind": "source"
+    },
+    {
+      "name": "grep",
+      "gentoo_atom": "sys-apps/grep",
+      "kind": "source"
+    },
+    {
+      "name": "gzip",
+      "gentoo_atom": "app-arch/gzip",
+      "kind": "source"
+    },
+    {
+      "name": "file",
+      "gentoo_atom": "sys-apps/file",
+      "kind": "source"
+    },
+    {
+      "name": "sed",
+      "gentoo_atom": "sys-apps/sed",
+      "kind": "source"
+    },
+    {
+      "name": "gawk",
+      "gentoo_atom": "sys-apps/gawk",
+      "kind": "source"
+    },
+    {
+      "name": "less",
+      "gentoo_atom": "sys-apps/less",
+      "kind": "source"
+    },
+    {
+      "name": "util-linux",
+      "gentoo_atom": "sys-apps/util-linux",
+      "kind": "source"
+    },
+    {
+      "name": "which",
+      "gentoo_atom": "sys-apps/which",
+      "kind": "source"
+    },
+    {
+      "name": "tar",
+      "gentoo_atom": "app-arch/tar",
+      "kind": "source"
+    },
+    {
+      "name": "man-pages",
+      "gentoo_atom": "sys-apps/man-pages",
+      "kind": "source"
+    },
+    {
+      "name": "shadow",
+      "gentoo_atom": "sys-apps/shadow",
+      "kind": "source"
+    },
+    {
+      "name": "e2fsprogs",
+      "gentoo_atom": "sys-fs/e2fsprogs",
+      "kind": "source"
+    },
+    {
+      "name": "btrfs-progs",
+      "gentoo_atom": "sys-fs/btrfs-progs",
+      "kind": "source"
+    },
+    {
+      "name": "xfsprogs",
+      "gentoo_atom": "sys-fs/xfsprogs",
+      "kind": "source"
+    },
+    {
+      "name": "f2fs-tools",
+      "gentoo_atom": "sys-fs/f2fs-tools",
+      "kind": "source"
+    },
+    {
+      "name": "dosfstools",
+      "gentoo_atom": "sys-fs/dosfstools",
+      "kind": "source"
+    },
+    {
+      "name": "procps-ng",
+      "gentoo_atom": "sys-process/procps",
+      "kind": "source"
+    },
+    {
+      "name": "tzdata",
+      "gentoo_atom": "sys-libs/timezone-data",
+      "kind": "source"
+    },
+    {
+      "name": "pciutils",
+      "gentoo_atom": "sys-apps/pciutils",
+      "kind": "source"
+    },
+    {
+      "name": "usbutils",
+      "gentoo_atom": "sys-apps/usbutils",
+      "kind": "source"
+    },
+    {
+      "name": "iana-etc",
+      "gentoo_atom": "sys-apps/iana-etc",
+      "kind": "source"
+    },
+    {
+      "name": "kbd",
+      "gentoo_atom": "sys-apps/kbd",
+      "kind": "source"
+    },
+    {
+      "name": "kmod",
+      "gentoo_atom": "sys-apps/kmod",
+      "kind": "source"
+    },
+    {
+      "name": "acpid",
+      "gentoo_atom": "sys-power/acpid",
+      "kind": "source"
+    },
+    {
+      "name": "openssh",
+      "gentoo_atom": "net-misc/openssh",
+      "kind": "source"
+    },
+    {
+      "name": "dhcpcd",
+      "gentoo_atom": "net-misc/dhcpcd",
+      "kind": "source"
+    },
+    {
+      "name": "iproute2",
+      "gentoo_atom": "sys-apps/iproute2",
+      "kind": "source"
+    },
+    {
+      "name": "iputils",
+      "gentoo_atom": "net-misc/iputils",
+      "kind": "source"
+    },
+    {
+      "name": "iw",
+      "gentoo_atom": "net-wireless/iw",
+      "kind": "source"
+    },
+    {
+      "name": "wpa_supplicant",
+      "gentoo_atom": "net-wireless/wpa_supplicant",
+      "kind": "source"
+    },
+    {
+      "name": "traceroute",
+      "gentoo_atom": "net-analyzer/traceroute",
+      "kind": "source"
+    },
+    {
+      "name": "ethtool",
+      "gentoo_atom": "sys-apps/ethtool",
+      "kind": "source"
+    },
+    {
+      "name": "sudo",
+      "gentoo_atom": "app-admin/sudo",
+      "kind": "source"
+    },
+    {
+      "name": "nvi",
+      "gentoo_atom": "app-editors/nvi",
+      "kind": "source"
+    },
+    {
+      "name": "nano",
+      "gentoo_atom": "app-editors/nano",
+      "kind": "source"
+    },
+    {
+      "name": "linux",
+      "gentoo_atom": "sys-kernel/vanilla-sources",
+      "kind": "source"
+    },
+    {
+      "name": "glibc",
+      "gentoo_atom": "sys-libs/glibc",
+      "kind": "source"
+    },
+    {
+      "name": "glibc-locales",
+      "gentoo_atom": "sys-libs/glibc",
+      "kind": "split-output"
+    },
+    {
+      "name": "systemd",
+      "gentoo_atom": "sys-apps/systemd",
+      "kind": "source"
+    },
+    {
+      "name": "dbus",
+      "gentoo_atom": "sys-apps/dbus",
+      "kind": "source"
+    },
+    {
+      "name": "pam",
+      "gentoo_atom": "sys-libs/pam",
+      "kind": "source"
+    },
+    {
+      "name": "linux-firmware",
+      "gentoo_atom": "sys-kernel/linux-firmware",
+      "kind": "source"
+    },
+    {
+      "name": "ca-certificates",
+      "gentoo_atom": "app-misc/ca-certificates",
+      "kind": "source"
+    },
+    {
+      "name": "openssl",
+      "gentoo_atom": "dev-libs/openssl",
+      "kind": "source"
+    },
+    {
+      "name": "onlynux-filesystem",
+      "gentoo_atom": null,
+      "kind": "internal"
+    }
+  ]
+}

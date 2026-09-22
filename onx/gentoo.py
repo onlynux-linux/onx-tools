@@ -5,7 +5,7 @@ import tempfile
 from pathlib import Path
 
 KEYS = ("EAPI", "DESCRIPTION", "HOMEPAGE", "SRC_URI", "LICENSE", "SLOT",
-        "BDEPEND", "DEPEND", "RDEPEND", "PDEPEND", "IDEPEND", "IUSE",
+        "BDEPEND", "DEPEND", "RDEPEND", "KEYWORDS", "PDEPEND", "IDEPEND", "IUSE",
         "REQUIRED_USE", "INHERITED", "DEFINED_PHASES", "RESTRICT")
 
 def evaluate(repo, cpv, profile="default/linux/amd64/23.0"):
@@ -54,3 +54,27 @@ def manifest_hash(repo, cpv, filename):
             if "SHA512" in hashes:
                 return hashes["SHA512"]
     raise ValueError("no SHA512 in Gentoo Manifest for " + filename)
+
+
+def select_cpv(repo, atom, profile="default/linux/amd64/23.0"):
+    """Select the best stable amd64 CPV from the pinned repository/profile."""
+    try:
+        import portage
+    except ImportError as e:
+        raise ValueError("Gentoo selection needs Portage on the GitHub runner") from e
+    repo = Path(repo).resolve()
+    selected_profile = (repo / "profiles" / profile).resolve()
+    with tempfile.TemporaryDirectory(prefix="onx-select-") as temporary:
+        config = Path(temporary)
+        etc = config / "etc/portage"
+        (etc / "repos.conf").mkdir(parents=True)
+        (etc / "repos.conf/gentoo.conf").write_text(
+            "[DEFAULT]\nmain-repo = gentoo\n[gentoo]\nlocation = " + str(repo) + "\nauto-sync = no\n")
+        (etc / "make.profile").symlink_to(selected_profile, target_is_directory=True)
+        (etc / "make.conf").write_text('ACCEPT_KEYWORDS="amd64"\n')
+        trees = portage.create_trees(config_root=str(config), target_root=str(config / "root"))
+        tree = next(iter(trees.values()))
+        cpv = tree["porttree"].dbapi.xmatch("bestmatch-visible", atom)
+    if not cpv:
+        raise ValueError("no stable amd64 Gentoo package for " + atom)
+    return cpv

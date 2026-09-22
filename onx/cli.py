@@ -6,10 +6,16 @@ from .importer import import_packages
 from .propose import propose
 from .recipe import read
 from .build import plan, fetch, build, inner_build
+from .audit import audit_catalog
 
 def main():
     p = argparse.ArgumentParser(description="Onlynux ONXBUILD importer and Tatami builder")
     sub = p.add_subparsers(dest="command", required=True)
+    audit = sub.add_parser("audit-base", help="Audit every requested base package")
+    audit.add_argument("--catalog", required=True)
+    audit.add_argument("--policy", required=True)
+    audit.add_argument("--gentoo", required=True)
+    audit.add_argument("--output", required=True)
     imp = sub.add_parser("import", help="Generate an entire reviewed dependency closure")
     imp.add_argument("packages", nargs="+")
     imp.add_argument("--policy", required=True)
@@ -42,7 +48,10 @@ def main():
     internal.add_argument("--allow-unsigned", action="store_true")
     a = p.parse_args()
     try:
-        if a.command == "import":
+        if a.command == "audit-base":
+            result=audit_catalog(a.gentoo,a.catalog,a.policy,a.output)
+            print(json.dumps({"base_count":result["base_count"]}))
+        elif a.command == "import":
             print(json.dumps(import_packages(a.policy, a.packages, a.output, a.gentoo)))
         elif a.command == "propose":
             print(propose(a.gentoo, a.cpv, a.output, json.loads(Path(a.policy).read_text()), a.use))

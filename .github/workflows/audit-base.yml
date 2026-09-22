@@ -1,0 +1,39 @@
+name: Audit complete Onlynux base set
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'catalog/base.json'
+      - 'onx/audit.py'
+      - 'onx/gentoo.py'
+      - 'onx/propose.py'
+      - 'policies/base.json'
+      - '.github/workflows/audit-base.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'git+https://github.com/gentoo/portage.git@8c2b6e0c3f789f3dec267565d84791a9fe716cdc'
+      - uses: actions/checkout@v4
+        with:
+          repository: gentoo/gentoo
+          ref: 0e4ff85c8ca9036d26b5c028a93742aaca63733a
+          path: gentoo
+          persist-credentials: false
+      - name: Audit all requested base packages
+        run: python -m onx.cli audit-base --catalog catalog/base.json --policy policies/base.json --gentoo gentoo --output base-audit
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: complete-base-audit
+          path: base-audit/
