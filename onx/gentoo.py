@@ -79,7 +79,7 @@ def select_cpv(repo, atom, profile="default/linux/amd64/23.0"):
         if not cpv:
             # Auditing must still inventory packages that Gentoo marks testing or
             # masked. Promotion remains a separate, reviewed Onlynux decision.
-            cpv = portage.best(db.match(atom))
+            cpv = portage.best(db.xmatch("match-all", atom))
     if not cpv:
         raise ValueError("no Gentoo package found for " + atom)
     return cpv
