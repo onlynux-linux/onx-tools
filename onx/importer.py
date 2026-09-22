@@ -79,8 +79,9 @@ def import_packages(policy_path, names, output, gentoo=None):
                 "source_dir": adapter.get("source_dir", name + "-{version}").replace("{version}", version),
                 "build_system": adapter["build_system"], "configure_args": adapter.get("configure_args", []),
                 "status": status, **{k: deps.get(k, []) for k in ("builddeps", "targetdeps", "checkdeps", "rundeps")}}
-        if "check_command" in adapter:
-            meta["check_command"] = adapter["check_command"]
+        for command_key in ("configure_command", "build_command", "check_command", "package_command"):
+            if command_key in adapter:
+                meta[command_key] = adapter[command_key]
         validate(meta)
         for key in ("builddeps", "targetdeps", "checkdeps", "rundeps"):
             for dep in meta[key]:
