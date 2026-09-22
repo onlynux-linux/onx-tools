@@ -78,10 +78,17 @@ jobs:
         run: docker build -f ci/Dockerfile -t onx-build:ci .
       - name: Build and test upstream source without network
         run: python -m onx.cli build "${{ matrix.target }}" --recipes candidate-recipes --work build-output --image onx-build:ci --allow-unsigned
+      - name: Stage only the matrix target package
+        run: |
+          mkdir -p staged/x86_64
+          cp build-output/packages/x86_64/"${{ matrix.target }}-"*.onx staged/x86_64/
+          cp build-output/packages/x86_64/"${{ matrix.target }}-"*.build.json staged/x86_64/
+          test "$(find staged/x86_64 -name \"*.onx\" | wc -l)" -eq 1
+          test "$(find staged/x86_64 -name \"*.build.json\" | wc -l)" -eq 1
       - uses: actions/upload-artifact@v4
         with:
           name: package-${{ matrix.target }}
-          path: build-output/packages/
+          path: staged/
 
   smoke:
     needs: build
