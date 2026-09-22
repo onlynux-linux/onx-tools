@@ -18,10 +18,11 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -v
-  build:
+
+  prepare:
     needs: test
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,6 +44,30 @@ jobs:
           python -m onx.cli propose app-arch/gzip-1.14 --gentoo gentoo --policy policies/base.json --output draft-recipes
           python -m onx.cli lint candidate-recipes
           python -m onx.cli plan gzip sed coreutils findutils diffutils grep gawk which tar --recipes candidate-recipes
+      - uses: actions/upload-artifact@v4
+        with:
+          name: candidate-recipes
+          path: candidate-recipes/
+
+  build:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [gzip, sed, coreutils, findutils, diffutils, grep, gawk, which, tar]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: candidate-recipes
+          path: candidate-recipes
       - uses: actions/checkout@v4
         with:
           repository: onlynux-linux/tatami
@@ -51,8 +76,33 @@ jobs:
           persist-credentials: false
       - name: Build Linux bootstrap image with native Tatami
         run: docker build -f ci/Dockerfile -t onx-build:ci .
-      - name: Build and test upstream sources in networkless containers
-        run: python -m onx.cli build gzip sed coreutils findutils diffutils grep gawk which tar --recipes candidate-recipes --work build-output --image onx-build:ci --allow-unsigned
+      - name: Build and test upstream source without network
+        run: python -m onx.cli build "${{ matrix.target }}" --recipes candidate-recipes --work build-output --image onx-build:ci --allow-unsigned
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package-${{ matrix.target }}
+          path: build-output/packages/
+
+  smoke:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: package-*
+          path: build-output/packages
+          merge-multiple: true
+      - uses: actions/checkout@v4
+        with:
+          repository: onlynux-linux/tatami
+          ref: ffdece8c0bae9eacd7655f793eced92aaef22e82
+          path: tatami
+          persist-credentials: false
+      - run: docker build -f ci/Dockerfile -t onx-build:ci .
       - name: Install real ONX packages and exercise the programs
         run: |
           docker run --rm --network=none \
@@ -61,15 +111,12 @@ jobs:
             onx-build:ci python3 /install_smoke.py
       - uses: actions/upload-artifact@v4
         with:
-          name: verified-recipes
-          path: candidate-recipes/
-      - uses: actions/upload-artifact@v4
-        with:
           name: unsigned-development-onx
           path: build-output/packages/
+
   publish-generated:
     if: github.event_name != 'pull_request'
-    needs: build
+    needs: [prepare, smoke]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -81,7 +128,7 @@ jobs:
         run: git rm -r --ignore-unmatch generated/main generated/bootstrap.json
       - uses: actions/download-artifact@v4
         with:
-          name: verified-recipes
+          name: candidate-recipes
           path: generated
       - name: Record build-verified recipes
         env:
