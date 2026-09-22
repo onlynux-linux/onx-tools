@@ -134,8 +134,9 @@
     },
     {
       "name": "iana-etc",
-      "gentoo_atom": "sys-apps/iana-etc",
-      "kind": "source"
+      "gentoo_atom": null,
+      "kind": "upstream-source",
+      "upstream": "https://github.com/Mic92/iana-etc"
     },
     {
       "name": "kbd",
@@ -199,8 +200,9 @@
     },
     {
       "name": "nvi",
-      "gentoo_atom": "app-editors/nvi",
-      "kind": "source"
+      "gentoo_atom": null,
+      "kind": "upstream-source",
+      "upstream": "https://github.com/lichray/nvi2"
     },
     {
       "name": "nano",
