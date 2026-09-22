@@ -11,7 +11,8 @@
     "bash": "Bootstrap shell",
     "grep": "GNU grep used by gzip helper scripts",
     "g++": "Bootstrap C++ compiler needed by upstream configure checks",
-    "glibc-locales": "Bootstrap locales used only while testing locale-sensitive packages"
+    "glibc-locales": "Bootstrap locales used only while testing locale-sensitive packages",
+    "perl": "Bootstrap Perl required by the upstream OpenSSL Configure script"
   },
   "providers": {
     "sys-libs/glibc": "glibc",
@@ -616,6 +617,103 @@
       "review_reason": "Build pristine ethtool with the ioctl interface; optional netlink support is disabled until libmnl is packaged outside the fixed base set.",
       "references": [
         "https://www.kernel.org/pub/software/network/ethtool/"
+      ]
+    },
+    "traceroute": {
+      "provider": "upstream",
+      "version": "2.1.5",
+      "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+      "build_system": "configure",
+      "source": {
+        "url": "https://downloads.sourceforge.net/traceroute/traceroute-{version}.tar.gz",
+        "filename": "traceroute-{version}.tar.gz",
+        "sha512": "4557e6091cd34edd9761ffa5c75e13d63e7ae17c9d060f18306487cd5c1e7eece8a7ef3ddc6bf40f78d1014ed38ce2411c14d839251412978b2da0915180be93"
+      },
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "make -j\"$jobs\" env=yes",
+      "check_command": "make -s env=yes",
+      "package_command": "make DESTDIR=\"$pkgdir\" prefix=/usr install",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build pristine traceroute 2.1.5 using its upstream Makefile. No Gentoo phases, patches or distribution service files are imported.",
+      "references": [
+        "https://traceroute.sourceforge.net/"
+      ]
+    },
+    "man-pages": {
+      "provider": "upstream",
+      "version": "6.17",
+      "license": "Linux-man-pages-copyleft-various",
+      "build_system": "configure",
+      "source": {
+        "url": "https://www.kernel.org/pub/linux/docs/man-pages/man-pages-{version}.tar.xz",
+        "filename": "man-pages-{version}.tar.xz",
+        "sha512": "c037ddf5db3afac6e70649b7bd82f8c69e82fc0402f9cc6977b45931948d31fb38a7c836bae074f102ec646f4baf348607e4fede967e566ed79af43003857ebc"
+      },
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "make -R",
+      "check_command": "make -R lint-man-tbl",
+      "package_command": "make -R prefix=/usr DESTDIR=\"$pkgdir\" install",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "make"
+        ],
+        "targetdeps": [],
+        "checkdeps": [],
+        "rundeps": []
+      },
+      "review_reason": "Install the pristine upstream Linux man-pages collection. Gentoo-specific pages, removals and overrides are intentionally not imported.",
+      "references": [
+        "https://www.kernel.org/doc/man-pages/"
+      ]
+    },
+    "openssl": {
+      "provider": "upstream",
+      "version": "3.5.8",
+      "license": "Apache-2.0",
+      "build_system": "configure",
+      "source": {
+        "url": "https://www.openssl.org/source/openssl-{version}.tar.gz",
+        "filename": "openssl-{version}.tar.gz",
+        "sha512": "62a1dbed0fad75245b332e41b85a1f7c2379189525e7628a7cf68947d115e90a47f179e3f87d27641e5b2d357c357292179fc0e64eccecdebc81c083f7a8ebe4"
+      },
+      "configure_args": [],
+      "configure_command": "perl ./Configure --prefix=/usr --libdir=lib linux-x86_64",
+      "build_command": "make -j\"$jobs\"",
+      "check_command": "make test",
+      "package_command": "make DESTDIR=\"$pkgdir\" install_sw install_ssldirs",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils",
+          "perl"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build pristine OpenSSL 3.5 LTS with its upstream Configure, test and install targets. No Gentoo patches or phases are copied.",
+      "references": [
+        "https://www.openssl.org/source/"
       ]
     }
   }
