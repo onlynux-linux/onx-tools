@@ -519,6 +519,104 @@
       "references": [
         "https://github.com/linux-pam/linux-pam"
       ]
+    },
+    "dosfstools": {
+      "provider": "upstream",
+      "version": "4.2",
+      "license": "GPL-3.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://github.com/dosfstools/dosfstools/releases/download/v{version}/dosfstools-{version}.tar.gz",
+        "filename": "dosfstools-{version}.tar.gz",
+        "sha512": "3cc0808edb4432428df8a67da4bb314fd1f27adc4a05754c1a492091741a7b6875ebd9f6a509cc4c5ad85643fc40395b6e0cadee548b25cc439cc9b725980156"
+      },
+      "configure_args": [
+        "--enable-compat-symlinks"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build pristine dosfstools 4.2 using its released Autotools files and compatibility command symlinks. No Gentoo phases or patches are copied.",
+      "references": [
+        "https://github.com/dosfstools/dosfstools"
+      ]
+    },
+    "pciutils": {
+      "provider": "upstream",
+      "version": "3.15.0",
+      "license": "GPL-2.0-or-later",
+      "build_system": "configure",
+      "source": {
+        "url": "https://mj.ucw.cz/download/linux/pci/pciutils-{version}.tar.gz",
+        "filename": "pciutils-{version}.tar.gz",
+        "sha512": "7c62b42ec875580106274ec7b3e74170e07ff0314341299e257d428db5fd623d995671731715c3f051ba2026f380439d1e88c106cc552a63445e38b04bc1a709"
+      },
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "make -j\"$jobs\" SHARED=yes ZLIB=no DNS=no HWDB=no",
+      "check_command": "make -s SHARED=yes ZLIB=no DNS=no HWDB=no lspci setpci",
+      "package_command": "make DESTDIR=\"$pkgdir\" PREFIX=/usr SBINDIR=/usr/bin SHARED=yes ZLIB=no DNS=no HWDB=no install install-lib",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build pristine pciutils with its upstream Makefile. Optional zlib, DNS and systemd-hwdb integrations are disabled until their complete Onlynux closures are available.",
+      "references": [
+        "https://mj.ucw.cz/sw/pciutils/"
+      ]
+    },
+    "ethtool": {
+      "provider": "upstream",
+      "version": "7.0",
+      "license": "GPL-2.0-only",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://mirrors.edge.kernel.org/pub/software/network/ethtool/ethtool-{version}.tar.xz",
+        "filename": "ethtool-{version}.tar.xz",
+        "sha512": "f8f0d08fe3da11f10cf7eb1f6348ebccd69175bfcdeb22726a8b86613d0dc7c8538b7d7075264102c9695f0100bb94cae03fd8dbe3b5bbe1fe758e1cb936a9c9"
+      },
+      "configure_args": [
+        "--disable-netlink"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build pristine ethtool with the ioctl interface; optional netlink support is disabled until libmnl is packaged outside the fixed base set.",
+      "references": [
+        "https://www.kernel.org/pub/software/network/ethtool/"
+      ]
     }
   }
 }
