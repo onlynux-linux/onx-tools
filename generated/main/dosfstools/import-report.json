@@ -1,0 +1,45 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "configure_args": [
+      "--enable-compat-symlinks"
+    ],
+    "license": "GPL-3.0-or-later",
+    "provider": "upstream",
+    "references": [
+      "https://github.com/dosfstools/dosfstools"
+    ],
+    "review_reason": "Build pristine dosfstools 4.2 using its released Autotools files and compatibility command symlinks. No Gentoo phases or patches are copied.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "dosfstools-{version}.tar.gz",
+      "sha512": "3cc0808edb4432428df8a67da4bb314fd1f27adc4a05754c1a492091741a7b6875ebd9f6a509cc4c5ad85643fc40395b6e0cadee548b25cc439cc9b725980156",
+      "url": "https://github.com/dosfstools/dosfstools/releases/download/v{version}/dosfstools-{version}.tar.gz"
+    },
+    "version": "4.2"
+  },
+  "dependency_decision": "Build pristine dosfstools 4.2 using its released Autotools files and compatibility command symlinks. No Gentoo phases or patches are copied.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://github.com/dosfstools/dosfstools"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

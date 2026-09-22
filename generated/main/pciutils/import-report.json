@@ -1,0 +1,47 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\" SHARED=yes ZLIB=no DNS=no HWDB=no",
+    "build_system": "configure",
+    "check_command": "make -s SHARED=yes ZLIB=no DNS=no HWDB=no lspci setpci",
+    "configure_args": [],
+    "configure_command": ":",
+    "license": "GPL-2.0-or-later",
+    "package_command": "make DESTDIR=\"$pkgdir\" PREFIX=/usr SBINDIR=/usr/bin SHARED=yes ZLIB=no DNS=no HWDB=no install install-lib",
+    "provider": "upstream",
+    "references": [
+      "https://mj.ucw.cz/sw/pciutils/"
+    ],
+    "review_reason": "Build pristine pciutils with its upstream Makefile. Optional zlib, DNS and systemd-hwdb integrations are disabled until their complete Onlynux closures are available.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "pciutils-{version}.tar.gz",
+      "sha512": "7c62b42ec875580106274ec7b3e74170e07ff0314341299e257d428db5fd623d995671731715c3f051ba2026f380439d1e88c106cc552a63445e38b04bc1a709",
+      "url": "https://mj.ucw.cz/download/linux/pci/pciutils-{version}.tar.gz"
+    },
+    "version": "3.15.0"
+  },
+  "dependency_decision": "Build pristine pciutils with its upstream Makefile. Optional zlib, DNS and systemd-hwdb integrations are disabled until their complete Onlynux closures are available.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://mj.ucw.cz/sw/pciutils/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
