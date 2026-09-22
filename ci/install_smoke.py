@@ -28,7 +28,7 @@ for package in packages:
 preferred={"sed":0,"gzip":1}
 packages.sort(key=lambda p:(preferred.get(p.name.split("-",1)[0],2),p.name))
 for package in packages:
-    subprocess.run(["tatami","--allow-untrusted","install",str(package)],check=True)
+    subprocess.run(["tatami","-vv","--allow-untrusted","--force-overwrite","install",str(package)],check=True)
 payload=b"Onlynux GNU/Linux ONX smoke test\n"*100
 compressed=subprocess.check_output(["/usr/bin/gzip","-c"],input=payload)
 assert subprocess.check_output(["/usr/bin/gzip","-dc"],input=compressed)==payload
