@@ -2,7 +2,7 @@ name: ONX import, build and install
 on:
   push:
     branches: [main]
-    paths-ignore: ['generated/**']
+    paths-ignore: ['generated/**', 'audits/**']
   pull_request:
   workflow_dispatch:
 permissions:

@@ -17,8 +17,8 @@ def import_packages(policy_path, names, output, gentoo=None):
         if commit != policy["gentoo_commit"]:
             raise ValueError("Gentoo checkout does not match policy pin")
     made, visiting = {}, []
-    def visit(name):
-        if name in made or name in bootstrap:
+    def visit(name, root_target=False):
+        if name in made or (name in bootstrap and not root_target):
             return
         if name in visiting:
             raise ValueError("dependency cycle: " + " -> ".join(visiting + [name]))
@@ -87,7 +87,7 @@ def import_packages(policy_path, names, output, gentoo=None):
         made[name] = (meta, report)
         visiting.pop()
     for name in names:
-        visit(name)
+        visit(name, root_target=True)
     root = Path(output)
     # Validate the whole closure before writing any recipe.
     for name in made:
