@@ -16,12 +16,12 @@ Project builds and recipe generation run in GitHub Actions. Upstream compilation
 - Actual install smoke tests and downloadable development ONX artifacts.
 - Build-verified recipes recorded under `generated/` for synchronization to `onlynux-linux/onlynux-recipes`.
 
-Initial adapters: **gzip, sed, zlib**. This is a foundation for the requested base system, not a claim that the full system is bootstrapped.
+Initial adapters: **gzip and sed**. This is a foundation for the requested base system, not a claim that the full system is bootstrapped.
 
 ## Commands on a GitHub runner
 
 ```sh
-python -m onx.cli import gzip sed zlib \
+python -m onx.cli import gzip sed \
   --policy policies/base.json --gentoo /path/to/pinned/gentoo --output recipes
 python -m onx.cli lint recipes
 python -m onx.cli plan gzip --recipes recipes

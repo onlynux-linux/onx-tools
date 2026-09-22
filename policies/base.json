@@ -13,7 +13,6 @@
   },
   "providers": {
     "sys-libs/glibc": "glibc",
-    "sys-libs/zlib": "zlib",
     "sys-devel/gcc": "gcc",
     "dev-build/make": "make"
   },
@@ -82,36 +81,6 @@
       "review_reason": "Upstream sed installed under its canonical name. Initial minimal feature profile disables ACL, NLS, xattr and SELinux using upstream options. Gentoo's gsed rename, branding and system symlink are not imported.",
       "references": [
         "https://www.gnu.org/software/sed/"
-      ]
-    },
-    "zlib": {
-      "cpv": "sys-libs/zlib-1.3.2-r1",
-      "license": "Zlib",
-      "build_system": "configure",
-      "source": {
-        "url": "https://github.com/madler/zlib/releases/download/v{version}/zlib-{version}.tar.xz",
-        "filename": "zlib-{version}.tar.xz"
-      },
-      "configure_args": [
-        "--shared"
-      ],
-      "reviewed_dependencies": {
-        "builddeps": [
-          "gcc",
-          "make",
-          "binutils"
-        ],
-        "targetdeps": [
-          "glibc"
-        ],
-        "checkdeps": [],
-        "rundeps": [
-          "glibc>=2.39"
-        ]
-      },
-      "review_reason": "Use zlib's own configure/Makefile instructions, not Autoconf. Build shared zlib; omit Gentoo multilib, minizip and distribution patches. Headers stay in this initial unsplit package.",
-      "references": [
-        "https://github.com/madler/zlib/blob/develop/README"
       ]
     }
   }

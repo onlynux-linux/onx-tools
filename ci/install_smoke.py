@@ -18,5 +18,4 @@ payload=b"Onlynux GNU/Linux ONX smoke test\n"*100
 compressed=subprocess.check_output(["/usr/bin/gzip","-c"],input=payload)
 assert subprocess.check_output(["/usr/bin/gzip","-dc"],input=compressed)==payload
 assert subprocess.check_output(["/usr/bin/sed","s/old/new/"],input=b"old\n")==b"new\n"
-subprocess.run(["tatami","info","--exists","zlib"],check=True)
-print("Native ONX installation, gzip roundtrip, sed transformation and zlib registration passed.")
+print("Native ONX installation, gzip roundtrip and sed transformation passed.")
