@@ -1,5 +1,6 @@
 """Validate native ONX installation in a disposable bootstrap image."""
 import json
+import hashlib
 import subprocess
 import tempfile
 from pathlib import Path
@@ -18,6 +19,13 @@ assert packages
 # corruption.
 owners={}
 for package in packages:
+    report=json.loads(package.with_suffix(".build.json").read_text())
+    with package.open("rb") as stream:
+        actual_sha512=hashlib.file_digest(stream,"sha512").hexdigest()
+    if actual_sha512 == report["artifact_sha512"]:
+        pass
+    else:
+        raise RuntimeError(f"artifact checksum changed in transit: {package.name}")
     manifest=subprocess.check_output(
         ["tatami","--allow-untrusted","manifest",str(package)],text=True)
     for line in manifest.splitlines():

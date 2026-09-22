@@ -213,8 +213,12 @@ def inner_build(recipe, source, out, bootstrap, dependency, allow_unsigned):
                 args += ["--info", key + ":" + value]
         subprocess.run(args, check=True)
         subprocess.run(["tatami", "--allow-untrusted", "verify", str(artifact)], check=True)
+        with artifact.open("rb") as stream:
+            artifact_sha512 = hashlib.file_digest(stream, "sha512").hexdigest()
+        with tempfile.TemporaryDirectory(prefix="onx-extract-check-") as extract_dir:
+            subprocess.run(["tatami", "--allow-untrusted", "extract", "--destination", extract_dir, str(artifact)], check=True)
         artifact.with_suffix(".build.json").write_text(json.dumps(
-            {"package": meta, "tests": "passed", "elf": elf, "bootstrap_versions": installed,
+            {"package": meta, "tests": "passed", "artifact_sha512": artifact_sha512, "elf": elf, "bootstrap_versions": installed,
              "scope": "bootstrap-image build; not a self-hosted Onlynux build",
              "signing": "unsigned development artifact",
              "runtime_dependencies": "reviewed explicit metadata; ELF scan is an audit report"},
