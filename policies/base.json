@@ -9,7 +9,8 @@
     "binutils": "Bootstrap linker",
     "glibc": "Bootstrap C library; minimum runtime ABI set by the build image",
     "bash": "Bootstrap shell",
-    "grep": "GNU grep used by gzip helper scripts"
+    "grep": "GNU grep used by gzip helper scripts",
+    "g++": "Bootstrap C++ compiler needed by upstream configure checks"
   },
   "providers": {
     "sys-libs/glibc": "glibc",
@@ -218,7 +219,8 @@
         "filename": "gawk-{version}.tar.xz"
       },
       "configure_args": [
-        "--disable-nls"
+        "--disable-nls",
+        "--disable-pma"
       ],
       "reviewed_dependencies": {
         "builddeps": [
@@ -234,7 +236,7 @@
           "glibc>=2.39"
         ]
       },
-      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported. The optional persistent-memory allocator is disabled because its upstream test crashes under the locked-down no-new-privileges build sandbox; ordinary awk functionality and the remaining upstream suite stay enabled.",
       "references": [
         "https://ftp.gnu.org/gnu/gawk/gawk-"
       ]
@@ -251,6 +253,7 @@
       "reviewed_dependencies": {
         "builddeps": [
           "gcc",
+          "g++",
           "make",
           "binutils"
         ],
@@ -262,7 +265,7 @@
           "glibc>=2.39"
         ]
       },
-      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported.",
+      "review_reason": "Vanilla upstream release using its standard configure, make, check and DESTDIR install flow. Gentoo metadata supplies pinned source provenance only; no Gentoo phases, patches, branding, alternatives or post-install hooks are imported. Upstream configure performs a C++ preprocessor sanity check, so the bootstrap C++ compiler is declared explicitly.",
       "references": [
         "https://ftp.gnu.org/gnu/which/which-"
       ]

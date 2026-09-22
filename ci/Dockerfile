@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc make binutils libc6-dev bash grep sed gawk diffutils findutils \
+    gcc g++ make binutils libc6-dev bash grep sed gawk diffutils findutils \
     xz-utils tar gzip bzip2 ca-certificates python3 python3-pip \
     meson ninja-build pkg-config libssl-dev zlib1g-dev libzstd-dev \
     git cmake perl patch && rm -rf /var/lib/apt/lists/*

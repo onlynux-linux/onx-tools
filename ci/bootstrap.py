@@ -3,7 +3,7 @@ import json
 import subprocess
 import re
 from pathlib import Path
-commands={"gcc":["gcc","-dumpfullversion"],"make":["make","--version"],
+commands={"gcc":["gcc","-dumpfullversion"],"g++":["g++","-dumpfullversion"],"make":["make","--version"],
           "binutils":["ld","--version"],"glibc":["getconf","GNU_LIBC_VERSION"],
           "bash":["bash","--version"],"grep":["grep","--version"]}
 versions={}
