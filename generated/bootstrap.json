@@ -12,5 +12,8 @@
   "ninja": "Bootstrap Ninja build executor",
   "pkg-config": "Bootstrap pkg-config dependency discovery",
   "bison": "Bootstrap parser generator required by iproute2 release builds",
-  "flex": "Bootstrap lexical scanner generator required by iproute2 release builds"
+  "flex": "Bootstrap lexical scanner generator required by iproute2 release builds",
+  "autoconf": "Bootstrap GNU Autoconf for upstream snapshots without generated configure",
+  "automake": "Bootstrap GNU Automake for upstream snapshots without generated Makefiles",
+  "libtool": "Bootstrap GNU Libtool for upstream autoreconf"
 }

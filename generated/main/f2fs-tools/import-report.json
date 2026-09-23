@@ -1,0 +1,53 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\"",
+    "build_system": "configure",
+    "check_command": "make check",
+    "configure_args": [],
+    "configure_command": "autoreconf -fi && ./configure --prefix=/usr --bindir=/usr/sbin --without-lz4 --without-lzo2 --without-selinux",
+    "license": "GPL-2.0-only",
+    "package_command": "make DESTDIR=\"$pkgdir\" install",
+    "provider": "upstream",
+    "references": [
+      "https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/"
+    ],
+    "review_reason": "Build the pristine upstream snapshot after generating its standard Autotools files. UUID and block-device probing are supplied by the independently built util-linux libuuid and full libblkid; optional LZ4, LZO and SELinux integrations are disabled.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "autoconf",
+        "automake",
+        "libtool",
+        "pkg-config"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "util-linux"
+      ],
+      "targetdeps": [
+        "glibc",
+        "util-linux"
+      ]
+    },
+    "source": {
+      "filename": "f2fs-tools-{version}.tar.gz",
+      "sha512": "ea198cebf7c5bb0c42c9b53bc80484495c403b1ed1354eb7cb7b4f63ed9a5c81653a76eaf1bc35067171fa5fd99b1564178c5440c21b6b025f4e83b9def82680",
+      "url": "https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/f2fs-tools-{version}.tar.gz"
+    },
+    "version": "1.16.0"
+  },
+  "dependency_decision": "Build the pristine upstream snapshot after generating its standard Autotools files. UUID and block-device probing are supplied by the independently built util-linux libuuid and full libblkid; optional LZ4, LZO and SELinux integrations are disabled.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

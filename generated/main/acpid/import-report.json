@@ -1,0 +1,45 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "check_command": "make check",
+    "configure_args": [],
+    "license": "GPL-2.0-only",
+    "package_command": "make DESTDIR=\"$pkgdir\" install && mkdir -p \"$pkgdir/usr/lib/systemd/system\" && printf \"%s\\n\" \"[Unit]\" \"Description=ACPI event daemon\" \"After=systemd-udevd.service\" \"\" \"[Service]\" \"ExecStart=/usr/sbin/acpid --foreground --netlink\" \"Restart=on-failure\" \"\" \"[Install]\" \"WantedBy=multi-user.target\" > \"$pkgdir/usr/lib/systemd/system/acpid.service\"",
+    "provider": "upstream",
+    "references": [
+      "https://sourceforge.net/projects/acpid2/"
+    ],
+    "review_reason": "Build pristine acpid and add an Onlynux-native systemd service. No Gentoo patches, OpenRC scripts, event handlers or packaging phases are imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "acpid-{version}.tar.xz",
+      "sha512": "2bf92295b55bb44fe83074b3e0c1ae639f63edaeea84b2184ae95b38852be40f380d5413110b8c0fcb2efc2ec01bf4764e1dcb97022fc724bebbfc35c0b63c81",
+      "url": "https://downloads.sourceforge.net/acpid2/acpid-{version}.tar.xz"
+    },
+    "version": "2.0.34"
+  },
+  "dependency_decision": "Build pristine acpid and add an Onlynux-native systemd service. No Gentoo patches, OpenRC scripts, event handlers or packaging phases are imported.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://sourceforge.net/projects/acpid2/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

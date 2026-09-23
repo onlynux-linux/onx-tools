@@ -16,7 +16,9 @@
       "--disable-uuidd",
       "--disable-lto",
       "--with-pthread",
-      "--enable-largefile"
+      "--enable-largefile",
+      "--disable-libuuid",
+      "--disable-libblkid"
     ],
     "license": "GPL-2.0-only AND BSD-3-Clause",
     "package_command": "make DESTDIR=\"$pkgdir\" install install-libs",
@@ -24,7 +26,7 @@
     "references": [
       "https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/"
     ],
-    "review_reason": "Build pristine e2fsprogs with its own upstream libuuid and libblkid until util-linux is independently available. Install upstream systemd units and udev rules; no Gentoo patches, OpenRC files or phases are imported.",
+    "review_reason": "Build pristine e2fsprogs against the independently packaged canonical util-linux libuuid and libblkid, avoiding duplicate libraries and utilities. Install upstream systemd units and udev rules; no Gentoo patches, OpenRC files or phases are imported.",
     "reviewed_dependencies": {
       "builddeps": [
         "gcc",
@@ -34,10 +36,12 @@
       ],
       "checkdeps": [],
       "rundeps": [
-        "glibc>=2.39"
+        "glibc>=2.39",
+        "util-linux"
       ],
       "targetdeps": [
-        "glibc"
+        "glibc",
+        "util-linux"
       ]
     },
     "source": {
@@ -47,7 +51,7 @@
     },
     "version": "1.47.4"
   },
-  "dependency_decision": "Build pristine e2fsprogs with its own upstream libuuid and libblkid until util-linux is independently available. Install upstream systemd units and udev rules; no Gentoo patches, OpenRC files or phases are imported.",
+  "dependency_decision": "Build pristine e2fsprogs against the independently packaged canonical util-linux libuuid and libblkid, avoiding duplicate libraries and utilities. Install upstream systemd units and udev rules; no Gentoo patches, OpenRC files or phases are imported.",
   "evidence": {
     "provider": "upstream",
     "references": [

@@ -1,0 +1,69 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\"",
+    "build_system": "autotools",
+    "check_command": "./blkid --version && ./lsblk --version && ./mount --version && ./uuidgen --version",
+    "configure_args": [
+      "--sysconfdir=/etc",
+      "--localstatedir=/var",
+      "--runstatedir=/run",
+      "--disable-nls",
+      "--disable-static",
+      "--without-python",
+      "--without-systemd",
+      "--without-udev",
+      "--without-selinux",
+      "--without-audit",
+      "--without-readline",
+      "--without-ncurses",
+      "--without-tinfo",
+      "--disable-bash-completion",
+      "--disable-poman",
+      "--disable-asciidoc",
+      "--disable-libmount-mountfd-support",
+      "ul_cv_syscall_open_tree=no",
+      "--disable-makeinstall-chown",
+      "--disable-makeinstall-setuid",
+      "--disable-makeinstall-tty-setgid"
+    ],
+    "license": "GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause",
+    "package_command": "make DESTDIR=\"$pkgdir\" install",
+    "provider": "upstream",
+    "references": [
+      "https://www.kernel.org/pub/linux/utils/util-linux/"
+    ],
+    "review_reason": "Build the pristine upstream util-linux release, including its canonical libblkid, libuuid, libmount, libfdisk and libsmartcols libraries. Optional host-specific integrations are disabled. The open_tree configure cache is forced off because bootstrap headers lack matching openat2 constants. Package staging suppresses privileged chown and set-ID mode changes, which are forbidden by the locked-down no-new-privileges builder; every selected program and library remains in the payload, with privilege policy left to Onlynux system configuration.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "pkg-config"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "util-linux-{version}.tar.xz",
+      "sha512": "2a307943d4fbb34ac02131e10ff7260f181dd706b21e68a891d25d6eb30476a612bcc19b674bb2256283c9c716146e0d79909f37324efc9aa9d45a44e0d58988",
+      "url": "https://www.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-{version}.tar.xz"
+    },
+    "version": "2.42.3"
+  },
+  "dependency_decision": "Build the pristine upstream util-linux release, including its canonical libblkid, libuuid, libmount, libfdisk and libsmartcols libraries. Optional host-specific integrations are disabled. The open_tree configure cache is forced off because bootstrap headers lack matching openat2 constants. Package staging suppresses privileged chown and set-ID mode changes, which are forbidden by the locked-down no-new-privileges builder; every selected program and library remains in the payload, with privilege policy left to Onlynux system configuration.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://www.kernel.org/pub/linux/utils/util-linux/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
