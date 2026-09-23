@@ -63,7 +63,8 @@ def fetch(source, cache):
     with tempfile.NamedTemporaryFile(dir=cache, delete=False) as temporary:
         temp = Path(temporary.name)
         try:
-            with urllib.request.urlopen(source["url"], timeout=120) as response:
+            request = urllib.request.Request(source["url"], headers={"User-Agent": "onx-tools/0.1"})
+            with urllib.request.urlopen(request, timeout=120) as response:
                 if not response.url.startswith("https://"):
                     raise ValueError("insecure download redirect")
                 while chunk := response.read(1024 * 1024):
