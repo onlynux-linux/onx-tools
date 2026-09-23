@@ -12,7 +12,10 @@
     "grep": "GNU grep used by gzip helper scripts",
     "g++": "Bootstrap C++ compiler needed by upstream configure checks",
     "glibc-locales": "Bootstrap locales used only while testing locale-sensitive packages",
-    "perl": "Bootstrap Perl required by the upstream OpenSSL Configure script"
+    "perl": "Bootstrap Perl required by the upstream OpenSSL Configure script",
+    "meson": "Bootstrap Meson build frontend",
+    "ninja": "Bootstrap Ninja build executor",
+    "pkg-config": "Bootstrap pkg-config dependency discovery"
   },
   "providers": {
     "sys-libs/glibc": "glibc",
@@ -506,7 +509,10 @@
         "builddeps": [
           "gcc",
           "make",
-          "binutils"
+          "binutils",
+          "meson",
+          "ninja",
+          "pkg-config"
         ],
         "targetdeps": [
           "glibc"
@@ -714,6 +720,135 @@
       "review_reason": "Build pristine OpenSSL 3.5 LTS with its upstream Configure, test and install targets. No Gentoo patches or phases are copied.",
       "references": [
         "https://www.openssl.org/source/"
+      ]
+    },
+    "kbd": {
+      "provider": "upstream",
+      "version": "2.10.0",
+      "license": "GPL-2.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://www.kernel.org/pub/linux/utils/kbd/kbd-{version}.tar.xz",
+        "filename": "kbd-{version}.tar.xz",
+        "sha512": "1b7f55f0a1b34d9b6b4237a1ff3e10eedf4bdebe50e906a7acdea48f85b3c455e72737127491a0c494388b999797aa65411b20b44c3f5612fdeee4d8289f937c"
+      },
+      "configure_args": [
+        "--disable-werror",
+        "--disable-memcheck",
+        "--disable-nls",
+        "--disable-vlock",
+        "--disable-tests",
+        "--disable-xkb",
+        "--without-bzip2",
+        "--without-lzma",
+        "--without-zlib",
+        "--without-zstd"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils",
+          "gzip"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39",
+          "gzip"
+        ]
+      },
+      "review_reason": "Build pristine kbd 2.10.0 with its released Autotools files. Optional compression libraries, PAM vlock, XKB and translations remain disabled until their independent Onlynux closures are present.",
+      "references": [
+        "https://kbd-project.org/"
+      ]
+    },
+    "kmod": {
+      "provider": "upstream",
+      "version": "34.2",
+      "license": "LGPL-2.1-or-later AND GPL-2.0-or-later",
+      "build_system": "meson",
+      "source": {
+        "url": "https://mirrors.edge.kernel.org/pub/linux/utils/kernel/kmod/kmod-{version}.tar.xz",
+        "filename": "kmod-{version}.tar.xz",
+        "sha512": "0e095c45ad61a6c61ce1ad61b9aa10cf5040e688b749f9a933b0e7d12de493c58027a5068b459cbbce05576fc564a22b83a3dbef1e6511b2a3e27034c88afd33"
+      },
+      "configure_args": [
+        "--bindir=/usr/bin",
+        "--sbindir=/usr/sbin",
+        "-Dtools=true",
+        "-Dbuild-tests=false",
+        "-Ddocs=false",
+        "-Dxz=disabled",
+        "-Dopenssl=disabled",
+        "-Dzlib=disabled",
+        "-Dzstd=disabled"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "meson",
+          "ninja",
+          "pkg-config"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build pristine kmod 34.2 with upstream Meson and the core module-management tools. Optional compression and PKCS#7 integrations are disabled pending their complete independent closures; no OpenRC material is imported.",
+      "references": [
+        "https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git"
+      ]
+    },
+    "procps-ng": {
+      "provider": "upstream",
+      "version": "4.0.6",
+      "license": "GPL-2.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://downloads.sourceforge.net/procps-ng/procps-ng-{version}.tar.xz",
+        "filename": "procps-ng-{version}.tar.xz",
+        "sha512": "c499aa14b6c94eda3a455bfe0d2d3c74c79dd718bffbd20207bd0831cb87725b83a76e4ee537a49ddf112bd1248a156d35da00035cbcd4c22037a20dcb4bdc9c"
+      },
+      "source_dir": "procps-ng-{version}",
+      "configure_args": [
+        "--disable-nls",
+        "--disable-kill",
+        "--enable-modern-top",
+        "--enable-pidof",
+        "--enable-pidwait",
+        "--with-ncurses",
+        "--disable-libselinux",
+        "--disable-static",
+        "--without-systemd",
+        "--disable-skill"
+      ],
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils",
+          "pkg-config"
+        ],
+        "targetdeps": [
+          "glibc",
+          "ncurses"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39",
+          "ncurses"
+        ]
+      },
+      "review_reason": "Build pristine procps-ng 4.0.6 with ncurses. Optional SELinux and libsystemd integration are deferred until their libraries are independently available; no Gentoo patchset or phase is copied.",
+      "references": [
+        "https://gitlab.com/procps-ng/procps"
       ]
     }
   }
