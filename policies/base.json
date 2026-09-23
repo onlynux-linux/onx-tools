@@ -4,6 +4,7 @@
   "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
   "profile": "default/linux/amd64/23.0",
   "bootstrap": {
+    "coreutils": "Bootstrap file utilities used only while rebuilding the base; replaced by the Onlynux coreutils root target.",
     "gcc": "Bootstrap image C compiler; replace with Onlynux recipe for self hosting.",
     "make": "Bootstrap make",
     "binutils": "Bootstrap linker",
@@ -1306,7 +1307,7 @@
       "flat_source": true,
       "configure_args": [],
       "configure_command": ":",
-      "build_command": "test -s services && test -s protocols",
+      "build_command": "find . -maxdepth 2 -type f -print && test -s services && test -s protocols",
       "check_command": "grep -Eq \"^http[[:space:]]\" services && grep -Eq \"^tcp[[:space:]]\" protocols",
       "package_command": "install -Dm644 services \"$pkgdir/etc/services\" && install -Dm644 protocols \"$pkgdir/etc/protocols\"",
       "reviewed_dependencies": {
