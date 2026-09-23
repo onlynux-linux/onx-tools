@@ -96,7 +96,9 @@ def build(root, targets, work, image, allow_unsigned=False):
         recipe, meta = recipes[name]
         source = fetch(meta["source"], work / "sources")
         dependencies = sorted({depname(d) for k in ("builddeps", "targetdeps", "checkdeps", "rundeps") for d in meta[k]})
-        required_packages = [str(p.relative_to(work)) for dep, p in built if dep in dependencies]
+        # Tatami resolves each direct dependency transitively, so provide every package
+        # already built in the topological closure, not only direct edges.
+        required_packages = [str(p.relative_to(work)) for _, p in built]
         if required_packages and not allow_unsigned:
             raise ValueError("development dependency packages are unsigned; pass --allow-unsigned explicitly")
         args = ["docker", "run", "--rm", "--network=none", "--cap-drop=ALL",

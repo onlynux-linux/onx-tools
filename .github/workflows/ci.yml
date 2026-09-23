@@ -40,7 +40,7 @@ jobs:
           persist-credentials: false
       - name: Generate independent ONXBUILD recipes
         run: |
-          python -m onx.cli import gzip sed coreutils findutils diffutils grep gawk which tar ncurses less nano file bash pam dosfstools pciutils ethtool traceroute man-pages openssl kbd kmod procps-ng --policy policies/base.json --gentoo gentoo --output candidate-recipes
+          python -m onx.cli import gzip sed coreutils findutils diffutils grep gawk which tar ncurses less nano file bash pam dosfstools pciutils ethtool traceroute man-pages openssl kbd kmod procps-ng scdoc --policy policies/base.json --gentoo gentoo --output candidate-recipes
           python -m onx.cli propose app-arch/gzip-1.14 --gentoo gentoo --policy policies/base.json --output draft-recipes
           python -m onx.cli lint candidate-recipes
           python -m onx.cli plan gzip sed coreutils findutils diffutils grep gawk which tar ncurses less nano file bash pam dosfstools pciutils ethtool traceroute man-pages openssl kbd kmod procps-ng --recipes candidate-recipes

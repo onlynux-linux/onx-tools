@@ -316,7 +316,7 @@
       "license": "X11",
       "build_system": "autotools",
       "source": {
-        "url": "https://invisible-mirror.net/archives/ncurses/ncurses-{version}.tar.gz",
+        "url": "https://ftp.gnu.org/gnu/ncurses/ncurses-{version}.tar.gz",
         "filename": "ncurses-{version}.tar.gz",
         "sha512": "fc5a13409d2a530a1325776dcce3a99127ddc2c03999cfeb0065d0eee2d68456274fb1c7b3cc99c1937bc657d0e7fca97016e147f93c7821b5a4a6837db821e8"
       },
@@ -791,7 +791,8 @@
           "gcc",
           "meson",
           "ninja",
-          "pkg-config"
+          "pkg-config",
+          "scdoc"
         ],
         "targetdeps": [
           "glibc"
@@ -849,6 +850,41 @@
       "review_reason": "Build pristine procps-ng 4.0.6 with ncurses. Optional SELinux and libsystemd integration are deferred until their libraries are independently available; no Gentoo patchset or phase is copied.",
       "references": [
         "https://gitlab.com/procps-ng/procps"
+      ]
+    },
+    "scdoc": {
+      "provider": "upstream",
+      "version": "1.11.5",
+      "license": "MIT",
+      "build_system": "configure",
+      "source": {
+        "url": "https://git.sr.ht/~sircmpwn/scdoc/archive/{version}.tar.gz",
+        "filename": "scdoc-{version}.tar.gz",
+        "sha512": "643209f9b5783d1792eeec2d1cf9ec0838d51adb1b507110aa10bf8963f1df816f6832cb0912a9e9ac698292f1a211dc99368e754636104f0f43f37fa61c179f"
+      },
+      "source_dir": "scdoc-{version}",
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "make -j\"$jobs\" PREFIX=/usr",
+      "check_command": "./scdoc < scdoc.5.scd > /dev/null",
+      "package_command": "make DESTDIR=\"$pkgdir\" PREFIX=/usr PCDIR=/usr/lib/pkgconfig install",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Independent build-tool dependency for kmod man pages, built from pristine upstream source with its Makefile. It is not added to the fixed Onlynux base set.",
+      "references": [
+        "https://git.sr.ht/~sircmpwn/scdoc"
       ]
     }
   }
