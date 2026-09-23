@@ -15,7 +15,9 @@
     "perl": "Bootstrap Perl required by the upstream OpenSSL Configure script",
     "meson": "Bootstrap Meson build frontend",
     "ninja": "Bootstrap Ninja build executor",
-    "pkg-config": "Bootstrap pkg-config dependency discovery"
+    "pkg-config": "Bootstrap pkg-config dependency discovery",
+    "bison": "Bootstrap parser generator required by iproute2 release builds",
+    "flex": "Bootstrap lexical scanner generator required by iproute2 release builds"
   },
   "providers": {
     "sys-libs/glibc": "glibc",
@@ -955,7 +957,9 @@
           "gcc",
           "make",
           "binutils",
-          "pkg-config"
+          "pkg-config",
+          "bison",
+          "flex"
         ],
         "targetdeps": [
           "glibc"

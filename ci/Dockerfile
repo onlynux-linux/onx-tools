@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc g++ make binutils libc6-dev locales bash grep sed gawk diffutils findutils \
     xz-utils tar gzip bzip2 ca-certificates python3 python3-pip \
     meson ninja-build pkg-config libssl-dev zlib1g-dev libzstd-dev \
-    git cmake perl patch && \
+    git cmake perl patch bison flex && \
     locale-gen en_US.UTF-8 fr_FR.UTF-8 ru_RU.UTF-8 ja_JP.UTF-8 he_IL.UTF-8 && \
     rm -rf /var/lib/apt/lists/*
 COPY tatami /tatami
