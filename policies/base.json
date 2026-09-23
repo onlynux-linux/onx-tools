@@ -1120,7 +1120,8 @@
         "--disable-poman",
         "--disable-asciidoc",
         "--disable-libmount-mountfd-support",
-        "ul_cv_syscall_open_tree=no"
+        "ul_cv_syscall_open_tree=no",
+        "--disable-makeinstall-chown"
       ],
       "build_command": "make -j\"$jobs\"",
       "check_command": "./blkid --version && ./lsblk --version && ./mount --version && ./uuidgen --version",
@@ -1140,7 +1141,7 @@
           "glibc>=2.39"
         ]
       },
-      "review_reason": "Build the pristine upstream util-linux release, including its canonical libblkid, libuuid, libmount, libfdisk and libsmartcols libraries. Optional host-specific integrations are disabled. The open_tree configure cache is forced off because the bootstrap headers lack the matching openat2 constants even though the syscall number exists; this avoids an upstream false-positive while preserving libmount and standard systemd-compatible Linux interfaces.",
+      "review_reason": "Build the pristine upstream util-linux release, including its canonical libblkid, libuuid, libmount, libfdisk and libsmartcols libraries. Optional host-specific integrations are disabled. The open_tree configure cache is forced off because the bootstrap headers lack matching openat2 constants. Package staging suppresses only upstream chown/chgrp operations, which are not permitted in the locked-down builder; all selected programs and libraries remain in the payload.",
       "references": [
         "https://www.kernel.org/pub/linux/utils/util-linux/"
       ]
