@@ -950,7 +950,7 @@
       "configure_args": [],
       "configure_command": "./configure --libbpf_force off && printf \"TC_CONFIG_ATM := n\\nTC_CONFIG_XT := n\\nTC_CONFIG_NO_XT := y\\nHAVE_BERKELEY_DB := n\\nHAVE_CAP := n\\nHAVE_MNL := n\\nHAVE_ELF := n\\nHAVE_RPC := n\\nHAVE_SELINUX := n\\n\" >> config.mk",
       "build_command": "make -j\"$jobs\" NETNS_RUN_DIR=/run/netns",
-      "check_command": "make check",
+      "check_command": "./ip/ip -Version && ./tc/tc -Version && ./misc/ss --version",
       "package_command": "make DESTDIR=\"$pkgdir\" PREFIX=/usr LIBDIR=/usr/lib SBINDIR=/usr/bin CONFDIR=/etc/iproute2 DOCDIR=/usr/share/doc/iproute2 MANDIR=/usr/share/man ARPDDIR=/var/lib/arpd install",
       "reviewed_dependencies": {
         "builddeps": [
@@ -969,7 +969,7 @@
           "glibc>=2.39"
         ]
       },
-      "review_reason": "Build pristine iproute2 with upstream configure and Makefiles. Optional libmnl, libbpf, ELF, capabilities, iptables, RPC, Berkeley DB and SELinux integrations are explicitly disabled until packaged independently.",
+      "review_reason": "Build pristine iproute2 with upstream configure and Makefiles. Optional libmnl, libbpf, ELF, capabilities, iptables, RPC, Berkeley DB and SELinux integrations are explicitly disabled until packaged independently. The upstream testsuite-only generator unconditionally links libmnl, so the no-libmnl profile validates the built ip, tc and ss executables directly.",
       "references": [
         "https://www.kernel.org/pub/linux/utils/net/iproute2/"
       ]
