@@ -47,6 +47,8 @@ def validate(meta):
         raise ValueError("missing pinned source SHA512")
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._+-]*', meta["source_dir"]):
         raise ValueError("invalid source directory")
+    if not isinstance(meta.get("flat_source", False), bool):
+        raise ValueError("invalid flat source flag")
     if meta.get("status") not in ("reviewed", "draft"):
         raise ValueError("missing review status")
 

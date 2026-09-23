@@ -77,6 +77,7 @@ def import_packages(policy_path, names, output, gentoo=None):
                 "homepage": adapter.get("homepage", metadata.get("HOMEPAGE", "").split(" ")[0]),
                 "license": adapter["license"], "source": source,
                 "source_dir": adapter.get("source_dir", name + "-{version}").replace("{version}", version),
+                "flat_source": adapter.get("flat_source", False),
                 "build_system": adapter["build_system"], "configure_args": adapter.get("configure_args", []),
                 "status": status, **{k: deps.get(k, []) for k in ("builddeps", "targetdeps", "checkdeps", "rundeps")}}
         for command_key in ("configure_command", "build_command", "check_command", "package_command"):

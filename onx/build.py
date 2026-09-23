@@ -96,6 +96,14 @@ def extract(archive, destination):
             # Python data filter rejects traversal, external links and device nodes.
             tar.extractall(destination, filter="data")
 
+def source_directory(extracted, meta):
+    """Select either an archive's single source directory or its explicit flat root."""
+    extracted = Path(extracted)
+    source = extracted if meta.get("flat_source", False) else extracted / meta["source_dir"]
+    if not source.is_dir():
+        raise ValueError("source directory missing")
+    return source
+
 def build(root, targets, work, image, allow_unsigned=False):
     if platform.system() != "Linux":
         raise ValueError("build is Linux-only; use GitHub Actions")
@@ -185,9 +193,7 @@ def inner_build(recipe, source, out, bootstrap, dependency, allow_unsigned):
     with tempfile.TemporaryDirectory(prefix="onx-build-") as temporary:
         base = Path(temporary)
         extract(source, base / "src")
-        src = base / "src" / meta["source_dir"]
-        if not src.is_dir():
-            raise ValueError("source directory missing")
+        src = source_directory(base / "src", meta)
         dest = base / "pkg"
         dest.mkdir()
         # Upstream code runs as nobody, with no network and no capabilities.

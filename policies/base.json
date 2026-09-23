@@ -1302,7 +1302,8 @@
         "filename": "iana-etc-{version}.tar.gz",
         "sha512": "fcf9cf471d67215785abfd7549a5a4120fa66a980bb7b0ef4c5feb9d8a7b3c10661aee2879f656c5c4b70ba7555c7be3d2939352471a53ce8d531cdda6456b3c"
       },
-      "source_dir": ".",
+      "source_dir": "iana-etc-20260911",
+      "flat_source": true,
       "configure_args": [],
       "configure_command": ":",
       "build_command": "test -s services && test -s protocols",

@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 from onx.deps import reduce, translate, Unsupported
 from onx.recipe import render, read, write
-from onx.build import plan, extract, fetch
+from onx.build import plan, extract, fetch, source_directory
 from onx.importer import import_packages
 
 def recipe(name="sample", deps=None):
@@ -52,6 +52,16 @@ class Recipes(unittest.TestCase):
     def test_path_rejected(self):
         m=recipe(); m["name"]="../bad"
         with self.assertRaises(ValueError): render(m)
+    def test_flat_source_is_explicit_and_type_checked(self):
+        with tempfile.TemporaryDirectory() as d:
+            m=recipe(); m["flat_source"]=True
+            self.assertEqual(source_directory(d,m),Path(d))
+            m["flat_source"]="yes"
+            with self.assertRaisesRegex(ValueError,"flat source"): render(m)
+    def test_nonflat_source_uses_declared_directory(self):
+        with tempfile.TemporaryDirectory() as d:
+            m=recipe(); expected=Path(d)/m["source_dir"]; expected.mkdir()
+            self.assertEqual(source_directory(d,m),expected)
     def test_diamond_dependency_order(self):
         with tempfile.TemporaryDirectory() as d:
             for name,deps in [("app",["left","right"]),("left",["lib"]),("right",["lib"]),("lib",[])]:
