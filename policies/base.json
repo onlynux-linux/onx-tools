@@ -1175,7 +1175,7 @@
       ],
       "build_command": "make -j\"$jobs\"",
       "check_command": "make check",
-      "package_command": "make DESTDIR=\"$pkgdir\" install",
+      "package_command": "make DESTDIR=\"$pkgdir\" install && rm -f \"$pkgdir\"/usr/share/man/man3/crypt*.3*",
       "reviewed_dependencies": {
         "builddeps": [
           "gcc",
@@ -1191,7 +1191,7 @@
           "glibc>=2.39"
         ]
       },
-      "review_reason": "Independent runtime dependency for shadow, built with the pristine upstream Autotools flow from Gentoo pinned source material. No Gentoo phases or patches are imported; obsolete compatibility APIs are left at upstream defaults until Onlynux glibc is rebuilt without its legacy crypt implementation.",
+      "review_reason": "Independent runtime dependency for shadow, built with the pristine upstream Autotools flow from Gentoo pinned source material. No Gentoo phases or patches are imported. Generic crypt(3) API pages remain owned by the dedicated man-pages package, so only duplicate crypt*.3 files are omitted from this payload.",
       "references": [
         "https://github.com/besser82/libxcrypt"
       ]
