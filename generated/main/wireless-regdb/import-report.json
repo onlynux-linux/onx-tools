@@ -1,0 +1,43 @@
+{
+  "adapter": {
+    "build_command": "test -s regulatory.db && test -s regulatory.db.p7s",
+    "build_system": "configure",
+    "check_command": "test -s db.txt && grep -Eq '^country [A-Z][A-Z]:' db.txt",
+    "configure_args": [],
+    "configure_command": ":",
+    "license": "ISC",
+    "package_command": "install -Dm644 regulatory.db \"$pkgdir/usr/lib/firmware/regulatory.db\" && install -Dm644 regulatory.db.p7s \"$pkgdir/usr/lib/firmware/regulatory.db.p7s\" && install -Dm644 regulatory.bin.5 \"$pkgdir/usr/share/man/man5/regulatory.bin.5\" && printf '%s\\n' '.so man5/regulatory.bin.5' > \"$pkgdir/usr/share/man/man5/regulatory.db.5\" && install -Dm644 README \"$pkgdir/usr/share/doc/wireless-regdb/README\" && install -Dm644 db.txt \"$pkgdir/usr/share/doc/wireless-regdb/db.txt\"",
+    "provider": "upstream",
+    "references": [
+      "https://wireless.docs.kernel.org/en/latest/en/developers/regulatory/wireless-regdb.html"
+    ],
+    "review_reason": "Install the pristine, upstream-signed regulatory database without rebuilding it, which would invalidate its signature. Firmware data uses the usrmerged /usr/lib/firmware location owned by Onlynux filesystem policy.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "coreutils",
+        "grep"
+      ],
+      "checkdeps": [],
+      "rundeps": [],
+      "targetdeps": []
+    },
+    "source": {
+      "filename": "wireless-regdb-2026.09.03.tar.xz",
+      "sha512": "625918883b65361081db2d5ede754af5d58892da969500655d6211f163c463bfa8c6ab671d3be17117651fc45c41fb3f960a3544c91236fb314179318c191aa2",
+      "url": "https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2026.09.03.tar.xz"
+    },
+    "source_dir": "wireless-regdb-2026.09.03",
+    "version": "20260903"
+  },
+  "dependency_decision": "Install the pristine, upstream-signed regulatory database without rebuilding it, which would invalidate its signature. Firmware data uses the usrmerged /usr/lib/firmware location owned by Onlynux filesystem policy.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://wireless.docs.kernel.org/en/latest/en/developers/regulatory/wireless-regdb.html"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

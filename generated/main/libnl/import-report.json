@@ -1,0 +1,72 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "configure_args": [
+      "--libdir=/usr/lib",
+      "--disable-static",
+      "--enable-cli=no"
+    ],
+    "cpv": "dev-libs/libnl-3.12.0",
+    "license": "LGPL-2.1-only",
+    "package_command": "make DESTDIR=\"$pkgdir\" install && find \"$pkgdir\" -name '*.la' -delete",
+    "provider": "gentoo",
+    "references": [
+      "https://github.com/thom311/libnl"
+    ],
+    "review_reason": "Build pristine upstream libnl libraries needed by nl80211 clients, without Gentoo patches, Python bindings or optional CLI utilities. The upstream test target is retained; tests requiring the optional Check framework are omitted by upstream configure when unavailable.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "pkg-config",
+        "bison",
+        "flex"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "libnl-{version}.tar.gz",
+      "sha512": "6230b8cab608355346030cf32f37c43983b1d1b632cb7677ae383d4f2369b4a3773b35d2d51007d3b9c16f333aaf351682c4602b3d229cd602eec5ad53efd6f3",
+      "url": "https://github.com/thom311/libnl/releases/download/libnl3_12_0/libnl-{version}.tar.gz"
+    },
+    "source_dir": "libnl-{version}"
+  },
+  "dependency_decision": "Build pristine upstream libnl libraries needed by nl80211 clients, without Gentoo patches, Python bindings or optional CLI utilities. The upstream test target is retained; tests requiring the optional Check framework are omitted by upstream configure when unavailable.",
+  "evidence": {
+    "cpv": "dev-libs/libnl-3.12.0",
+    "ebuild_sha256": "f2e2853145dba1e62364e008d823f51ccaa91dca6e6f4ff2798ff66e0c59ab33",
+    "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+    "metadata": {
+      "BDEPEND": "verify-sig? ( sec-keys/openpgp-keys-thomashaller ) python? ( python_targets_python3_12? ( dev-lang/python:3.12 ) python_targets_python3_13? ( dev-lang/python:3.13 ) python_targets_python3_14? ( dev-lang/python:3.14 ) ) sys-devel/bison sys-devel/flex virtual/pkgconfig python? ( >=dev-python/gpep517-16[python_targets_python3_12(-)?,python_targets_python3_13(-)?,python_targets_python3_14(-)?] dev-python/setuptools[python_targets_python3_12(-)?,python_targets_python3_13(-)?,python_targets_python3_14(-)?] dev-lang/swig ) test? ( dev-libs/check ) sys-devel/gnuconfig >=app-portage/elt-patches-20250306 || ( >=dev-build/automake-1.19:1.19 >=dev-build/automake-1.18.1:1.18 ) || ( >=dev-build/autoconf-2.73:2.73 >=dev-build/autoconf-2.72-r1:2.72 ) >=dev-build/libtool-2.4.7-r3 verify-sig? ( || ( app-alternatives/gpg app-crypt/gnupg[-alternatives(-)] ) >=app-portage/gemato-20 )",
+      "DEFINED_PHASES": "compile configure install prepare test unpack",
+      "DEPEND": "python? ( python_targets_python3_12? ( dev-lang/python:3.12 ) python_targets_python3_13? ( dev-lang/python:3.13 ) python_targets_python3_14? ( dev-lang/python:3.14 ) )",
+      "DESCRIPTION": "Libraries providing APIs to netlink protocol based Linux kernel interfaces",
+      "EAPI": "8",
+      "HOMEPAGE": "https://www.infradead.org/~tgr/libnl/ https://github.com/thom311/libnl",
+      "IDEPEND": "",
+      "INHERITED": "gnuconfig toolchain-funcs libtool autotools eapi9-pipestatus flag-o-matic out-of-source-utils multibuild multilib multiprocessing ninja-utils python-utils-r1 python-r1 distutils-r1 multilib-build multilib-minimal verify-sig",
+      "IUSE": "+debug python test utils python_targets_python3_12 python_targets_python3_13 python_targets_python3_14 debug abi_x86_32 abi_x86_64 abi_x86_x32 abi_mips_n32 abi_mips_n64 abi_mips_o32 abi_s390_32 abi_s390_64 verify-sig",
+      "KEYWORDS": "~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86",
+      "LICENSE": "LGPL-2.1 utils? ( GPL-2 )",
+      "PDEPEND": "",
+      "RDEPEND": "python? ( python_targets_python3_12? ( dev-lang/python:3.12 ) python_targets_python3_13? ( dev-lang/python:3.13 ) python_targets_python3_14? ( dev-lang/python:3.14 ) )",
+      "REQUIRED_USE": "python? ( || ( python_targets_python3_12 python_targets_python3_13 python_targets_python3_14 ) )",
+      "RESTRICT": "!test? ( test ) test",
+      "SLOT": "3",
+      "SRC_URI": "https://github.com/thom311/libnl/releases/download/libnl3_12_0/libnl-3.12.0.tar.gz verify-sig? ( https://github.com/thom311/libnl/releases/download/libnl3_12_0/libnl-3.12.0.tar.gz.sig )"
+    },
+    "name": "libnl",
+    "version": "3.12.0"
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

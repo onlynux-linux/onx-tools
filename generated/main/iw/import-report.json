@@ -1,0 +1,72 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\" V=1",
+    "build_system": "configure",
+    "check_command": "./iw --version",
+    "configure_args": [],
+    "configure_command": ":",
+    "cpv": "net-wireless/iw-6.17",
+    "license": "ISC",
+    "package_command": "make V=1 DESTDIR=\"$pkgdir\" PREFIX=/usr install",
+    "provider": "gentoo",
+    "references": [
+      "https://wireless.docs.kernel.org/en/latest/en/users/documentation/iw.html"
+    ],
+    "review_reason": "Build pristine upstream iw against the independently packaged libnl and ship the signed wireless regulatory database as a separate runtime dependency. No Gentoo phase, patch or distribution wrapper is imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "pkg-config"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "libnl",
+        "wireless-regdb"
+      ],
+      "targetdeps": [
+        "glibc",
+        "libnl"
+      ]
+    },
+    "source": {
+      "filename": "iw-{version}.tar.xz",
+      "sha512": "4c0d80d54e69dddc4c70469fad6a647199f98223835dd36dc174b82e425492779330a0fa3d7287190ccf02c597cb78c4bfa97b7c1f1e0a27335edb56c9f831d1",
+      "url": "https://mirrors.edge.kernel.org/pub/software/network/iw/iw-{version}.tar.xz"
+    },
+    "source_dir": "iw-{version}"
+  },
+  "dependency_decision": "Build pristine upstream iw against the independently packaged libnl and ship the signed wireless regulatory database as a separate runtime dependency. No Gentoo phase, patch or distribution wrapper is imported.",
+  "evidence": {
+    "cpv": "net-wireless/iw-6.17",
+    "ebuild_sha256": "b533e7e8f04ccc769d7667e046cbe0940403477905d5b03b401f57e4c72a2500",
+    "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+    "metadata": {
+      "BDEPEND": "virtual/pkgconfig",
+      "DEFINED_PHASES": "compile install prepare",
+      "DEPEND": "dev-libs/libnl:=",
+      "DESCRIPTION": "nl80211 configuration utility for wireless devices using the mac80211 stack",
+      "EAPI": "8",
+      "HOMEPAGE": "https://wireless.docs.kernel.org/en/latest/en/users/documentation/iw.html",
+      "IDEPEND": "",
+      "INHERITED": "toolchain-funcs",
+      "IUSE": "",
+      "KEYWORDS": "amd64 arm arm64 ~loong ppc ppc64 ~riscv x86",
+      "LICENSE": "ISC",
+      "PDEPEND": "",
+      "RDEPEND": "dev-libs/libnl:= net-wireless/wireless-regdb",
+      "REQUIRED_USE": "",
+      "RESTRICT": "",
+      "SLOT": "0",
+      "SRC_URI": "https://mirrors.edge.kernel.org/pub/software/network/iw/iw-6.17.tar.xz"
+    },
+    "name": "iw",
+    "version": "6.17"
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
