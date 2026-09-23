@@ -1118,7 +1118,8 @@
         "--without-tinfo",
         "--disable-bash-completion",
         "--disable-poman",
-        "--disable-asciidoc"
+        "--disable-asciidoc",
+        "--disable-libmount-mountfd-support"
       ],
       "build_command": "make -j\"$jobs\"",
       "check_command": "./blkid --version && ./lsblk --version && ./mount --version && ./uuidgen --version",
@@ -1138,7 +1139,7 @@
           "glibc>=2.39"
         ]
       },
-      "review_reason": "Build the pristine upstream util-linux release, including its canonical libblkid, libuuid, libmount, libfdisk and libsmartcols libraries. Optional host-specific integrations are disabled; systemd compatibility is preserved through standard Linux paths and interfaces without linking the bootstrap build to host systemd or udev.",
+      "review_reason": "Build the pristine upstream util-linux release, including its canonical libblkid, libuuid, libmount, libfdisk and libsmartcols libraries. Optional host-specific integrations are disabled; the newer mount-FD/idmapped-mount hook is disabled because the bootstrap kernel headers do not expose its required openat2 constants. Standard Linux and systemd-compatible paths and interfaces remain intact.",
       "references": [
         "https://www.kernel.org/pub/linux/utils/util-linux/"
       ]
