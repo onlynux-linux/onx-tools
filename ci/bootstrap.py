@@ -6,7 +6,7 @@ from pathlib import Path
 commands={"gcc":["gcc","-dumpfullversion"],"g++":["g++","-dumpfullversion"],"make":["make","--version"],
           "binutils":["ld","--version"],"glibc":["getconf","GNU_LIBC_VERSION"],
           "glibc-locales":["locale","--version"],
-          "bash":["bash","--version"],"grep":["grep","--version"]}
+          "bash":["bash","--version"],"grep":["grep","--version"],"perl":["perl","-v"]}
 versions={}
 for name,command in commands.items():
     line=subprocess.check_output(command,text=True).splitlines()[0]
