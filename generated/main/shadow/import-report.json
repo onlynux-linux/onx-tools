@@ -1,0 +1,72 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\"",
+    "build_system": "autotools",
+    "check_command": "make check",
+    "configure_args": [
+      "--disable-static",
+      "--disable-nls",
+      "--without-libbsd",
+      "--without-group-name-max-length",
+      "--without-tcb",
+      "--with-bcrypt",
+      "--with-yescrypt",
+      "--without-acl",
+      "--without-audit",
+      "--without-btrfs",
+      "--without-nscd",
+      "--with-libpam",
+      "--without-selinux",
+      "--without-skey",
+      "--without-su",
+      "--disable-logind",
+      "--bindir=/usr/bin",
+      "--sbindir=/usr/sbin",
+      "--libdir=/usr/lib",
+      "--sysconfdir=/etc"
+    ],
+    "license": "BSD-3-Clause AND GPL-2.0-or-later",
+    "package_command": "make DESTDIR=\"$pkgdir\" suidperms=0755 sgidperms=0755 install",
+    "provider": "upstream",
+    "references": [
+      "https://github.com/shadow-maint/shadow"
+    ],
+    "review_reason": "Build pristine shadow account-management utilities against Onlynux PAM and independently packaged libxcrypt. Staging uses ordinary 0755 modes because set-ID transitions are forbidden in the no-new-privileges builder; final privilege policy belongs to Onlynux system configuration. shadow owns the account tools, while their duplicates are disabled in util-linux. No Gentoo phases, patches or OpenRC files are imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "pkg-config"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "libxcrypt",
+        "pam"
+      ],
+      "targetdeps": [
+        "glibc",
+        "libxcrypt",
+        "pam"
+      ]
+    },
+    "source": {
+      "filename": "shadow-{version}.tar.xz",
+      "sha512": "f17a3764b9b8d77906c88ee4d6057913cb7072ee3fe654f62cc80702528c022c806f43906118a9205f0344e2f36848f270dd1103366ce477f9454682a779e7e1",
+      "url": "https://github.com/shadow-maint/shadow/releases/download/{version}/shadow-{version}.tar.xz"
+    },
+    "version": "4.20.2"
+  },
+  "dependency_decision": "Build pristine shadow account-management utilities against Onlynux PAM and independently packaged libxcrypt. Staging uses ordinary 0755 modes because set-ID transitions are forbidden in the no-new-privileges builder; final privilege policy belongs to Onlynux system configuration. shadow owns the account tools, while their duplicates are disabled in util-linux. No Gentoo phases, patches or OpenRC files are imported.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://github.com/shadow-maint/shadow"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

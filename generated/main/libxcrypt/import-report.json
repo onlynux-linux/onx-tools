@@ -1,0 +1,51 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\"",
+    "build_system": "autotools",
+    "check_command": "make check",
+    "configure_args": [
+      "--disable-werror",
+      "--disable-static"
+    ],
+    "license": "LGPL-2.1-or-later AND BSD-2-Clause AND BSD-3-Clause",
+    "package_command": "make DESTDIR=\"$pkgdir\" install && rm -f \"$pkgdir\"/usr/share/man/man3/crypt*.3*",
+    "provider": "upstream",
+    "references": [
+      "https://github.com/besser82/libxcrypt"
+    ],
+    "review_reason": "Independent runtime dependency for shadow, built with the pristine upstream Autotools flow from Gentoo pinned source material. No Gentoo phases or patches are imported. Generic crypt(3) API pages remain owned by the dedicated man-pages package, so only duplicate crypt*.3 files are omitted from this payload.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "perl"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "libxcrypt-{version}-autotools.tar.xz",
+      "sha512": "8de4a3be418abe61676634518fceaec4a08235f7736124959a727c57ae001c0a246c63277d78cabe4826ed0a42990b1315565691daf2abf377546e7e3c16b596",
+      "url": "https://distfiles.gentoo.org/pub/proj/toolchain/libxcrypt/libxcrypt-{version}-autotools.tar.xz"
+    },
+    "source_dir": "libxcrypt-{version}",
+    "version": "4.5.2"
+  },
+  "dependency_decision": "Independent runtime dependency for shadow, built with the pristine upstream Autotools flow from Gentoo pinned source material. No Gentoo phases or patches are imported. Generic crypt(3) API pages remain owned by the dedicated man-pages package, so only duplicate crypt*.3 files are omitted from this payload.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://github.com/besser82/libxcrypt"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

@@ -24,7 +24,13 @@
       "ul_cv_syscall_open_tree=no",
       "--disable-makeinstall-chown",
       "--disable-makeinstall-setuid",
-      "--disable-makeinstall-tty-setgid"
+      "--disable-makeinstall-tty-setgid",
+      "--disable-chfn-chsh",
+      "--disable-login",
+      "--disable-newgrp",
+      "--disable-nologin",
+      "--disable-su",
+      "--disable-vipw"
     ],
     "license": "GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause",
     "package_command": "make DESTDIR=\"$pkgdir\" install",
