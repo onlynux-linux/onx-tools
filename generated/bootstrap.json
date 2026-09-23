@@ -15,5 +15,6 @@
   "flex": "Bootstrap lexical scanner generator required by iproute2 release builds",
   "autoconf": "Bootstrap GNU Autoconf for upstream snapshots without generated configure",
   "automake": "Bootstrap GNU Automake for upstream snapshots without generated Makefiles",
-  "libtool": "Bootstrap GNU Libtool for upstream autoreconf"
+  "libtool": "Bootstrap GNU Libtool for upstream autoreconf",
+  "lzip": "Bootstrap lzip decompressor required only to unpack pristine IANA tzdb source archives"
 }

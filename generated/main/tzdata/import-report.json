@@ -1,0 +1,49 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\" CC=gcc CFLAGS='-O2 -std=gnu99 -DHAVE_GETTEXT=0 -DZIC_BLOAT_DEFAULT=\\\"fat\\\"' REDO=posix_only TOPDIR= ZICDIR=/usr/bin",
+    "build_system": "configure",
+    "check_command": "make check CURL=:",
+    "configure_args": [],
+    "configure_command": ":",
+    "license": "BSD-3-Clause AND LicenseRef-Public-Domain",
+    "package_command": "make DESTDIR=\"$pkgdir\" CC=gcc REDO=posix_only TOPDIR= ZICDIR=/usr/bin LIBDIR=/nukeit install && rm -rf \"$pkgdir/nukeit\" \"$pkgdir/etc\" && rm -f \"$pkgdir\"/usr/share/man/man5/tzfile.5* \"$pkgdir\"/usr/share/man/man8/tzselect.8* \"$pkgdir\"/usr/share/man/man8/zdump.8* \"$pkgdir\"/usr/share/man/man8/zic.8*",
+    "provider": "upstream",
+    "references": [
+      "https://www.iana.org/time-zones"
+    ],
+    "review_reason": "Build pristine IANA tzdb with fat TZif output for broad compatibility, using the upstream Makefile and full offline test suite. Duplicate API manuals remain owned by man-pages; no Gentoo phases, patches or post-install timezone mutation are imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "lzip"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "tzdb-{version}.tar.lz",
+      "sha512": "b2f4622ef0c2a33ee4a9282c8346dc2732e044617b3b7a1288bc065910653ed8109f01b1423b4b497373f9bc2b9fefb0a75a02c6b79e266ea2fe9767ec32ee89",
+      "url": "https://data.iana.org/time-zones/releases/tzdb-{version}.tar.lz"
+    },
+    "source_dir": "tzdb-{version}",
+    "version": "2026d"
+  },
+  "dependency_decision": "Build pristine IANA tzdb with fat TZif output for broad compatibility, using the upstream Makefile and full offline test suite. Duplicate API manuals remain owned by man-pages; no Gentoo phases, patches or post-install timezone mutation are imported.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://www.iana.org/time-zones"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
