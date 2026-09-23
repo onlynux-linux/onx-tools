@@ -24,7 +24,10 @@
       "builddeps": [
         "gcc",
         "make",
-        "binutils"
+        "binutils",
+        "meson",
+        "ninja",
+        "pkg-config"
       ],
       "checkdeps": [],
       "rundeps": [

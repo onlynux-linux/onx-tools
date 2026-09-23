@@ -1,0 +1,55 @@
+{
+  "adapter": {
+    "build_system": "meson",
+    "configure_args": [
+      "--bindir=/usr/bin",
+      "--sbindir=/usr/sbin",
+      "-Dtools=true",
+      "-Dbuild-tests=false",
+      "-Ddocs=false",
+      "-Dxz=disabled",
+      "-Dopenssl=disabled",
+      "-Dzlib=disabled",
+      "-Dzstd=disabled"
+    ],
+    "license": "LGPL-2.1-or-later AND GPL-2.0-or-later",
+    "provider": "upstream",
+    "references": [
+      "https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git"
+    ],
+    "review_reason": "Build pristine kmod 34.2 with upstream Meson and the core module-management tools. Optional compression and PKCS#7 integrations are disabled pending their complete independent closures; no OpenRC material is imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "meson",
+        "ninja",
+        "pkg-config",
+        "scdoc"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "kmod-{version}.tar.xz",
+      "sha512": "0e095c45ad61a6c61ce1ad61b9aa10cf5040e688b749f9a933b0e7d12de493c58027a5068b459cbbce05576fc564a22b83a3dbef1e6511b2a3e27034c88afd33",
+      "url": "https://mirrors.edge.kernel.org/pub/linux/utils/kernel/kmod/kmod-{version}.tar.xz"
+    },
+    "version": "34.2"
+  },
+  "dependency_decision": "Build pristine kmod 34.2 with upstream Meson and the core module-management tools. Optional compression and PKCS#7 integrations are disabled pending their complete independent closures; no OpenRC material is imported.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

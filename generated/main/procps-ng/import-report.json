@@ -1,0 +1,58 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "configure_args": [
+      "--disable-nls",
+      "--disable-kill",
+      "--enable-modern-top",
+      "--enable-pidof",
+      "--enable-pidwait",
+      "--with-ncurses",
+      "--disable-libselinux",
+      "--disable-static",
+      "--without-systemd",
+      "--disable-skill"
+    ],
+    "license": "GPL-2.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later",
+    "provider": "upstream",
+    "references": [
+      "https://gitlab.com/procps-ng/procps"
+    ],
+    "review_reason": "Build pristine procps-ng 4.0.6 with ncurses. Optional SELinux and libsystemd integration are deferred until their libraries are independently available; no Gentoo patchset or phase is copied.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "pkg-config"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "ncurses"
+      ],
+      "targetdeps": [
+        "glibc",
+        "ncurses"
+      ]
+    },
+    "source": {
+      "filename": "procps-ng-{version}.tar.xz",
+      "sha512": "c499aa14b6c94eda3a455bfe0d2d3c74c79dd718bffbd20207bd0831cb87725b83a76e4ee537a49ddf112bd1248a156d35da00035cbcd4c22037a20dcb4bdc9c",
+      "url": "https://downloads.sourceforge.net/procps-ng/procps-ng-{version}.tar.xz"
+    },
+    "source_dir": "procps-ng-{version}",
+    "version": "4.0.6"
+  },
+  "dependency_decision": "Build pristine procps-ng 4.0.6 with ncurses. Optional SELinux and libsystemd integration are deferred until their libraries are independently available; no Gentoo patchset or phase is copied.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://gitlab.com/procps-ng/procps"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

@@ -7,5 +7,8 @@
   "grep": "GNU grep used by gzip helper scripts",
   "g++": "Bootstrap C++ compiler needed by upstream configure checks",
   "glibc-locales": "Bootstrap locales used only while testing locale-sensitive packages",
-  "perl": "Bootstrap Perl required by the upstream OpenSSL Configure script"
+  "perl": "Bootstrap Perl required by the upstream OpenSSL Configure script",
+  "meson": "Bootstrap Meson build frontend",
+  "ninja": "Bootstrap Ninja build executor",
+  "pkg-config": "Bootstrap pkg-config dependency discovery"
 }

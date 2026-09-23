@@ -1,0 +1,48 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\" PREFIX=/usr",
+    "build_system": "configure",
+    "check_command": "./scdoc < scdoc.5.scd > /dev/null",
+    "configure_args": [],
+    "configure_command": ":",
+    "license": "MIT",
+    "package_command": "make DESTDIR=\"$pkgdir\" PREFIX=/usr PCDIR=/usr/lib/pkgconfig install",
+    "provider": "upstream",
+    "references": [
+      "https://git.sr.ht/~sircmpwn/scdoc"
+    ],
+    "review_reason": "Independent build-tool dependency for kmod man pages, built from pristine upstream source with its Makefile. It is not added to the fixed Onlynux base set.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "scdoc-{version}.tar.gz",
+      "sha512": "643209f9b5783d1792eeec2d1cf9ec0838d51adb1b507110aa10bf8963f1df816f6832cb0912a9e9ac698292f1a211dc99368e754636104f0f43f37fa61c179f",
+      "url": "https://git.sr.ht/~sircmpwn/scdoc/archive/{version}.tar.gz"
+    },
+    "source_dir": "scdoc-{version}",
+    "version": "1.11.5"
+  },
+  "dependency_decision": "Independent build-tool dependency for kmod man pages, built from pristine upstream source with its Makefile. It is not added to the fixed Onlynux base set.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://git.sr.ht/~sircmpwn/scdoc"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

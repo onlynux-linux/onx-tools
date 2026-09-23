@@ -1,0 +1,56 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "configure_args": [
+      "--disable-werror",
+      "--disable-memcheck",
+      "--disable-nls",
+      "--disable-vlock",
+      "--disable-tests",
+      "--disable-xkb",
+      "--without-bzip2",
+      "--without-lzma",
+      "--without-zlib",
+      "--without-zstd"
+    ],
+    "license": "GPL-2.0-or-later",
+    "provider": "upstream",
+    "references": [
+      "https://kbd-project.org/"
+    ],
+    "review_reason": "Build pristine kbd 2.10.0 with its released Autotools files. Optional compression libraries, PAM vlock, XKB and translations remain disabled until their independent Onlynux closures are present.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "gzip"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "gzip"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "kbd-{version}.tar.xz",
+      "sha512": "1b7f55f0a1b34d9b6b4237a1ff3e10eedf4bdebe50e906a7acdea48f85b3c455e72737127491a0c494388b999797aa65411b20b44c3f5612fdeee4d8289f937c",
+      "url": "https://www.kernel.org/pub/linux/utils/kbd/kbd-{version}.tar.xz"
+    },
+    "version": "2.10.0"
+  },
+  "dependency_decision": "Build pristine kbd 2.10.0 with its released Autotools files. Optional compression libraries, PAM vlock, XKB and translations remain disabled until their independent Onlynux closures are present.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://kbd-project.org/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
