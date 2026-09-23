@@ -80,9 +80,21 @@ def fetch(source, cache):
 def extract(archive, destination):
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=True)
-    with tarfile.open(archive) as tar:
-        # Python data filter rejects traversal, external links and device nodes.
-        tar.extractall(destination, filter="data")
+    if str(archive).endswith(".tar.lz"):
+        process = subprocess.Popen(["lzip", "-dc", str(archive)], stdout=subprocess.PIPE)
+        try:
+            with tarfile.open(fileobj=process.stdout, mode="r|") as tar:
+                # The data filter rejects traversal, external links and device nodes.
+                tar.extractall(destination, filter="data")
+        finally:
+            if process.stdout:
+                process.stdout.close()
+        if process.wait() != 0:
+            raise subprocess.CalledProcessError(process.returncode, process.args)
+    else:
+        with tarfile.open(archive) as tar:
+            # Python data filter rejects traversal, external links and device nodes.
+            tar.extractall(destination, filter="data")
 
 def build(root, targets, work, image, allow_unsigned=False):
     if platform.system() != "Linux":
