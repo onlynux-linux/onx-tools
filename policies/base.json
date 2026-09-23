@@ -1127,7 +1127,13 @@
         "ul_cv_syscall_open_tree=no",
         "--disable-makeinstall-chown",
         "--disable-makeinstall-setuid",
-        "--disable-makeinstall-tty-setgid"
+        "--disable-makeinstall-tty-setgid",
+        "--disable-chfn-chsh",
+        "--disable-login",
+        "--disable-newgrp",
+        "--disable-nologin",
+        "--disable-su",
+        "--disable-vipw"
       ],
       "build_command": "make -j\"$jobs\"",
       "check_command": "./blkid --version && ./lsblk --version && ./mount --version && ./uuidgen --version",
@@ -1216,11 +1222,15 @@
         "--without-selinux",
         "--without-skey",
         "--without-su",
-        "--disable-logind"
+        "--disable-logind",
+        "--bindir=/usr/bin",
+        "--sbindir=/usr/sbin",
+        "--libdir=/usr/lib",
+        "--sysconfdir=/etc"
       ],
       "build_command": "make -j\"$jobs\"",
       "check_command": "make check",
-      "package_command": "make DESTDIR=\"$pkgdir\" install",
+      "package_command": "make DESTDIR=\"$pkgdir\" suidperms=0755 sgidperms=0755 install",
       "reviewed_dependencies": {
         "builddeps": [
           "gcc",
@@ -1240,7 +1250,7 @@
           "pam"
         ]
       },
-      "review_reason": "Build pristine shadow account-management utilities against Onlynux PAM and the independently packaged libxcrypt. su remains owned by util-linux, while audit, SELinux, ACL and logind integrations await their independently packaged providers. No Gentoo phases, patches or OpenRC files are imported.",
+      "review_reason": "Build pristine shadow account-management utilities against Onlynux PAM and independently packaged libxcrypt. Staging uses ordinary 0755 modes because set-ID transitions are forbidden in the no-new-privileges builder; final privilege policy belongs to Onlynux system configuration. shadow owns the account tools, while their duplicates are disabled in util-linux. No Gentoo phases, patches or OpenRC files are imported.",
       "references": [
         "https://github.com/shadow-maint/shadow"
       ]
