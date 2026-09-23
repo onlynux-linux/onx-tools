@@ -245,11 +245,6 @@
       "kind": "source"
     },
     {
-      "name": "util-linux",
-      "gentoo_atom": "sys-apps/util-linux",
-      "kind": "source"
-    },
-    {
       "name": "which",
       "gentoo_atom": "sys-apps/which",
       "kind": "source"

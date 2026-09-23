@@ -1293,6 +1293,52 @@
         "https://www.iana.org/time-zones"
       ]
     },
+    "libmd": {
+      "provider": "gentoo",
+      "cpv": "app-crypt/libmd-1.2.0",
+      "license": "BSD-2 AND ISC AND LicenseRef-Public-Domain",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://archive.hadrons.org/software/libmd/libmd-{version}.tar.xz",
+        "filename": "libmd-{version}.tar.xz",
+        "sha512": "03684ab0c7724bb5cd22026ed39430abc47707e44f6756c372ad317e94b977b1b9d83c0ade614b39be1ca2208a0873e940968659476fe62a32c7195530d022a5"
+      },
+      "source_dir": "libmd-{version}",
+      "configure_args": ["--libdir=/usr/lib"],
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "make", "binutils"],
+        "targetdeps": ["glibc"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39"]
+      },
+      "review_reason": "Build pristine upstream libmd as the BSD digest compatibility library required by networking tools. No Gentoo phases, patches or distribution service files are imported.",
+      "references": ["https://www.hadrons.org/software/libmd/"]
+    },
+    "dhcpcd": {
+      "provider": "gentoo",
+      "cpv": "net-misc/dhcpcd-10.5.2",
+      "license": "BSD-2 AND BSD AND ISC AND MIT",
+      "build_system": "configure",
+      "source": {
+        "url": "https://github.com/NetworkConfiguration/dhcpcd/releases/download/v{version}/dhcpcd-{version}.tar.xz",
+        "filename": "dhcpcd-{version}.tar.xz",
+        "sha512": "bd131df97da668f883185c7d7bd92641678c36381f3ed0fb751709dde908ee6db871e57743c947ea50783ab1defc2d517ece9b4f2971ba6a7cba7a74f64b4e8d"
+      },
+      "source_dir": "dhcpcd-{version}",
+      "configure_args": [],
+      "configure_command": "./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --dbdir=/var/lib/dhcpcd --rundir=/run/dhcpcd --libexecdir=/usr/lib/dhcpcd --enable-embedded --enable-ipv6 --enable-privsep --privsepuser=dhcpcd --without-udev --without-libpcap CC=gcc",
+      "build_command": "make -j\"$jobs\"",
+      "check_command": "make test",
+      "package_command": "make DESTDIR=\"$pkgdir\" install && install -d \"$pkgdir/var/lib/dhcpcd\" \"$pkgdir/var/empty\" \"$pkgdir/usr/lib/systemd/system\" \"$pkgdir/usr/lib/sysusers.d\" && printf '%s\\n' '[Unit]' 'Description=DHCP client daemon' 'Wants=network.target' 'Before=network.target' '' '[Service]' 'Type=notify' 'ExecStart=/usr/sbin/dhcpcd --quiet --nobackground' '' '[Install]' 'WantedBy=multi-user.target' > \"$pkgdir/usr/lib/systemd/system/dhcpcd.service\" && printf '%s\\n' 'u dhcpcd - \"dhcpcd privilege separation\" /var/empty /usr/sbin/nologin' > \"$pkgdir/usr/lib/sysusers.d/dhcpcd.conf\"",
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "make", "binutils"],
+        "targetdeps": ["glibc", "libmd"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39", "libmd"]
+      },
+      "review_reason": "Build pristine upstream dhcpcd with privilege separation and IPv6, without OpenRC or Gentoo patches. Onlynux supplies a native systemd unit and sysusers declaration; udev integration is deferred until the systemd package provides libudev.",
+      "references": ["https://github.com/NetworkConfiguration/dhcpcd", "https://github.com/NetworkConfiguration/dhcpcd/blob/v10.5.2/README.md"]
+    },
     "iana-etc": {
       "provider": "upstream",
       "version": "20260911",
