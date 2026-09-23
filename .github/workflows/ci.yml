@@ -146,4 +146,5 @@ jobs:
           git add -A generated
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Record ONXBUILD recipes verified by Linux CI"
+          git pull --rebase origin main
           git -c credential.helper='!gh auth git-credential' push origin HEAD:main

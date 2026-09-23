@@ -50,6 +50,7 @@ jobs:
           git add audits/base
           if ! git diff --cached --quiet; then
             git commit -m "Publish complete base package audit"
+            git pull --rebase origin main
             git push
           fi
       - name: Enforce catalog validity
