@@ -1339,6 +1339,78 @@
       "review_reason": "Build pristine upstream dhcpcd with privilege separation and IPv6, without OpenRC or Gentoo patches. Onlynux supplies a native systemd unit and sysusers declaration; udev integration is deferred until the systemd package provides libudev.",
       "references": ["https://github.com/NetworkConfiguration/dhcpcd", "https://github.com/NetworkConfiguration/dhcpcd/blob/v10.5.2/README.md"]
     },
+    "libnl": {
+      "provider": "gentoo",
+      "cpv": "dev-libs/libnl-3.12.0",
+      "license": "LGPL-2.1-only",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://github.com/thom311/libnl/releases/download/libnl3_12_0/libnl-{version}.tar.gz",
+        "filename": "libnl-{version}.tar.gz",
+        "sha512": "6230b8cab608355346030cf32f37c43983b1d1b632cb7677ae383d4f2369b4a3773b35d2d51007d3b9c16f333aaf351682c4602b3d229cd602eec5ad53efd6f3"
+      },
+      "source_dir": "libnl-{version}",
+      "configure_args": ["--libdir=/usr/lib", "--disable-static", "--enable-cli=no"],
+      "package_command": "make DESTDIR=\"$pkgdir\" install && find \"$pkgdir\" -name '*.la' -delete",
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "make", "binutils", "pkg-config", "bison", "flex"],
+        "targetdeps": ["glibc"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39"]
+      },
+      "review_reason": "Build pristine upstream libnl libraries needed by nl80211 clients, without Gentoo patches, Python bindings or optional CLI utilities. The upstream test target is retained; tests requiring the optional Check framework are omitted by upstream configure when unavailable.",
+      "references": ["https://github.com/thom311/libnl"]
+    },
+    "wireless-regdb": {
+      "provider": "upstream",
+      "version": "20260903",
+      "license": "ISC",
+      "build_system": "configure",
+      "source": {
+        "url": "https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2026.09.03.tar.xz",
+        "filename": "wireless-regdb-2026.09.03.tar.xz",
+        "sha512": "625918883b65361081db2d5ede754af5d58892da969500655d6211f163c463bfa8c6ab671d3be17117651fc45c41fb3f960a3544c91236fb314179318c191aa2"
+      },
+      "source_dir": "wireless-regdb-2026.09.03",
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "test -s regulatory.db && test -s regulatory.db.p7s",
+      "check_command": "test -s db.txt && grep -Eq '^country [A-Z][A-Z]:' db.txt",
+      "package_command": "install -Dm644 regulatory.db \"$pkgdir/usr/lib/firmware/regulatory.db\" && install -Dm644 regulatory.db.p7s \"$pkgdir/usr/lib/firmware/regulatory.db.p7s\" && install -Dm644 regulatory.bin.5 \"$pkgdir/usr/share/man/man5/regulatory.bin.5\" && printf '%s\\n' '.so man5/regulatory.bin.5' > \"$pkgdir/usr/share/man/man5/regulatory.db.5\" && install -Dm644 README \"$pkgdir/usr/share/doc/wireless-regdb/README\" && install -Dm644 db.txt \"$pkgdir/usr/share/doc/wireless-regdb/db.txt\"",
+      "reviewed_dependencies": {
+        "builddeps": ["coreutils", "grep"],
+        "targetdeps": [],
+        "checkdeps": [],
+        "rundeps": []
+      },
+      "review_reason": "Install the pristine, upstream-signed regulatory database without rebuilding it, which would invalidate its signature. Firmware data uses the usrmerged /usr/lib/firmware location owned by Onlynux filesystem policy.",
+      "references": ["https://wireless.docs.kernel.org/en/latest/en/developers/regulatory/wireless-regdb.html"]
+    },
+    "iw": {
+      "provider": "gentoo",
+      "cpv": "net-wireless/iw-6.17",
+      "license": "ISC",
+      "build_system": "configure",
+      "source": {
+        "url": "https://mirrors.edge.kernel.org/pub/software/network/iw/iw-{version}.tar.xz",
+        "filename": "iw-{version}.tar.xz",
+        "sha512": "4c0d80d54e69dddc4c70469fad6a647199f98223835dd36dc174b82e425492779330a0fa3d7287190ccf02c597cb78c4bfa97b7c1f1e0a27335edb56c9f831d1"
+      },
+      "source_dir": "iw-{version}",
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "make -j\"$jobs\" V=1",
+      "check_command": "./iw --version",
+      "package_command": "make V=1 DESTDIR=\"$pkgdir\" PREFIX=/usr install",
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "make", "binutils", "pkg-config"],
+        "targetdeps": ["glibc", "libnl"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39", "libnl", "wireless-regdb"]
+      },
+      "review_reason": "Build pristine upstream iw against the independently packaged libnl and ship the signed wireless regulatory database as a separate runtime dependency. No Gentoo phase, patch or distribution wrapper is imported.",
+      "references": ["https://wireless.docs.kernel.org/en/latest/en/users/documentation/iw.html"]
+    },
     "iana-etc": {
       "provider": "upstream",
       "version": "20260911",

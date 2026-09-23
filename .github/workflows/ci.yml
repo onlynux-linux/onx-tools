@@ -40,10 +40,10 @@ jobs:
           persist-credentials: false
       - name: Generate independent ONXBUILD recipes
         run: |
-          python -m onx.cli import gzip sed coreutils findutils diffutils grep gawk which tar ncurses less nano file bash pam dosfstools pciutils ethtool traceroute man-pages openssl kbd kmod procps-ng scdoc e2fsprogs iproute2 iputils util-linux f2fs-tools acpid libxcrypt shadow tzdata iana-etc libmd dhcpcd --policy policies/base.json --gentoo gentoo --output candidate-recipes
+          python -m onx.cli import gzip sed coreutils findutils diffutils grep gawk which tar ncurses less nano file bash pam dosfstools pciutils ethtool traceroute man-pages openssl kbd kmod procps-ng scdoc e2fsprogs iproute2 iputils util-linux f2fs-tools acpid libxcrypt shadow tzdata iana-etc libmd dhcpcd libnl wireless-regdb iw --policy policies/base.json --gentoo gentoo --output candidate-recipes
           python -m onx.cli propose app-arch/gzip-1.14 --gentoo gentoo --policy policies/base.json --output draft-recipes
           python -m onx.cli lint candidate-recipes
-          python -m onx.cli plan gzip sed coreutils findutils diffutils grep gawk which tar ncurses less nano file bash pam dosfstools pciutils ethtool traceroute man-pages openssl kbd kmod procps-ng e2fsprogs iproute2 iputils util-linux f2fs-tools acpid libxcrypt shadow tzdata iana-etc libmd dhcpcd --recipes candidate-recipes
+          python -m onx.cli plan gzip sed coreutils findutils diffutils grep gawk which tar ncurses less nano file bash pam dosfstools pciutils ethtool traceroute man-pages openssl kbd kmod procps-ng e2fsprogs iproute2 iputils util-linux f2fs-tools acpid libxcrypt shadow tzdata iana-etc libmd dhcpcd libnl wireless-regdb iw --recipes candidate-recipes
       - uses: actions/upload-artifact@v4
         with:
           name: candidate-recipes
@@ -54,7 +54,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [gzip, sed, coreutils, findutils, diffutils, grep, gawk, which, tar, ncurses, less, nano, file, bash, pam, dosfstools, pciutils, ethtool, traceroute, man-pages, openssl, kbd, kmod, procps-ng, e2fsprogs, iproute2, iputils, util-linux, f2fs-tools, acpid, libxcrypt, shadow, tzdata, iana-etc, libmd, dhcpcd]
+        target: [gzip, sed, coreutils, findutils, diffutils, grep, gawk, which, tar, ncurses, less, nano, file, bash, pam, dosfstools, pciutils, ethtool, traceroute, man-pages, openssl, kbd, kmod, procps-ng, e2fsprogs, iproute2, iputils, util-linux, f2fs-tools, acpid, libxcrypt, shadow, tzdata, iana-etc, libmd, dhcpcd, libnl, wireless-regdb, iw]
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
