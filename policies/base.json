@@ -1047,15 +1047,15 @@
         ],
         "targetdeps": [
           "glibc",
-          "e2fsprogs"
+          "util-linux"
         ],
         "checkdeps": [],
         "rundeps": [
           "glibc>=2.39",
-          "e2fsprogs"
+          "util-linux"
         ]
       },
-      "review_reason": "Build the pristine upstream snapshot after generating its standard Autotools files. UUID is supplied by the independently built e2fsprogs package; optional LZ4, LZO and SELinux integrations are disabled.",
+      "review_reason": "Build the pristine upstream snapshot after generating its standard Autotools files. UUID and block-device probing are supplied by the independently built util-linux libuuid and full libblkid; optional LZ4, LZO and SELinux integrations are disabled.",
       "references": [
         "https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/"
       ]
@@ -1090,6 +1090,57 @@
       "review_reason": "Build pristine acpid and add an Onlynux-native systemd service. No Gentoo patches, OpenRC scripts, event handlers or packaging phases are imported.",
       "references": [
         "https://sourceforge.net/projects/acpid2/"
+      ]
+    },
+    "util-linux": {
+      "provider": "upstream",
+      "version": "2.42.3",
+      "license": "GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://www.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-{version}.tar.xz",
+        "filename": "util-linux-{version}.tar.xz",
+        "sha512": "2a307943d4fbb34ac02131e10ff7260f181dd706b21e68a891d25d6eb30476a612bcc19b674bb2256283c9c716146e0d79909f37324efc9aa9d45a44e0d58988"
+      },
+      "configure_args": [
+        "--sysconfdir=/etc",
+        "--localstatedir=/var",
+        "--runstatedir=/run",
+        "--disable-nls",
+        "--disable-static",
+        "--without-python",
+        "--without-systemd",
+        "--without-udev",
+        "--without-selinux",
+        "--without-audit",
+        "--without-readline",
+        "--without-ncurses",
+        "--without-tinfo",
+        "--disable-bash-completion",
+        "--disable-poman",
+        "--disable-asciidoc"
+      ],
+      "build_command": "make -j\"$jobs\"",
+      "check_command": "./blkid --version && ./lsblk --version && ./mount --version && ./uuidgen --version",
+      "package_command": "make DESTDIR=\"$pkgdir\" install",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils",
+          "pkg-config"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Build the pristine upstream util-linux release, including its canonical libblkid, libuuid, libmount, libfdisk and libsmartcols libraries. Optional host-specific integrations are disabled; systemd compatibility is preserved through standard Linux paths and interfaces without linking the bootstrap build to host systemd or udev.",
+      "references": [
+        "https://www.kernel.org/pub/linux/utils/util-linux/"
       ]
     }
   }
