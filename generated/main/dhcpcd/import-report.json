@@ -1,0 +1,71 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\"",
+    "build_system": "configure",
+    "check_command": "make test",
+    "configure_args": [],
+    "configure_command": "./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --dbdir=/var/lib/dhcpcd --rundir=/run/dhcpcd --libexecdir=/usr/lib/dhcpcd --enable-embedded --enable-ipv6 --enable-privsep --privsepuser=dhcpcd --without-udev --without-libpcap CC=gcc",
+    "cpv": "net-misc/dhcpcd-10.5.2",
+    "license": "BSD-2 AND BSD AND ISC AND MIT",
+    "package_command": "make DESTDIR=\"$pkgdir\" install && install -d \"$pkgdir/var/lib/dhcpcd\" \"$pkgdir/var/empty\" \"$pkgdir/usr/lib/systemd/system\" \"$pkgdir/usr/lib/sysusers.d\" && printf '%s\\n' '[Unit]' 'Description=DHCP client daemon' 'Wants=network.target' 'Before=network.target' '' '[Service]' 'Type=notify' 'ExecStart=/usr/sbin/dhcpcd --quiet --nobackground' '' '[Install]' 'WantedBy=multi-user.target' > \"$pkgdir/usr/lib/systemd/system/dhcpcd.service\" && printf '%s\\n' 'u dhcpcd - \"dhcpcd privilege separation\" /var/empty /usr/sbin/nologin' > \"$pkgdir/usr/lib/sysusers.d/dhcpcd.conf\"",
+    "provider": "gentoo",
+    "references": [
+      "https://github.com/NetworkConfiguration/dhcpcd",
+      "https://github.com/NetworkConfiguration/dhcpcd/blob/v10.5.2/README.md"
+    ],
+    "review_reason": "Build pristine upstream dhcpcd with privilege separation and IPv6, without OpenRC or Gentoo patches. Onlynux supplies a native systemd unit and sysusers declaration; udev integration is deferred until the systemd package provides libudev.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "libmd"
+      ],
+      "targetdeps": [
+        "glibc",
+        "libmd"
+      ]
+    },
+    "source": {
+      "filename": "dhcpcd-{version}.tar.xz",
+      "sha512": "bd131df97da668f883185c7d7bd92641678c36381f3ed0fb751709dde908ee6db871e57743c947ea50783ab1defc2d517ece9b4f2971ba6a7cba7a74f64b4e8d",
+      "url": "https://github.com/NetworkConfiguration/dhcpcd/releases/download/v{version}/dhcpcd-{version}.tar.xz"
+    },
+    "source_dir": "dhcpcd-{version}"
+  },
+  "dependency_decision": "Build pristine upstream dhcpcd with privilege separation and IPv6, without OpenRC or Gentoo patches. Onlynux supplies a native systemd unit and sysusers declaration; udev integration is deferred until the systemd package provides libudev.",
+  "evidence": {
+    "cpv": "net-misc/dhcpcd-10.5.2",
+    "ebuild_sha256": "69db5de50ad49c9e92caa0929cc5fe5fb5c1f5dee0a4538f4fc82def684b2d36",
+    "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+    "metadata": {
+      "BDEPEND": "verify-sig? ( sec-keys/openpgp-keys-roymarples ) virtual/pkgconfig verify-sig? ( || ( app-alternatives/gpg app-crypt/gnupg[-alternatives(-)] ) >=app-portage/gemato-20 )",
+      "DEFINED_PHASES": "configure install postinst unpack",
+      "DEPEND": "app-crypt/libmd udev? ( virtual/udev )",
+      "DESCRIPTION": "A fully featured, yet light weight RFC2131 compliant DHCP client",
+      "EAPI": "8",
+      "HOMEPAGE": "https://github.com/NetworkConfiguration/dhcpcd/ https://roy.marples.name/projects/dhcpcd/",
+      "IDEPEND": "",
+      "INHERITED": "toolchain-funcs systemd optfeature eapi9-pipestatus verify-sig",
+      "IUSE": "debug +embedded ipv6 privsep +udev verify-sig",
+      "KEYWORDS": "~alpha amd64 arm arm64 ~hppa ~loong ~m68k ~mips ppc ppc64 ~riscv ~s390 ~sparc x86",
+      "LICENSE": "BSD-2 BSD ISC MIT",
+      "PDEPEND": "",
+      "RDEPEND": "app-crypt/libmd udev? ( virtual/udev ) privsep? ( acct-group/dhcpcd acct-user/dhcpcd )",
+      "REQUIRED_USE": "",
+      "RESTRICT": "",
+      "SLOT": "0",
+      "SRC_URI": "https://github.com/NetworkConfiguration/dhcpcd/releases/download/v10.5.2/dhcpcd-10.5.2.tar.xz verify-sig? ( https://github.com/NetworkConfiguration/dhcpcd/releases/download/v10.5.2/dhcpcd-10.5.2.tar.xz.asc )"
+    },
+    "name": "dhcpcd",
+    "version": "10.5.2"
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

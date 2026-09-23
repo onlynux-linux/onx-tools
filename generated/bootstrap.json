@@ -1,4 +1,5 @@
 {
+  "coreutils": "Bootstrap file utilities used only while rebuilding the base; replaced by the Onlynux coreutils root target.",
   "gcc": "Bootstrap image C compiler; replace with Onlynux recipe for self hosting.",
   "make": "Bootstrap make",
   "binutils": "Bootstrap linker",
