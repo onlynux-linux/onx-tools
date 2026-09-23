@@ -1269,9 +1269,9 @@
       "source_dir": "tzdb-{version}",
       "configure_args": [],
       "configure_command": ":",
-      "build_command": "make -j\"$jobs\" CFLAGS=\"-O2 -std=gnu99 -DHAVE_GETTEXT=0 -DZIC_BLOAT_DEFAULT=\\\"fat\\\"\" REDO=posix_only TOPDIR=/usr ZICDIR=/usr/bin",
+      "build_command": "make -j\"$jobs\" CC=gcc CFLAGS=\"-O2 -std=gnu99 -DHAVE_GETTEXT=0 -DZIC_BLOAT_DEFAULT=\\\"fat\\\"\" REDO=posix_only TOPDIR= ZICDIR=/usr/bin",
       "check_command": "make check CURL=:",
-      "package_command": "make DESTDIR=\"$pkgdir\" REDO=posix_only TOPDIR=/usr ZICDIR=/usr/bin LIBDIR=/nukeit install && rm -rf \"$pkgdir/nukeit\" \"$pkgdir/etc\" && rm -f \"$pkgdir\"/usr/share/man/man5/tzfile.5* \"$pkgdir\"/usr/share/man/man8/tzselect.8* \"$pkgdir\"/usr/share/man/man8/zdump.8* \"$pkgdir\"/usr/share/man/man8/zic.8*",
+      "package_command": "make DESTDIR=\"$pkgdir\" CC=gcc REDO=posix_only TOPDIR= ZICDIR=/usr/bin LIBDIR=/nukeit install && rm -rf \"$pkgdir/nukeit\" \"$pkgdir/etc\" && rm -f \"$pkgdir\"/usr/share/man/man5/tzfile.5* \"$pkgdir\"/usr/share/man/man8/tzselect.8* \"$pkgdir\"/usr/share/man/man8/zdump.8* \"$pkgdir\"/usr/share/man/man8/zic.8*",
       "reviewed_dependencies": {
         "builddeps": [
           "gcc",
