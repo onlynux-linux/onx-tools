@@ -6,5 +6,6 @@
   "bash": "Bootstrap shell",
   "grep": "GNU grep used by gzip helper scripts",
   "g++": "Bootstrap C++ compiler needed by upstream configure checks",
-  "glibc-locales": "Bootstrap locales used only while testing locale-sensitive packages"
+  "glibc-locales": "Bootstrap locales used only while testing locale-sensitive packages",
+  "perl": "Bootstrap Perl required by the upstream OpenSSL Configure script"
 }

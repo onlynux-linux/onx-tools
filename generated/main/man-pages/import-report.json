@@ -1,0 +1,41 @@
+{
+  "adapter": {
+    "build_command": "make -R",
+    "build_system": "configure",
+    "check_command": "make -R lint-man-tbl",
+    "configure_args": [],
+    "configure_command": ":",
+    "license": "Linux-man-pages-copyleft-various",
+    "package_command": "make -R prefix=/usr DESTDIR=\"$pkgdir\" install",
+    "provider": "upstream",
+    "references": [
+      "https://www.kernel.org/doc/man-pages/"
+    ],
+    "review_reason": "Install the pristine upstream Linux man-pages collection. Gentoo-specific pages, removals and overrides are intentionally not imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "make"
+      ],
+      "checkdeps": [],
+      "rundeps": [],
+      "targetdeps": []
+    },
+    "source": {
+      "filename": "man-pages-{version}.tar.xz",
+      "sha512": "c037ddf5db3afac6e70649b7bd82f8c69e82fc0402f9cc6977b45931948d31fb38a7c836bae074f102ec646f4baf348607e4fede967e566ed79af43003857ebc",
+      "url": "https://www.kernel.org/pub/linux/docs/man-pages/man-pages-{version}.tar.xz"
+    },
+    "version": "6.17"
+  },
+  "dependency_decision": "Install the pristine upstream Linux man-pages collection. Gentoo-specific pages, removals and overrides are intentionally not imported.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://www.kernel.org/doc/man-pages/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

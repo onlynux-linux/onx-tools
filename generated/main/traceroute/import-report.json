@@ -1,0 +1,47 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\" env=yes",
+    "build_system": "configure",
+    "check_command": "make -s env=yes",
+    "configure_args": [],
+    "configure_command": ":",
+    "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+    "package_command": "make DESTDIR=\"$pkgdir\" prefix=/usr install",
+    "provider": "upstream",
+    "references": [
+      "https://traceroute.sourceforge.net/"
+    ],
+    "review_reason": "Build pristine traceroute 2.1.5 using its upstream Makefile. No Gentoo phases, patches or distribution service files are imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "traceroute-{version}.tar.gz",
+      "sha512": "4557e6091cd34edd9761ffa5c75e13d63e7ae17c9d060f18306487cd5c1e7eece8a7ef3ddc6bf40f78d1014ed38ce2411c14d839251412978b2da0915180be93",
+      "url": "https://downloads.sourceforge.net/traceroute/traceroute-{version}.tar.gz"
+    },
+    "version": "2.1.5"
+  },
+  "dependency_decision": "Build pristine traceroute 2.1.5 using its upstream Makefile. No Gentoo phases, patches or distribution service files are imported.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://traceroute.sourceforge.net/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

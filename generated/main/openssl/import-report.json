@@ -1,0 +1,48 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\"",
+    "build_system": "configure",
+    "check_command": "make test",
+    "configure_args": [],
+    "configure_command": "perl ./Configure --prefix=/usr --libdir=lib linux-x86_64",
+    "license": "Apache-2.0",
+    "package_command": "make DESTDIR=\"$pkgdir\" install_sw install_ssldirs",
+    "provider": "upstream",
+    "references": [
+      "https://www.openssl.org/source/"
+    ],
+    "review_reason": "Build pristine OpenSSL 3.5 LTS with its upstream Configure, test and install targets. No Gentoo patches or phases are copied.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "perl"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "openssl-{version}.tar.gz",
+      "sha512": "62a1dbed0fad75245b332e41b85a1f7c2379189525e7628a7cf68947d115e90a47f179e3f87d27641e5b2d357c357292179fc0e64eccecdebc81c083f7a8ebe4",
+      "url": "https://www.openssl.org/source/openssl-{version}.tar.gz"
+    },
+    "version": "3.5.8"
+  },
+  "dependency_decision": "Build pristine OpenSSL 3.5 LTS with its upstream Configure, test and install targets. No Gentoo patches or phases are copied.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://www.openssl.org/source/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
