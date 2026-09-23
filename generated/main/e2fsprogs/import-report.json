@@ -1,0 +1,61 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\"",
+    "build_system": "autotools",
+    "check_command": "make check",
+    "configure_args": [
+      "--with-root-prefix=/usr",
+      "--with-systemd-unit-dir=/usr/lib/systemd/system",
+      "--with-udev-rules-dir=/usr/lib/udev/rules.d",
+      "--enable-symlink-install",
+      "--enable-elf-shlibs",
+      "--disable-fuse2fs",
+      "--disable-nls",
+      "--disable-e2initrd-helper",
+      "--disable-fsck",
+      "--disable-uuidd",
+      "--disable-lto",
+      "--with-pthread",
+      "--enable-largefile"
+    ],
+    "license": "GPL-2.0-only AND BSD-3-Clause",
+    "package_command": "make DESTDIR=\"$pkgdir\" install install-libs",
+    "provider": "upstream",
+    "references": [
+      "https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/"
+    ],
+    "review_reason": "Build pristine e2fsprogs with its own upstream libuuid and libblkid until util-linux is independently available. Install upstream systemd units and udev rules; no Gentoo patches, OpenRC files or phases are imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "pkg-config"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39"
+      ],
+      "targetdeps": [
+        "glibc"
+      ]
+    },
+    "source": {
+      "filename": "e2fsprogs-{version}.tar.xz",
+      "sha512": "c316ce38d73786fb45b3728cd31991fe81b14a1e61dae645f3471c3f35983c4394e4606b47194c3e607897b7ae5a5ef1d376adb204383afa8c4219db8617d970",
+      "url": "https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v{version}/e2fsprogs-{version}.tar.xz"
+    },
+    "version": "1.47.4"
+  },
+  "dependency_decision": "Build pristine e2fsprogs with its own upstream libuuid and libblkid until util-linux is independently available. Install upstream systemd units and udev rules; no Gentoo patches, OpenRC files or phases are imported.",
+  "evidence": {
+    "provider": "upstream",
+    "references": [
+      "https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/"
+    ]
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}

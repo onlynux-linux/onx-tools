@@ -2,7 +2,7 @@
   "adapter": {
     "build_command": "make -j\"$jobs\"",
     "build_system": "configure",
-    "check_command": "make test",
+    "check_command": "HARNESS_JOBS=\"$jobs\" make test",
     "configure_args": [],
     "configure_command": "perl ./Configure --prefix=/usr --libdir=lib linux-x86_64",
     "license": "Apache-2.0",
