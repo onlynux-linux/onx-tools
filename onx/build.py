@@ -203,7 +203,9 @@ def inner_build(recipe, source, out, bootstrap, dependency, allow_unsigned):
         environment = {"PATH": "/usr/local/bin:/usr/bin:/bin", "HOME": str(base),
                        "LC_ALL": "C.UTF-8", "TZ": "UTC", "SOURCE_DATE_EPOCH": "0",
                        "pkgdir": str(dest), "jobs": str(os.cpu_count() or 2)}
-        script = 'set -eu\n. "$1"\nconfigure\nbuild\ncheck\npackage\n'
+        # Trace reviewed phase commands in CI so a failing adapter identifies the
+        # exact upstream or packaging command instead of only returning status 1.
+        script = 'set -eux\n. "$1"\nconfigure\nbuild\ncheck\npackage\n'
         subprocess.run(["bash", "-c", script, "onx", str(Path(recipe).resolve())],
                        cwd=src, env=environment, user=65534, group=65534, extra_groups=[], check=True)
         # install-info owns this generated cross-package index. Shipping one copy
