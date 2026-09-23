@@ -1151,6 +1151,99 @@
       "references": [
         "https://www.kernel.org/pub/linux/utils/util-linux/"
       ]
+    },
+    "libxcrypt": {
+      "provider": "upstream",
+      "version": "4.5.2",
+      "license": "LGPL-2.1-or-later AND BSD-2-Clause AND BSD-3-Clause",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://distfiles.gentoo.org/pub/proj/toolchain/libxcrypt/libxcrypt-{version}-autotools.tar.xz",
+        "filename": "libxcrypt-{version}-autotools.tar.xz",
+        "sha512": "8de4a3be418abe61676634518fceaec4a08235f7736124959a727c57ae001c0a246c63277d78cabe4826ed0a42990b1315565691daf2abf377546e7e3c16b596"
+      },
+      "source_dir": "libxcrypt-{version}",
+      "configure_args": [
+        "--disable-werror",
+        "--disable-static"
+      ],
+      "build_command": "make -j\"$jobs\"",
+      "check_command": "make check",
+      "package_command": "make DESTDIR=\"$pkgdir\" install",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils",
+          "perl"
+        ],
+        "targetdeps": [
+          "glibc"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39"
+        ]
+      },
+      "review_reason": "Independent runtime dependency for shadow, built with the pristine upstream Autotools flow from Gentoo pinned source material. No Gentoo phases or patches are imported; obsolete compatibility APIs are left at upstream defaults until Onlynux glibc is rebuilt without its legacy crypt implementation.",
+      "references": [
+        "https://github.com/besser82/libxcrypt"
+      ]
+    },
+    "shadow": {
+      "provider": "upstream",
+      "version": "4.20.2",
+      "license": "BSD-3-Clause AND GPL-2.0-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://github.com/shadow-maint/shadow/releases/download/{version}/shadow-{version}.tar.xz",
+        "filename": "shadow-{version}.tar.xz",
+        "sha512": "f17a3764b9b8d77906c88ee4d6057913cb7072ee3fe654f62cc80702528c022c806f43906118a9205f0344e2f36848f270dd1103366ce477f9454682a779e7e1"
+      },
+      "configure_args": [
+        "--disable-static",
+        "--disable-nls",
+        "--without-libbsd",
+        "--without-group-name-max-length",
+        "--without-tcb",
+        "--with-bcrypt",
+        "--with-yescrypt",
+        "--without-acl",
+        "--without-audit",
+        "--without-btrfs",
+        "--without-nscd",
+        "--with-libpam",
+        "--without-selinux",
+        "--without-skey",
+        "--without-su",
+        "--disable-logind"
+      ],
+      "build_command": "make -j\"$jobs\"",
+      "check_command": "make check",
+      "package_command": "make DESTDIR=\"$pkgdir\" install",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "gcc",
+          "make",
+          "binutils",
+          "pkg-config"
+        ],
+        "targetdeps": [
+          "glibc",
+          "libxcrypt",
+          "pam"
+        ],
+        "checkdeps": [],
+        "rundeps": [
+          "glibc>=2.39",
+          "libxcrypt",
+          "pam"
+        ]
+      },
+      "review_reason": "Build pristine shadow account-management utilities against Onlynux PAM and the independently packaged libxcrypt. su remains owned by util-linux, while audit, SELinux, ACL and logind integrations await their independently packaged providers. No Gentoo phases, patches or OpenRC files are imported.",
+      "references": [
+        "https://github.com/shadow-maint/shadow"
+      ]
     }
   }
 }
