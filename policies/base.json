@@ -1291,6 +1291,38 @@
       "references": [
         "https://www.iana.org/time-zones"
       ]
+    },
+    "iana-etc": {
+      "provider": "upstream",
+      "version": "20260911",
+      "license": "LicenseRef-Public-Domain",
+      "build_system": "configure",
+      "source": {
+        "url": "https://github.com/Mic92/iana-etc/releases/download/{version}/iana-etc-{version}.tar.gz",
+        "filename": "iana-etc-{version}.tar.gz",
+        "sha512": "fcf9cf471d67215785abfd7549a5a4120fa66a980bb7b0ef4c5feb9d8a7b3c10661aee2879f656c5c4b70ba7555c7be3d2939352471a53ce8d531cdda6456b3c"
+      },
+      "source_dir": ".",
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "test -s services && test -s protocols",
+      "check_command": "grep -Eq \"^http[[:space:]]\" services && grep -Eq \"^tcp[[:space:]]\" protocols",
+      "package_command": "install -Dm644 services \"$pkgdir/etc/services\" && install -Dm644 protocols \"$pkgdir/etc/protocols\"",
+      "reviewed_dependencies": {
+        "builddeps": [
+          "coreutils",
+          "grep"
+        ],
+        "targetdeps": [],
+        "checkdeps": [],
+        "rundeps": []
+      },
+      "review_reason": "Install the generated IANA services and protocols registries from the project release artifact. The release is derived directly from pinned IANA XML; no Gentoo phases, distribution additions or network access during build are used.",
+      "references": [
+        "https://www.iana.org/assignments/protocol-numbers/",
+        "https://www.iana.org/assignments/service-names-port-numbers/",
+        "https://github.com/Mic92/iana-etc"
+      ]
     }
   }
 }
