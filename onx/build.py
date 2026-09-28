@@ -124,7 +124,7 @@ def build(root, targets, work, image, allow_unsigned=False):
         if required_packages and not allow_unsigned:
             raise ValueError("development dependency packages are unsigned; pass --allow-unsigned explicitly")
         args = ["docker", "run", "--rm", "--network=none", "--cap-drop=ALL",
-                "--cap-add=CHOWN", "--cap-add=SETUID", "--cap-add=SETGID", "--cap-add=DAC_OVERRIDE",
+                "--cap-add=CHOWN", "--cap-add=SETUID", "--cap-add=SETGID", "--cap-add=FSETID", "--cap-add=DAC_OVERRIDE",
                 "--security-opt=no-new-privileges",
                 "--mount", "type=bind,src=" + str(root) + ",dst=/recipes,readonly",
                 "--mount", "type=bind,src=" + str(work) + ",dst=/work",
