@@ -53,7 +53,8 @@ def validate(meta):
         if not isinstance(paths, list) or len(paths) != len(set(paths)):
             raise ValueError("invalid " + key)
         for path in paths:
-            if not isinstance(path, str) or not re.fullmatch(privileged_path, path):
+            if (not isinstance(path, str) or not re.fullmatch(privileged_path, path)
+                    or any(part in (".", "..") for part in path.split("/"))):
                 raise ValueError("invalid privileged path: " + str(path))
     if set(meta.get("setuid_paths", [])) & set(meta.get("setgid_paths", [])):
         raise ValueError("privileged path cannot be both setuid and setgid")
