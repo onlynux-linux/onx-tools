@@ -1486,6 +1486,31 @@
       "review_reason": "Build pristine OpenSSH portable with PAM, OpenSSL and system zlib, run the upstream non-root-compatible regression and unit-test subset, and install no host keys into the image. Onlynux supplies a native systemd service, sysusers identity and tmpfiles runtime directory; no Gentoo patches or OpenRC files are imported.",
       "references": ["https://www.openssh.com/portable.html", "https://github.com/openssh/openssh-portable"]
     },
+    "ca-certificates": {
+      "provider": "gentoo",
+      "cpv": "app-misc/ca-certificates-20260601.3.112.5",
+      "license": "MPL-1.1",
+      "build_system": "configure",
+      "source": {
+        "url": "https://deb.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20260601.tar.xz",
+        "filename": "ca-certificates_20260601.tar.xz",
+        "sha512": "31db2dd39a958f4411c64d5c8bd27710a9e95df7c2eb3438cf4384f031132b55e5d6e6739f69b9bcb52071b8d6239b4e379917766b4216ba8ffd507d8da7379f"
+      },
+      "source_dir": "ca-certificates-20260601",
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "make -C mozilla",
+      "check_command": "test \"$(find mozilla -maxdepth 1 -name '*.crt' -type f | wc -l)\" -gt 100 && test -x sbin/update-ca-certificates",
+      "package_command": "install -Dm755 sbin/update-ca-certificates \"$pkgdir/usr/sbin/update-ca-certificates\" && install -d \"$pkgdir/usr/share/ca-certificates/mozilla\" \"$pkgdir/etc/ssl/certs\" \"$pkgdir/etc/ca-certificates/update.d\" \"$pkgdir/usr/local/share/ca-certificates\" && install -m644 mozilla/*.crt \"$pkgdir/usr/share/ca-certificates/mozilla/\" && (cd \"$pkgdir/usr/share/ca-certificates\" && find mozilla -name '*.crt' -type f | LC_ALL=C sort) > \"$pkgdir/etc/ca-certificates.conf\" && sh \"$pkgdir/usr/sbin/update-ca-certificates\" --sysroot \"$pkgdir\" && install -Dm644 sbin/update-ca-certificates.8 \"$pkgdir/usr/share/man/man8/update-ca-certificates.8\"",
+      "reviewed_dependencies": {
+        "builddeps": ["make", "coreutils", "findutils"],
+        "targetdeps": ["openssl"],
+        "checkdeps": [],
+        "rundeps": ["bash", "coreutils", "findutils", "grep", "sed", "openssl"]
+      },
+      "review_reason": "Use the pristine Debian tooling and Mozilla trust data snapshot pinned by Gentoo, generate the certificate set with the upstream Makefile, and build the OpenSSL hash directory inside DESTDIR. No Gentoo patches, phases or certificate-policy additions are imported.",
+      "references": ["https://packages.debian.org/sid/ca-certificates", "https://wiki.mozilla.org/CA"]
+    },
     "iana-etc": {
       "provider": "upstream",
       "version": "20260911",
