@@ -1461,6 +1461,30 @@
       "review_reason": "Build pristine upstream sudo with PAM, OpenSSL and system zlib. LDAP, SSSD, SELinux and legacy authentication plugins are disabled until their independent Onlynux stacks exist. Onlynux provides minimal PAM include files and explicitly restores and verifies the root-owned setuid mode after unprivileged staging; no Gentoo phases or patches are imported.",
       "references": ["https://www.sudo.ws/", "https://github.com/sudo-project/sudo"]
     },
+    "openssh": {
+      "provider": "gentoo",
+      "cpv": "net-misc/openssh-10.5_p1",
+      "license": "BSD AND GPL-2.0-only",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz",
+        "filename": "openssh-10.5p1.tar.gz",
+        "sha512": "5336c1945527b29ed59cc500fa8bfbd918f5ba97e85512daad9ab7241418929bf7152d300e5f3c5f9a8c8d699dfde5a64c5faa4fc33b2758ab52dd04040d6284"
+      },
+      "source_dir": "openssh-10.5p1",
+      "configure_args": ["--sysconfdir=/etc/ssh", "--libexecdir=/usr/lib/openssh", "--datadir=/usr/share/openssh", "--with-pid-dir=/run", "--with-privsep-path=/var/empty", "--with-privsep-user=sshd", "--with-pam", "--with-openssl", "--with-ssl-engine", "--with-zlib=/usr", "--without-kerberos5", "--without-selinux", "--without-libedit", "--without-ldns", "--without-wtmpdb", "--disable-strip"],
+      "build_command": "make -j\"$jobs\"",
+      "check_command": "SUDO= SSH_SK_PROVIDER= TEST_SSH_UNSAFE_PERMISSIONS=1 make -j1 compat-tests interop-tests file-tests unit </dev/null",
+      "package_command": "make DESTDIR=\"$pkgdir\" install-nokeys && install -Dm755 contrib/ssh-copy-id \"$pkgdir/usr/bin/ssh-copy-id\" && install -Dm644 contrib/ssh-copy-id.1 \"$pkgdir/usr/share/man/man1/ssh-copy-id.1\" && install -Dm644 /dev/null \"$pkgdir/etc/pam.d/sshd\" && printf '%s\\n' 'auth include system-auth' 'account include system-auth' 'session include system-auth' > \"$pkgdir/etc/pam.d/sshd\" && install -d \"$pkgdir/usr/lib/systemd/system\" \"$pkgdir/usr/lib/sysusers.d\" \"$pkgdir/usr/lib/tmpfiles.d\" \"$pkgdir/var/empty\" && printf '%s\\n' '[Unit]' 'Description=OpenSSH server daemon' 'After=network.target' '' '[Service]' 'Type=simple' 'ExecStartPre=/usr/bin/ssh-keygen -A' 'ExecStart=/usr/sbin/sshd -D' 'ExecReload=/bin/kill -HUP $MAINPID' 'KillMode=process' 'Restart=on-failure' '' '[Install]' 'WantedBy=multi-user.target' > \"$pkgdir/usr/lib/systemd/system/sshd.service\" && printf '%s\\n' 'u sshd - \"OpenSSH privilege separation\" /var/empty /usr/sbin/nologin' > \"$pkgdir/usr/lib/sysusers.d/openssh.conf\" && printf '%s\\n' 'd /run/sshd 0755 root root -' > \"$pkgdir/usr/lib/tmpfiles.d/openssh.conf\"",
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "make", "binutils", "pkg-config", "autoconf"],
+        "targetdeps": ["glibc", "libxcrypt", "pam", "openssl", "zlib"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39", "libxcrypt", "pam", "openssl", "zlib", "shadow"]
+      },
+      "review_reason": "Build pristine OpenSSH portable with PAM, OpenSSL and system zlib, run the upstream non-root-compatible regression and unit-test subset, and install no host keys into the image. Onlynux supplies a native systemd service, sysusers identity and tmpfiles runtime directory; no Gentoo patches or OpenRC files are imported.",
+      "references": ["https://www.openssh.com/portable.html", "https://github.com/openssh/openssh-portable"]
+    },
     "iana-etc": {
       "provider": "upstream",
       "version": "20260911",
