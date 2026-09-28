@@ -52,6 +52,14 @@ class Recipes(unittest.TestCase):
     def test_path_rejected(self):
         m=recipe(); m["name"]="../bad"
         with self.assertRaises(ValueError): render(m)
+    def test_privileged_paths_are_strict(self):
+        m=recipe(); m["setuid_paths"]=["/usr/bin/sudo"]
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/"ONXBUILD"; p.write_text(render(m))
+            self.assertEqual(read(p)["setuid_paths"],["/usr/bin/sudo"])
+        for bad in (["usr/bin/sudo"],["/usr/../bin/sudo"],["/usr/bin/sudo","/usr/bin/sudo"]):
+            m=recipe(); m["setuid_paths"]=bad
+            with self.assertRaises(ValueError): render(m)
     def test_flat_source_is_explicit_and_type_checked(self):
         with tempfile.TemporaryDirectory() as d:
             m=recipe(); m["flat_source"]=True

@@ -5,6 +5,7 @@ import os
 import platform
 import re
 import shlex
+import stat
 import subprocess
 import tarfile
 import tempfile
@@ -227,6 +228,12 @@ def inner_build(recipe, source, out, bootstrap, dependency, allow_unsigned):
         # Keep payload owned by root regardless of the unprivileged build user.
         for p in [dest, *dest.rglob("*")]:
             os.chown(p, 0, 0, follow_symlinks=False)
+        for key, bit in (("setuid_paths", stat.S_ISUID), ("setgid_paths", stat.S_ISGID)):
+            for declared in meta.get(key, []):
+                privileged = dest / declared.removeprefix("/")
+                if privileged.is_symlink() or not privileged.is_file():
+                    raise ValueError("privileged path is not a regular payload file: " + declared)
+                privileged.chmod(privileged.stat().st_mode | bit)
         args = ["tatami", "mkpkg", "--files", str(dest), "--output", str(artifact)]
         info = {"name": meta["name"], "version": f'{meta["version"]}-r{meta["release"]}',
                 "arch": meta["arch"], "description": meta["description"], "license": meta["license"],
@@ -240,6 +247,12 @@ def inner_build(recipe, source, out, bootstrap, dependency, allow_unsigned):
             artifact_sha512 = hashlib.file_digest(stream, "sha512").hexdigest()
         with tempfile.TemporaryDirectory(prefix="onx-extract-check-") as extract_dir:
             subprocess.run(["tatami", "--allow-untrusted", "extract", "--destination", extract_dir, str(artifact)], check=True)
+            extracted = Path(extract_dir)
+            for key, bit in (("setuid_paths", stat.S_ISUID), ("setgid_paths", stat.S_ISGID)):
+                for declared in meta.get(key, []):
+                    mode = (extracted / declared.removeprefix("/")).stat().st_mode
+                    if not mode & bit:
+                        raise ValueError("packaged privileged mode was not preserved: " + declared)
         artifact.with_suffix(".build.json").write_text(json.dumps(
             {"package": meta, "tests": "passed", "artifact_sha512": artifact_sha512, "elf": elf, "bootstrap_versions": installed,
              "scope": "bootstrap-image build; not a self-hosted Onlynux build",

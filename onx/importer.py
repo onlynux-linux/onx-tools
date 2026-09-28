@@ -83,6 +83,9 @@ def import_packages(policy_path, names, output, gentoo=None):
         for command_key in ("configure_command", "build_command", "check_command", "package_command"):
             if command_key in adapter:
                 meta[command_key] = adapter[command_key]
+        for mode_key in ("setuid_paths", "setgid_paths"):
+            if mode_key in adapter:
+                meta[mode_key] = adapter[mode_key]
         validate(meta)
         for key in ("builddeps", "targetdeps", "checkdeps", "rundeps"):
             for dep in meta[key]:

@@ -47,6 +47,16 @@ def validate(meta):
         raise ValueError("missing pinned source SHA512")
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._+-]*', meta["source_dir"]):
         raise ValueError("invalid source directory")
+    privileged_path = r'/(?:[A-Za-z0-9+_.-]+/)*[A-Za-z0-9+_.-]+'
+    for key in ("setuid_paths", "setgid_paths"):
+        paths = meta.get(key, [])
+        if not isinstance(paths, list) or len(paths) != len(set(paths)):
+            raise ValueError("invalid " + key)
+        for path in paths:
+            if not isinstance(path, str) or not re.fullmatch(privileged_path, path):
+                raise ValueError("invalid privileged path: " + str(path))
+    if set(meta.get("setuid_paths", [])) & set(meta.get("setgid_paths", [])):
+        raise ValueError("privileged path cannot be both setuid and setgid")
     if not isinstance(meta.get("flat_source", False), bool):
         raise ValueError("invalid flat source flag")
     if meta.get("status") not in ("reviewed", "draft"):
