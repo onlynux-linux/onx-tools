@@ -1496,7 +1496,7 @@
         "filename": "ca-certificates_20260601.tar.xz",
         "sha512": "31db2dd39a958f4411c64d5c8bd27710a9e95df7c2eb3438cf4384f031132b55e5d6e6739f69b9bcb52071b8d6239b4e379917766b4216ba8ffd507d8da7379f"
       },
-      "source_dir": "ca-certificates-20260601",
+      "source_dir": "ca-certificates",
       "configure_args": [],
       "configure_command": ":",
       "build_command": "make -C mozilla",
