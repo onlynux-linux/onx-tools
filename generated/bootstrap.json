@@ -17,5 +17,6 @@
   "autoconf": "Bootstrap GNU Autoconf for upstream snapshots without generated configure",
   "automake": "Bootstrap GNU Automake for upstream snapshots without generated Makefiles",
   "libtool": "Bootstrap GNU Libtool for upstream autoreconf",
-  "lzip": "Bootstrap lzip decompressor required only to unpack pristine IANA tzdb source archives"
+  "lzip": "Bootstrap lzip decompressor required only to unpack pristine IANA tzdb source archives",
+  "python3-cryptography": "Bootstrap Python X.509 parser required only to convert Mozilla certdata into PEM certificates"
 }
