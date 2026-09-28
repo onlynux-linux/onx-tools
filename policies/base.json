@@ -22,7 +22,8 @@
     "autoconf": "Bootstrap GNU Autoconf for upstream snapshots without generated configure",
     "automake": "Bootstrap GNU Automake for upstream snapshots without generated Makefiles",
     "libtool": "Bootstrap GNU Libtool for upstream autoreconf",
-    "lzip": "Bootstrap lzip decompressor required only to unpack pristine IANA tzdb source archives"
+    "lzip": "Bootstrap lzip decompressor required only to unpack pristine IANA tzdb source archives",
+    "python3-cryptography": "Bootstrap Python X.509 parser required only to convert Mozilla certdata into PEM certificates"
   },
   "providers": {
     "sys-libs/glibc": "glibc",
@@ -1503,7 +1504,7 @@
       "check_command": "test \"$(find mozilla -maxdepth 1 -name '*.crt' -type f | wc -l)\" -gt 100 && test -x sbin/update-ca-certificates",
       "package_command": "install -Dm755 sbin/update-ca-certificates \"$pkgdir/usr/sbin/update-ca-certificates\" && install -d \"$pkgdir/usr/share/ca-certificates/mozilla\" \"$pkgdir/etc/ssl/certs\" \"$pkgdir/etc/ca-certificates/update.d\" \"$pkgdir/usr/local/share/ca-certificates\" && install -m644 mozilla/*.crt \"$pkgdir/usr/share/ca-certificates/mozilla/\" && (cd \"$pkgdir/usr/share/ca-certificates\" && find mozilla -name '*.crt' -type f | LC_ALL=C sort) > \"$pkgdir/etc/ca-certificates.conf\" && sh \"$pkgdir/usr/sbin/update-ca-certificates\" --sysroot \"$pkgdir\" && install -Dm644 sbin/update-ca-certificates.8 \"$pkgdir/usr/share/man/man8/update-ca-certificates.8\"",
       "reviewed_dependencies": {
-        "builddeps": ["make", "coreutils", "findutils"],
+        "builddeps": ["make", "coreutils", "findutils", "python3-cryptography"],
         "targetdeps": ["openssl"],
         "checkdeps": [],
         "rundeps": ["bash", "coreutils", "findutils", "grep", "sed", "openssl"]

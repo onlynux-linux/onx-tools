@@ -11,7 +11,8 @@ commands={"gcc":["gcc","-dumpfullversion"],"g++":["g++","-dumpfullversion"],"mak
           "meson":["meson","--version"],"ninja":["ninja","--version"],"pkg-config":["pkg-config","--version"],
           "bison":["bison","--version"],"flex":["flex","--version"],
           "autoconf":["autoconf","--version"],"automake":["automake","--version"],"libtool":["libtoolize","--version"],
-          "lzip":["lzip","--version"]}
+          "lzip":["lzip","--version"],
+          "python3-cryptography":["python3","-c","import cryptography; print(cryptography.__version__)"]}
 versions={}
 for name,command in commands.items():
     line=subprocess.check_output(command,text=True).splitlines()[0]
