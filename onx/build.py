@@ -124,7 +124,7 @@ def build(root, targets, work, image, allow_unsigned=False):
         if required_packages and not allow_unsigned:
             raise ValueError("development dependency packages are unsigned; pass --allow-unsigned explicitly")
         args = ["docker", "run", "--rm", "--network=none", "--cap-drop=ALL",
-                "--cap-add=CHOWN", "--cap-add=SETUID", "--cap-add=SETGID", "--cap-add=FSETID", "--cap-add=DAC_OVERRIDE",
+                "--cap-add=CHOWN", "--cap-add=SETUID", "--cap-add=SETGID", "--cap-add=FOWNER", "--cap-add=FSETID", "--cap-add=DAC_OVERRIDE",
                 "--security-opt=no-new-privileges",
                 "--mount", "type=bind,src=" + str(root) + ",dst=/recipes,readonly",
                 "--mount", "type=bind,src=" + str(work) + ",dst=/work",
@@ -227,6 +227,10 @@ def inner_build(recipe, source, out, bootstrap, dependency, allow_unsigned):
                             "needed": re.findall(r'\(NEEDED\).*?\[(.*?)\]', dynamic)})
         # Keep payload owned by root regardless of the unprivileged build user.
         for p in [dest, *dest.rglob("*")]:
+            # Never inherit an undeclared set-ID bit from an upstream installer.
+            # Explicit reviewed paths are restored only after ownership normalization.
+            if p.is_file() and not p.is_symlink():
+                p.chmod(p.stat().st_mode & ~(stat.S_ISUID | stat.S_ISGID))
             os.chown(p, 0, 0, follow_symlinks=False)
         for key, bit in (("setuid_paths", stat.S_ISUID), ("setgid_paths", stat.S_ISGID)):
             for declared in meta.get(key, []):
