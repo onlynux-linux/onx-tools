@@ -27,6 +27,7 @@
     "python3-cryptography": "Bootstrap Python X.509 parser required only to convert Mozilla certdata into PEM certificates"
     ,"gperf": "Bootstrap perfect-hash generator required by the upstream systemd build"
     ,"python3-jinja2": "Bootstrap template renderer required to generate systemd build sources"
+    ,"python3-pefile": "Bootstrap PE/COFF parser required by the upstream systemd hardware-ID test generator"
   },
   "providers": {
     "sys-libs/glibc": "glibc",
@@ -1623,7 +1624,7 @@
       "check_command": "LD_LIBRARY_PATH=/usr/lib ./_build/systemd --version | grep -F 'systemd 261' && LD_LIBRARY_PATH=/usr/lib ./_build/systemctl --version | grep -F 'systemd 261' && LD_LIBRARY_PATH=/usr/lib ./_build/udevadm --version | grep -Fx '261' && meson test -C _build --list | grep -q .",
       "package_command": "DESTDIR=\"$pkgdir\" meson install -C _build && install -d \"$pkgdir/usr/sbin\" \"$pkgdir/var/lib/systemd\" \"$pkgdir/etc/systemd/system\" && ln -s ../lib/systemd/systemd \"$pkgdir/usr/sbin/init\" && rm -f \"$pkgdir/etc/machine-id\" && install -Dm644 /dev/null \"$pkgdir/etc/machine-id\"",
       "reviewed_dependencies": {
-        "builddeps": ["gcc", "g++", "make", "binutils", "meson", "ninja", "pkg-config", "gperf", "python3-jinja2"],
+        "builddeps": ["gcc", "g++", "make", "binutils", "meson", "ninja", "pkg-config", "gperf", "python3-jinja2", "python3-pefile"],
         "targetdeps": ["glibc", "libxcrypt", "util-linux", "kmod", "pam", "openssl", "zlib"],
         "checkdeps": [],
         "rundeps": ["glibc>=2.39", "libxcrypt", "util-linux", "kmod", "pam", "openssl", "zlib", "dbus", "shadow"]
