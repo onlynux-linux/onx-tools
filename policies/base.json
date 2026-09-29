@@ -1490,13 +1490,13 @@
     },
     "expat": {
       "provider": "gentoo",
-      "cpv": "dev-libs/expat-2.8.5",
+      "cpv": "dev-libs/expat-2.8.4",
       "license": "MIT",
       "build_system": "cmake",
       "source": {
-        "url": "https://github.com/libexpat/libexpat/releases/download/R_2_8_5/expat-2.8.5.tar.xz",
-        "filename": "expat-2.8.5.tar.xz",
-        "sha512": "ad3d4198a70682c7c8b2149cb7c743585cc9470ea2e4bd81ec7c0aff9545d9010b51df5cfcd0714335c7ef1578537cbd2a5580f649246b4ea78ee5e3466808a3"
+        "url": "https://github.com/libexpat/libexpat/releases/download/R_2_8_4/expat-2.8.4.tar.xz",
+        "filename": "expat-2.8.4.tar.xz",
+        "sha512": "00a34340b4fdc3baee6dbd83df3e41710ebffb38dc23664406be187a73f1e948451568fea07b6f33532b6b6244650808ce157255bcf6216d98267535cc97f3cd"
       },
       "configure_args": ["-DBUILD_SHARED_LIBS=ON", "-DEXPAT_BUILD_DOCS=OFF", "-DEXPAT_BUILD_TESTS=ON", "-DEXPAT_BUILD_TOOLS=ON", "-DEXPAT_BUILD_EXAMPLES=OFF", "-DEXPAT_BUILD_FUZZERS=OFF"],
       "reviewed_dependencies": {
