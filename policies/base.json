@@ -1632,6 +1632,53 @@
       "review_reason": "Build pristine upstream systemd as the Onlynux init, service manager, journal, udev, logind, networkd, resolved, timesyncd, tmpfiles and sysusers stack. Enable integrations already present in the verified base and disable optional policy/security, container/image and compression stacks whose independent dependencies are not yet in base. Preserve native upstream units and /usr-merged paths; import no Gentoo patches, branding, phases, OpenRC compatibility or integration package.",
       "references": ["https://systemd.io/", "https://github.com/systemd/systemd/blob/v261.3/README"]
     },
+    "libusb": {
+      "provider": "gentoo",
+      "cpv": "dev-libs/libusb-1.0.30",
+      "license": "LGPL-2.1-or-later",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://github.com/libusb/libusb/releases/download/v1.0.30/libusb-1.0.30.tar.bz2",
+        "filename": "libusb-1.0.30.tar.bz2",
+        "sha512": "b14241bc499cdf353bb7fe02cea9a754b011f40ef0d0376ff8921f129f888b514d481e54c6aa380be04f655e027aaf4d6d9eba142b15758dea2e32f64af7b0c2"
+      },
+      "source_dir": "libusb-1.0.30",
+      "configure_args": ["--libdir=/usr/lib", "--enable-shared", "--disable-static", "--enable-udev", "--disable-debug-log", "--disable-tests-build"],
+      "check_command": "make check && test -s libusb/.libs/libusb-1.0.so",
+      "package_command": "make DESTDIR=\"$pkgdir\" install && find \"$pkgdir\" -name '*.la' -delete",
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "make", "binutils", "pkg-config"],
+        "targetdeps": ["glibc", "systemd"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39", "systemd"]
+      },
+      "review_reason": "Build the pristine shared libusb library with native systemd/libudev device discovery. Static archives, debug logging, hardware-dependent test binaries and Gentoo patches/phases are not imported; the upstream make check target remains enabled for the configured library.",
+      "references": ["https://libusb.info/", "https://github.com/libusb/libusb"]
+    },
+    "usbutils": {
+      "provider": "gentoo",
+      "cpv": "sys-apps/usbutils-019",
+      "license": "GPL-2.0-or-later",
+      "build_system": "meson",
+      "source": {
+        "url": "https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-019.tar.xz",
+        "filename": "usbutils-019.tar.xz",
+        "sha512": "fb4acc570c2b71f90c51c2717dc80e844727c8fcfebb5d92c57145eb9d09cbd1f63cf405e07db76c3afaaf3fac87b90f3f512d0a7c4d50cb9e6f26438eca9390"
+      },
+      "source_dir": "usbutils-019",
+      "configure_args": ["--libdir=lib", "--bindir=/usr/bin", "--sbindir=/usr/sbin", "-Dbuildtype=release"],
+      "configure_command": "export LD_LIBRARY_PATH=/usr/lib; export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/share/pkgconfig; meson setup _build --prefix=/usr --libdir=lib --bindir=/usr/bin --sbindir=/usr/sbin -Dbuildtype=release",
+      "check_command": "LD_LIBRARY_PATH=/usr/lib ./_build/lsusb --version | grep -F '019' && LD_LIBRARY_PATH=/usr/lib ./_build/usbhid-dump --help >/dev/null",
+      "package_command": "DESTDIR=\"$pkgdir\" meson install -C _build && rm -f \"$pkgdir/usr/bin/lsusb.py\" \"$pkgdir/usr/share/man/man1/lsusb.py.1\"",
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "meson", "ninja", "pkg-config"],
+        "targetdeps": ["glibc", "libusb", "systemd"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39", "libusb", "systemd"]
+      },
+      "review_reason": "Build pristine upstream lsusb and usbhid-dump against Onlynux libusb and systemd's native libudev. Keep the safe C utilities and usb-devices script; omit the optional Python frontend and deliberately unsafe usbreset executable, exactly as upstream leaves usbreset uninstalled. No Gentoo phases or patches are imported.",
+      "references": ["https://www.kernel.org/pub/linux/utils/usb/usbutils/", "https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usbutils.git/"]
+    },
     "ca-certificates": {
       "provider": "gentoo",
       "cpv": "app-misc/ca-certificates-20260601.3.112.5",
