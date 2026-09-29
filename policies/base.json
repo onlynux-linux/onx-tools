@@ -1578,6 +1578,31 @@
       "review_reason": "Build the pristine upstream Btrfs utilities and shared library with the built-in checksum implementation. Optional conversion, Python, documentation, LZO, Zstd and libudev integration stay disabled until those independent stacks are part of the verified base; no Gentoo phases, patches, OpenRC files or distribution branding are imported.",
       "references": ["https://btrfs.readthedocs.io/en/latest/", "https://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git/"]
     },
+    "linux-firmware": {
+      "provider": "gentoo",
+      "cpv": "sys-kernel/linux-firmware-20260916",
+      "license": "LicenseRef-Linux-Firmware-Collection",
+      "build_system": "configure",
+      "source": {
+        "url": "https://mirrors.edge.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260916.tar.xz",
+        "filename": "linux-firmware-20260916.tar.xz",
+        "sha512": "3deda43f570b8cf8e1a81a0e209fd3b261fb43dcb8cd9a8183b49ae719402d68f47c66659e20feb79be8d20f5815c858e7010f435b544b07c59ee78526d86149"
+      },
+      "source_dir": "linux-firmware-20260916",
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "test -x copy-firmware.sh && test -s WHENCE",
+      "check_command": "grep -q '^File:' WHENCE && find . -type f | grep -q .",
+      "package_command": "./copy-firmware.sh -v -j1 \"$pkgdir/usr/lib/firmware\" && install -Dm644 README.md \"$pkgdir/usr/share/doc/linux-firmware/README.md\" && install -Dm644 WHENCE \"$pkgdir/usr/share/doc/linux-firmware/WHENCE\" && cp -a LICENSES \"$pkgdir/usr/share/doc/linux-firmware/\" && find \"$pkgdir/usr/lib/firmware\" -xtype l -delete && test -n \"$(find \"$pkgdir/usr/lib/firmware\" -type f -print -quit)\"",
+      "reviewed_dependencies": {
+        "builddeps": ["coreutils", "findutils", "grep"],
+        "targetdeps": [],
+        "checkdeps": [],
+        "rundeps": []
+      },
+      "review_reason": "Install the complete pristine upstream firmware snapshot into the usr-merged /usr/lib/firmware hierarchy using upstream copy-firmware.sh. Preserve WHENCE and the full per-file license collection, remove only broken symlinks, and perform no compression, deduplication, initramfs mutation, Gentoo patching or package-manager hooks.",
+      "references": ["https://gitlab.com/kernel-firmware/linux-firmware", "https://www.kernel.org/doc/html/latest/driver-api/firmware/fw_search_path.html"]
+    },
     "ca-certificates": {
       "provider": "gentoo",
       "cpv": "app-misc/ca-certificates-20260601.3.112.5",
