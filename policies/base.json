@@ -1679,6 +1679,31 @@
       "review_reason": "Build pristine upstream lsusb and usbhid-dump against Onlynux libusb and systemd's native libudev. Keep the safe C utilities and usb-devices script; omit the optional Python frontend and deliberately unsafe usbreset executable, exactly as upstream leaves usbreset uninstalled. No Gentoo phases or patches are imported.",
       "references": ["https://www.kernel.org/pub/linux/utils/usb/usbutils/", "https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usbutils.git/"]
     },
+    "onlynux-filesystem": {
+      "provider": "gentoo",
+      "cpv": "sys-apps/baselayout-2.18-r1",
+      "license": "GPL-2.0-only",
+      "build_system": "configure",
+      "source": {
+        "url": "https://gitweb.gentoo.org/proj/baselayout.git/snapshot/baselayout-2.18.tar.bz2",
+        "filename": "baselayout-2.18.tar.bz2",
+        "sha512": "9c3f9a6c5721d0f52ec7f68055c8739ff62e1456b415b38d42c1ce905574d82cc06faf5a63478a93f027200f6850b7b9ca134610c86b6661577dd56bf71cffb8"
+      },
+      "source_dir": "baselayout-2.18",
+      "configure_args": [],
+      "configure_command": ":",
+      "build_command": "make -n layout-usrmerge >/dev/null",
+      "check_command": "grep -q '^layout-usrmerge:' Makefile && grep -q '/var/lock' Makefile",
+      "package_command": "make DESTDIR=\"$pkgdir\" layout-usrmerge; rm -f \"$pkgdir/usr/sbin\"; install -d \"$pkgdir/usr/sbin\" \"$pkgdir/usr/lib\" \"$pkgdir/usr/include\" \"$pkgdir/usr/share/man\" \"$pkgdir/usr/share/misc\" \"$pkgdir/usr/local/lib\" \"$pkgdir/usr/local/share\" \"$pkgdir/usr/lib/firmware\" \"$pkgdir/usr/lib/modules\" \"$pkgdir/usr/lib/systemd/system\" \"$pkgdir/usr/lib/sysusers.d\" \"$pkgdir/usr/lib/tmpfiles.d\" \"$pkgdir/etc\" \"$pkgdir/etc/opt\" \"$pkgdir/srv\"; ln -s usr/lib \"$pkgdir/lib\"; ln -s usr/lib \"$pkgdir/lib64\"; printf '%s\n' 'NAME=Onlynux' 'ID=onlynux' 'ID_LIKE=linux' 'PRETTY_NAME=\"Onlynux GNU/Linux\"' 'VERSION_ID=1' 'HOME_URL=\"https://github.com/onlynux-linux\"' 'SUPPORT_URL=\"https://github.com/orgs/onlynux-linux/repositories\"' 'BUG_REPORT_URL=\"https://github.com/onlynux-linux/onx-tools/issues\"' > \"$pkgdir/usr/lib/os-release\"; ln -s ../usr/lib/os-release \"$pkgdir/etc/os-release\"; printf '%s\n' 'root:x:0:0:root:/root:/bin/bash' 'nobody:x:65534:65534:Unprivileged user:/:/usr/sbin/nologin' > \"$pkgdir/etc/passwd\"; printf '%s\n' 'root:x:0:' 'tty:x:5:' 'disk:x:6:' 'lp:x:7:' 'kmem:x:9:' 'wheel:x:10:' 'cdrom:x:11:' 'dialout:x:18:' 'audio:x:29:' 'video:x:44:' 'users:x:100:' 'input:x:104:' 'kvm:x:105:' 'render:x:106:' 'tape:x:107:' 'nobody:x:65534:' > \"$pkgdir/etc/group\"; printf '%s\n' 'root:!:1::::::' 'nobody:!:1::::::' > \"$pkgdir/etc/shadow\"; printf '%s\n' 'root:!::' 'nobody:!::' > \"$pkgdir/etc/gshadow\"; chmod 0600 \"$pkgdir/etc/shadow\" \"$pkgdir/etc/gshadow\"; printf '%s\n' 'passwd: files systemd' 'group: files systemd' 'shadow: files systemd' 'hosts: files mymachines resolve [!UNAVAIL=return] dns myhostname' 'networks: files' 'protocols: files' 'services: files' 'ethers: files' 'rpc: files' > \"$pkgdir/etc/nsswitch.conf\"; printf '%s\n' '/bin/sh' '/bin/bash' '/usr/bin/sh' '/usr/bin/bash' '/usr/sbin/nologin' > \"$pkgdir/etc/shells\"; printf '%s\n' '127.0.0.1 localhost' '::1 localhost ip6-localhost ip6-loopback' > \"$pkgdir/etc/hosts\"; printf '%s\n' 'localhost' > \"$pkgdir/etc/hostname\"; printf '%s\n' '# <file system> <mount point> <type> <options> <dump> <pass>' > \"$pkgdir/etc/fstab\"; printf '%s\n' 'export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin' 'if [ -d /etc/profile.d ]; then for f in /etc/profile.d/*.sh; do [ -r \"$f\" ] && . \"$f\"; done; unset f; fi' > \"$pkgdir/etc/profile\"; printf '%s\n' 'Onlynux GNU/Linux' > \"$pkgdir/etc/issue\"; cp \"$pkgdir/etc/issue\" \"$pkgdir/etc/motd\"",
+      "reviewed_dependencies": {
+        "builddeps": ["make", "coreutils", "grep"],
+        "targetdeps": [],
+        "checkdeps": [],
+        "rundeps": []
+      },
+      "review_reason": "Use the pinned upstream baselayout Makefile only to seed a standard hierarchy, then define an independent Onlynux usr-merged filesystem and identity policy. /bin and /sbin point into /usr, /usr/sbin remains a real directory, /lib and /lib64 point to /usr/lib, systemd NSS ordering and runtime directories are native, and no Gentoo branding, env.d, OpenRC scripts, device nodes, ebuild phases or post-install hooks are imported.",
+      "references": ["https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html", "https://systemd.io/FILE_HIERARCHY/", "https://gitweb.gentoo.org/proj/baselayout.git/"]
+    },
     "ca-certificates": {
       "provider": "gentoo",
       "cpv": "app-misc/ca-certificates-20260601.3.112.5",
