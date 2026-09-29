@@ -2,6 +2,7 @@
   "adapter": {
     "build_system": "meson",
     "configure_args": [
+      "--libdir=lib",
       "--bindir=/usr/bin",
       "--sbindir=/usr/sbin",
       "-Dtools=true",
