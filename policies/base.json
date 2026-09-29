@@ -1530,6 +1530,30 @@
       "review_reason": "Build pristine D-Bus with the upstream Meson flow, daemon, tools and core tests; optional GLib-based modular tests are disabled to keep the offline base closure free of a non-runtime dependency. The library intentionally has no libsystemd dependency to avoid a bootstrap cycle; Onlynux supplies native systemd socket/service units plus sysusers and tmpfiles metadata, with no OpenRC files or Gentoo patches.",
       "references": ["https://www.freedesktop.org/wiki/Software/dbus/", "https://gitlab.freedesktop.org/dbus/dbus"]
     },
+    "wpa_supplicant": {
+      "provider": "gentoo",
+      "cpv": "net-wireless/wpa_supplicant-2.12",
+      "license": "BSD OR GPL-2.0-only",
+      "build_system": "configure",
+      "source": {
+        "url": "https://w1.fi/releases/wpa_supplicant-2.12.tar.gz",
+        "filename": "wpa_supplicant-2.12.tar.gz",
+        "sha512": "5e996323fea2a5f6fefe4f2456481b9e8409adb5bf1d7a72d4489f3db2e3a968d6d9fe5cc0959b820f5b18faa330adb1245da98aad49631009609fbd0f447901"
+      },
+      "configure_args": [],
+      "configure_command": "export LD_LIBRARY_PATH=/usr/lib; printf '%s\\n' 'CONFIG_DRIVER_NL80211=y' 'CONFIG_LIBNL32=y' 'CONFIG_DRIVER_WEXT=y' 'CONFIG_DRIVER_WIRED=y' 'CONFIG_CTRL_IFACE=y' 'CONFIG_CTRL_IFACE_DBUS_NEW=y' 'CONFIG_CTRL_IFACE_DBUS_INTRO=y' 'CONFIG_BACKEND=file' 'CONFIG_TLS=openssl' 'CONFIG_TLSV12=y' 'CONFIG_PKCS12=y' 'CONFIG_IEEE8021X_EAPOL=y' 'CONFIG_EAP_TLS=y' 'CONFIG_EAP_PEAP=y' 'CONFIG_EAP_TTLS=y' 'CONFIG_EAP_TEAP=y' 'CONFIG_EAP_MSCHAPV2=y' 'CONFIG_EAP_GTC=y' 'CONFIG_EAP_MD5=y' 'CONFIG_EAP_OTP=y' 'CONFIG_EAP_PAX=y' 'CONFIG_EAP_PSK=y' 'CONFIG_EAP_TLV=y' 'CONFIG_EAP_LEAP=y' 'CONFIG_EAP_PWD=y' 'CONFIG_WPS=y' 'CONFIG_WPS2=y' 'CONFIG_WPS_ER=y' 'CONFIG_AP=y' 'CONFIG_P2P=y' 'CONFIG_MESH=y' 'CONFIG_SAE=y' 'CONFIG_OWE=y' 'CONFIG_DPP=y' 'CONFIG_DPP2=y' 'CONFIG_IEEE80211R=y' 'CONFIG_IEEE80211W=y' 'CONFIG_IEEE80211N=y' 'CONFIG_IEEE80211AC=y' 'CONFIG_OCV=y' 'CONFIG_MBO=y' 'CONFIG_BGSCAN_SIMPLE=y' 'CONFIG_BGSCAN_LEARN=y' 'CONFIG_GETRANDOM=y' 'CONFIG_DEBUG_FILE=y' 'CONFIG_DEBUG_SYSLOG=y' 'CONFIG_WPA_CLI_EDIT=y' > wpa_supplicant/.config",
+      "build_command": "make -C wpa_supplicant -j\"$jobs\" V=1 BINDIR=/usr/sbin",
+      "check_command": "./wpa_supplicant/wpa_supplicant -v | grep -F 'v2.12' && ./wpa_supplicant/wpa_passphrase onlynux testpassphrase | grep -Eq '^[[:space:]]*psk=[0-9a-f]{64}$'",
+      "package_command": "install -Dm755 wpa_supplicant/wpa_supplicant \"$pkgdir/usr/sbin/wpa_supplicant\" && install -Dm755 wpa_supplicant/wpa_cli \"$pkgdir/usr/bin/wpa_cli\" && install -Dm755 wpa_supplicant/wpa_passphrase \"$pkgdir/usr/bin/wpa_passphrase\" && install -Dm644 wpa_supplicant/wpa_supplicant.conf \"$pkgdir/usr/share/doc/wpa_supplicant/wpa_supplicant.conf\" && install -d \"$pkgdir/etc/wpa_supplicant\" \"$pkgdir/etc/dbus-1/system.d\" \"$pkgdir/usr/share/dbus-1/system-services\" \"$pkgdir/usr/lib/systemd/system\" \"$pkgdir/usr/lib/tmpfiles.d\" \"$pkgdir/usr/share/man/man5\" \"$pkgdir/usr/share/man/man8\" && install -m644 wpa_supplicant/dbus/dbus-wpa_supplicant.conf \"$pkgdir/etc/dbus-1/system.d/wpa_supplicant.conf\" && install -m644 wpa_supplicant/dbus/fi.w1.wpa_supplicant1.service \"$pkgdir/usr/share/dbus-1/system-services/\" && install -m644 wpa_supplicant/doc/docbook/wpa_supplicant.conf.5 \"$pkgdir/usr/share/man/man5/\" && install -m644 wpa_supplicant/doc/docbook/wpa_cli.8 wpa_supplicant/doc/docbook/wpa_passphrase.8 wpa_supplicant/doc/docbook/wpa_supplicant.8 \"$pkgdir/usr/share/man/man8/\" && printf '%s\\n' '[Unit]' 'Description=WPA supplicant' 'Before=network.target' 'Wants=network.target' '' '[Service]' 'Type=dbus' 'BusName=fi.w1.wpa_supplicant1' 'ExecStart=/usr/sbin/wpa_supplicant -u -s -O /run/wpa_supplicant' 'Restart=on-failure' '' '[Install]' 'WantedBy=multi-user.target' 'Alias=dbus-fi.w1.wpa_supplicant1.service' > \"$pkgdir/usr/lib/systemd/system/wpa_supplicant.service\" && printf '%s\\n' '[Unit]' 'Description=WPA supplicant for %I' 'Before=network.target' 'Wants=network.target' '' '[Service]' 'Type=simple' 'ExecStart=/usr/sbin/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-%I.conf -i%I' 'Restart=on-failure' '' '[Install]' 'WantedBy=multi-user.target' > \"$pkgdir/usr/lib/systemd/system/wpa_supplicant@.service\" && sed 's# -i%I# -Dnl80211 -i%I#' \"$pkgdir/usr/lib/systemd/system/wpa_supplicant@.service\" > \"$pkgdir/usr/lib/systemd/system/wpa_supplicant-nl80211@.service\" && sed 's# -i%I# -Dwired -i%I#' \"$pkgdir/usr/lib/systemd/system/wpa_supplicant@.service\" > \"$pkgdir/usr/lib/systemd/system/wpa_supplicant-wired@.service\" && printf '%s\\n' 'd /run/wpa_supplicant 0755 root root -' > \"$pkgdir/usr/lib/tmpfiles.d/wpa_supplicant.conf\"",
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "make", "binutils", "pkg-config"],
+        "targetdeps": ["glibc", "openssl", "libnl", "dbus"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39", "openssl", "libnl", "dbus", "wireless-regdb"]
+      },
+      "review_reason": "Build pristine wpa_supplicant with Linux nl80211, modern WPA3, AP/P2P/mesh, common EAP methods, OpenSSL and D-Bus. Onlynux supplies /usr-merged native systemd units and tmpfiles metadata; deprecated WEP/TKIP, Gentoo source edits and OpenRC files are not imported.",
+      "references": ["https://w1.fi/wpa_supplicant/", "https://w1.fi/cgit/hostap/plain/wpa_supplicant/README"]
+    },
     "ca-certificates": {
       "provider": "gentoo",
       "cpv": "app-misc/ca-certificates-20260601.3.112.5",
