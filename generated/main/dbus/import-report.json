@@ -4,6 +4,7 @@
     "check_command": "DBUS_TEST_MALLOC_FAILURES=0 DBUS_VERBOSE=1 meson test -C _build --print-errorlogs",
     "configure_args": [
       "--localstatedir=/var",
+      "--libdir=lib",
       "-Druntime_dir=/run",
       "-Ddefault_library=shared",
       "-Dasserts=true",

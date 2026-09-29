@@ -1,0 +1,76 @@
+{
+  "adapter": {
+    "build_command": "LDFLAGS='-L/usr/lib -Wl,-rpath,/usr/lib' make -C wpa_supplicant -j\"$jobs\" V=1 BINDIR=/usr/sbin",
+    "build_system": "configure",
+    "check_command": "./wpa_supplicant/wpa_supplicant -v | grep -F 'v2.12' && ./wpa_supplicant/wpa_passphrase onlynux testpassphrase | grep -Eq '^[[:space:]]*psk=[0-9a-f]{64}$'",
+    "configure_args": [],
+    "configure_command": "export LD_LIBRARY_PATH=/usr/lib; printf '%s\\n' 'CONFIG_DRIVER_NL80211=y' 'CONFIG_LIBNL32=y' 'CONFIG_DRIVER_WEXT=y' 'CONFIG_DRIVER_WIRED=y' 'CONFIG_CTRL_IFACE=y' 'CONFIG_CTRL_IFACE_DBUS_NEW=y' 'CONFIG_CTRL_IFACE_DBUS_INTRO=y' 'CONFIG_BACKEND=file' 'CONFIG_TLS=openssl' 'CONFIG_TLSV12=y' 'CONFIG_PKCS12=y' 'CONFIG_IEEE8021X_EAPOL=y' 'CONFIG_EAP_TLS=y' 'CONFIG_EAP_PEAP=y' 'CONFIG_EAP_TTLS=y' 'CONFIG_EAP_TEAP=y' 'CONFIG_EAP_MSCHAPV2=y' 'CONFIG_EAP_GTC=y' 'CONFIG_EAP_MD5=y' 'CONFIG_EAP_OTP=y' 'CONFIG_EAP_PAX=y' 'CONFIG_EAP_PSK=y' 'CONFIG_EAP_TLV=y' 'CONFIG_EAP_LEAP=y' 'CONFIG_EAP_PWD=y' 'CONFIG_WPS=y' 'CONFIG_WPS2=y' 'CONFIG_WPS_ER=y' 'CONFIG_AP=y' 'CONFIG_P2P=y' 'CONFIG_MESH=y' 'CONFIG_SAE=y' 'CONFIG_OWE=y' 'CONFIG_DPP=y' 'CONFIG_DPP2=y' 'CONFIG_IEEE80211R=y' 'CONFIG_IEEE80211W=y' 'CONFIG_IEEE80211N=y' 'CONFIG_IEEE80211AC=y' 'CONFIG_OCV=y' 'CONFIG_MBO=y' 'CONFIG_BGSCAN_SIMPLE=y' 'CONFIG_BGSCAN_LEARN=y' 'CONFIG_GETRANDOM=y' 'CONFIG_DEBUG_FILE=y' 'CONFIG_DEBUG_SYSLOG=y' 'CONFIG_WPA_CLI_EDIT=y' > wpa_supplicant/.config",
+    "cpv": "net-wireless/wpa_supplicant-2.12",
+    "license": "BSD OR GPL-2.0-only",
+    "package_command": "install -Dm755 wpa_supplicant/wpa_supplicant \"$pkgdir/usr/sbin/wpa_supplicant\" && install -Dm755 wpa_supplicant/wpa_cli \"$pkgdir/usr/bin/wpa_cli\" && install -Dm755 wpa_supplicant/wpa_passphrase \"$pkgdir/usr/bin/wpa_passphrase\" && install -Dm644 wpa_supplicant/wpa_supplicant.conf \"$pkgdir/usr/share/doc/wpa_supplicant/wpa_supplicant.conf\" && install -d \"$pkgdir/etc/wpa_supplicant\" \"$pkgdir/etc/dbus-1/system.d\" \"$pkgdir/usr/share/dbus-1/system-services\" \"$pkgdir/usr/lib/systemd/system\" \"$pkgdir/usr/lib/tmpfiles.d\" \"$pkgdir/usr/share/man/man5\" \"$pkgdir/usr/share/man/man8\" && install -m644 wpa_supplicant/dbus/dbus-wpa_supplicant.conf \"$pkgdir/etc/dbus-1/system.d/wpa_supplicant.conf\" && install -m644 wpa_supplicant/dbus/fi.w1.wpa_supplicant1.service \"$pkgdir/usr/share/dbus-1/system-services/\" && install -m644 wpa_supplicant/doc/docbook/wpa_supplicant.conf.5 \"$pkgdir/usr/share/man/man5/\" && install -m644 wpa_supplicant/doc/docbook/wpa_cli.8 wpa_supplicant/doc/docbook/wpa_passphrase.8 wpa_supplicant/doc/docbook/wpa_supplicant.8 \"$pkgdir/usr/share/man/man8/\" && printf '%s\\n' '[Unit]' 'Description=WPA supplicant' 'Before=network.target' 'Wants=network.target' '' '[Service]' 'Type=dbus' 'BusName=fi.w1.wpa_supplicant1' 'ExecStart=/usr/sbin/wpa_supplicant -u -s -O /run/wpa_supplicant' 'Restart=on-failure' '' '[Install]' 'WantedBy=multi-user.target' 'Alias=dbus-fi.w1.wpa_supplicant1.service' > \"$pkgdir/usr/lib/systemd/system/wpa_supplicant.service\" && printf '%s\\n' '[Unit]' 'Description=WPA supplicant for %I' 'Before=network.target' 'Wants=network.target' '' '[Service]' 'Type=simple' 'ExecStart=/usr/sbin/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-%I.conf -i%I' 'Restart=on-failure' '' '[Install]' 'WantedBy=multi-user.target' > \"$pkgdir/usr/lib/systemd/system/wpa_supplicant@.service\" && sed 's# -i%I# -Dnl80211 -i%I#' \"$pkgdir/usr/lib/systemd/system/wpa_supplicant@.service\" > \"$pkgdir/usr/lib/systemd/system/wpa_supplicant-nl80211@.service\" && sed 's# -i%I# -Dwired -i%I#' \"$pkgdir/usr/lib/systemd/system/wpa_supplicant@.service\" > \"$pkgdir/usr/lib/systemd/system/wpa_supplicant-wired@.service\" && printf '%s\\n' 'd /run/wpa_supplicant 0755 root root -' > \"$pkgdir/usr/lib/tmpfiles.d/wpa_supplicant.conf\"",
+    "provider": "gentoo",
+    "references": [
+      "https://w1.fi/wpa_supplicant/",
+      "https://w1.fi/cgit/hostap/plain/wpa_supplicant/README"
+    ],
+    "review_reason": "Build pristine wpa_supplicant with Linux nl80211, modern WPA3, AP/P2P/mesh, common EAP methods, OpenSSL and D-Bus. Onlynux supplies /usr-merged native systemd units and tmpfiles metadata; deprecated WEP/TKIP, Gentoo source edits and OpenRC files are not imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "pkg-config"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "openssl",
+        "libnl",
+        "dbus",
+        "wireless-regdb"
+      ],
+      "targetdeps": [
+        "glibc",
+        "openssl",
+        "libnl",
+        "dbus"
+      ]
+    },
+    "source": {
+      "filename": "wpa_supplicant-2.12.tar.gz",
+      "sha512": "5e996323fea2a5f6fefe4f2456481b9e8409adb5bf1d7a72d4489f3db2e3a968d6d9fe5cc0959b820f5b18faa330adb1245da98aad49631009609fbd0f447901",
+      "url": "https://w1.fi/releases/wpa_supplicant-2.12.tar.gz"
+    }
+  },
+  "dependency_decision": "Build pristine wpa_supplicant with Linux nl80211, modern WPA3, AP/P2P/mesh, common EAP methods, OpenSSL and D-Bus. Onlynux supplies /usr-merged native systemd units and tmpfiles metadata; deprecated WEP/TKIP, Gentoo source edits and OpenRC files are not imported.",
+  "evidence": {
+    "cpv": "net-wireless/wpa_supplicant-2.12",
+    "ebuild_sha256": "cb38ee88b38ee0afd9c03b0fa51b3f2c8188863aa17e7f84be2efeb8b3f745a5",
+    "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+    "metadata": {
+      "BDEPEND": "virtual/pkgconfig virtual/pkgconfig",
+      "DEFINED_PHASES": "compile configure install postinst prepare setup",
+      "DEPEND": ">=dev-libs/openssl-1.0.2k:= dbus? ( sys-apps/dbus ) kernel_linux? ( >=dev-libs/libnl-3.2:3 eap-sim? ( sys-apps/pcsc-lite ) ) !kernel_linux? ( net-libs/libpcap ) gui? ( dev-qt/qtbase:6[gui,widgets] dev-qt/qtsvg:6 ) readline? ( sys-libs/ncurses:0= sys-libs/readline:0= )",
+      "DESCRIPTION": "IEEE 802.1X/WPA supplicant for secure wireless transfers",
+      "EAPI": "8",
+      "HOMEPAGE": "https://w1.fi/wpa_supplicant/",
+      "IDEPEND": "",
+      "INHERITED": "desktop toolchain-funcs linux-info qt-utils qmake-utils eapi9-pipestatus readme.gentoo-r1 systemd",
+      "IUSE": "+ap broadcom-sta dbus eap-sim eapol-test +fils gui macsec +mbo +mesh p2p privsep readline selinux smartcard tkip uncommon-eap-types wep wps",
+      "KEYWORDS": "~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86",
+      "LICENSE": "|| ( GPL-2 BSD )",
+      "PDEPEND": "",
+      "RDEPEND": ">=dev-libs/openssl-1.0.2k:= dbus? ( sys-apps/dbus ) kernel_linux? ( >=dev-libs/libnl-3.2:3 eap-sim? ( sys-apps/pcsc-lite ) ) !kernel_linux? ( net-libs/libpcap ) gui? ( dev-qt/qtbase:6[gui,widgets] dev-qt/qtsvg:6 ) readline? ( sys-libs/ncurses:0= sys-libs/readline:0= ) selinux? ( sec-policy/selinux-networkmanager ) kernel_linux? ( net-wireless/wireless-regdb )",
+      "REQUIRED_USE": "macsec? ( !privsep ) mesh? ( ap ) p2p? ( ap wps ) privsep? ( !macsec ) broadcom-sta? ( !fils !mesh !mbo )",
+      "RESTRICT": "",
+      "SLOT": "0",
+      "SRC_URI": "https://w1.fi/releases/wpa_supplicant-2.12.tar.gz"
+    },
+    "name": "wpa_supplicant",
+    "version": "2.12"
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
