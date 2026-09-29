@@ -12,6 +12,7 @@
   "meson": "Bootstrap Meson build frontend",
   "ninja": "Bootstrap Ninja build executor",
   "pkg-config": "Bootstrap pkg-config dependency discovery",
+  "cmake": "Bootstrap CMake build frontend",
   "bison": "Bootstrap parser generator required by iproute2 release builds",
   "flex": "Bootstrap lexical scanner generator required by iproute2 release builds",
   "autoconf": "Bootstrap GNU Autoconf for upstream snapshots without generated configure",
