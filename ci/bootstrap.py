@@ -13,6 +13,8 @@ commands={"gcc":["gcc","-dumpfullversion"],"g++":["g++","-dumpfullversion"],"mak
           "bison":["bison","--version"],"flex":["flex","--version"],
           "autoconf":["autoconf","--version"],"automake":["automake","--version"],"libtool":["libtoolize","--version"],
           "lzip":["lzip","--version"],
+          "gperf":["gperf","--version"],
+          "python3-jinja2":["python3","-c","import jinja2; print(jinja2.__version__)"],
           "python3-cryptography":["python3","-c","import cryptography; print(cryptography.__version__)"]}
 versions={}
 for name,command in commands.items():

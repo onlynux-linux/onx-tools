@@ -25,6 +25,8 @@
     "libtool": "Bootstrap GNU Libtool for upstream autoreconf",
     "lzip": "Bootstrap lzip decompressor required only to unpack pristine IANA tzdb source archives",
     "python3-cryptography": "Bootstrap Python X.509 parser required only to convert Mozilla certdata into PEM certificates"
+    ,"gperf": "Bootstrap perfect-hash generator required by the upstream systemd build"
+    ,"python3-jinja2": "Bootstrap template renderer required to generate systemd build sources"
   },
   "providers": {
     "sys-libs/glibc": "glibc",
@@ -1602,6 +1604,31 @@
       },
       "review_reason": "Install the complete pristine upstream firmware snapshot into the usr-merged /usr/lib/firmware hierarchy using upstream copy-firmware.sh. Preserve WHENCE and the full per-file license collection, remove only broken symlinks, and perform no compression, deduplication, initramfs mutation, Gentoo patching or package-manager hooks.",
       "references": ["https://gitlab.com/kernel-firmware/linux-firmware", "https://www.kernel.org/doc/html/latest/driver-api/firmware/fw_search_path.html"]
+    },
+    "systemd": {
+      "provider": "gentoo",
+      "cpv": "sys-apps/systemd-261.3",
+      "license": "GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND LicenseRef-Public-Domain",
+      "build_system": "meson",
+      "source": {
+        "url": "https://github.com/systemd/systemd/archive/refs/tags/v261.3.tar.gz",
+        "filename": "systemd-261.3.tar.gz",
+        "sha512": "b271feced437bda2b33a158a0c5a013f42ec335e7266d8b45c160e79454885985c9451f8575775760a3c8534ac7ec20afa669180d606c94efea3cabba28456e1"
+      },
+      "source_dir": "systemd-261.3",
+      "configure_args": ["--libdir=lib", "--sysconfdir=/etc", "--localstatedir=/var", "-Dmode=release", "-Dsplit-bin=false", "-Dcompat-sysv-interfaces=false", "-Dsysvinit-path=", "-Dsysvrcnd-path=", "-Dinstall-sysconfdir=true", "-Dman=disabled", "-Dhtml=disabled", "-Dtranslations=false", "-Defi=false", "-Dbootloader=disabled", "-Dseccomp=disabled", "-Dselinux=disabled", "-Dapparmor=disabled", "-Dsmack=false", "-Dpolkit=disabled", "-Dima=false", "-Dipe=false", "-Dacl=disabled", "-Daudit=disabled", "-Dblkid=enabled", "-Dfdisk=enabled", "-Dkmod=enabled", "-Dpam=enabled", "-Dlibcrypt=enabled", "-Dlibcryptsetup=disabled", "-Dlibcryptsetup-plugins=disabled", "-Dlibcurl=disabled", "-Didn=false", "-Dlibidn2=disabled", "-Dqrencode=disabled", "-Dgcrypt=disabled", "-Dgnutls=disabled", "-Dopenssl=enabled", "-Dp11kit=disabled", "-Dlibfido2=disabled", "-Dtpm2=disabled", "-Delfutils=disabled", "-Dzlib=enabled", "-Dbzip2=disabled", "-Dxz=disabled", "-Dlz4=disabled", "-Dzstd=disabled", "-Dxkbcommon=disabled", "-Dpcre2=disabled", "-Dglib=disabled", "-Ddbus=disabled", "-Dlibarchive=disabled", "-Dlibmount=enabled", "-Dhomed=disabled", "-Dremote=disabled", "-Dimportd=disabled", "-Dimds=disabled", "-Dnspawn=disabled", "-Drepart=disabled", "-Dsysupdate=disabled", "-Dvmspawn=disabled"],
+      "configure_command": "export LD_LIBRARY_PATH=/usr/lib; export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/share/pkgconfig; meson setup _build --prefix=/usr --libdir=lib --sysconfdir=/etc --localstatedir=/var -Dmode=release -Dsplit-bin=false -Dcompat-sysv-interfaces=false -Dsysvinit-path= -Dsysvrcnd-path= -Dinstall-sysconfdir=true -Dman=disabled -Dhtml=disabled -Dtranslations=false -Defi=false -Dbootloader=disabled -Dseccomp=disabled -Dselinux=disabled -Dapparmor=disabled -Dsmack=false -Dpolkit=disabled -Dima=false -Dipe=false -Dacl=disabled -Daudit=disabled -Dblkid=enabled -Dfdisk=enabled -Dkmod=enabled -Dpam=enabled -Dlibcrypt=enabled -Dlibcryptsetup=disabled -Dlibcryptsetup-plugins=disabled -Dlibcurl=disabled -Didn=false -Dlibidn2=disabled -Dqrencode=disabled -Dgcrypt=disabled -Dgnutls=disabled -Dopenssl=enabled -Dp11kit=disabled -Dlibfido2=disabled -Dtpm2=disabled -Delfutils=disabled -Dzlib=enabled -Dbzip2=disabled -Dxz=disabled -Dlz4=disabled -Dzstd=disabled -Dxkbcommon=disabled -Dpcre2=disabled -Dglib=disabled -Ddbus=disabled -Dlibarchive=disabled -Dlibmount=enabled -Dhomed=disabled -Dremote=disabled -Dimportd=disabled -Dimds=disabled -Dnspawn=disabled -Drepart=disabled -Dsysupdate=disabled -Dvmspawn=disabled",
+      "build_command": "meson compile -C _build -j \"$jobs\"",
+      "check_command": "LD_LIBRARY_PATH=/usr/lib ./_build/systemd --version | grep -F 'systemd 261' && LD_LIBRARY_PATH=/usr/lib ./_build/systemctl --version | grep -F 'systemd 261' && LD_LIBRARY_PATH=/usr/lib ./_build/udevadm --version | grep -Fx '261' && meson test -C _build --list | grep -q .",
+      "package_command": "DESTDIR=\"$pkgdir\" meson install -C _build && install -d \"$pkgdir/usr/sbin\" \"$pkgdir/var/lib/systemd\" \"$pkgdir/etc/systemd/system\" && ln -s ../lib/systemd/systemd \"$pkgdir/usr/sbin/init\" && rm -f \"$pkgdir/etc/machine-id\" && install -Dm644 /dev/null \"$pkgdir/etc/machine-id\"",
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "g++", "make", "binutils", "meson", "ninja", "pkg-config", "gperf", "python3-jinja2"],
+        "targetdeps": ["glibc", "libxcrypt", "util-linux", "kmod", "pam", "openssl", "zlib"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39", "libxcrypt", "util-linux", "kmod", "pam", "openssl", "zlib", "dbus", "shadow"]
+      },
+      "review_reason": "Build pristine upstream systemd as the Onlynux init, service manager, journal, udev, logind, networkd, resolved, timesyncd, tmpfiles and sysusers stack. Enable integrations already present in the verified base and disable optional policy/security, container/image and compression stacks whose independent dependencies are not yet in base. Preserve native upstream units and /usr-merged paths; import no Gentoo patches, branding, phases, OpenRC compatibility or integration package.",
+      "references": ["https://systemd.io/", "https://github.com/systemd/systemd/blob/v261.3/README"]
     },
     "ca-certificates": {
       "provider": "gentoo",
