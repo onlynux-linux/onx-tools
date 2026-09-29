@@ -1554,6 +1554,30 @@
       "review_reason": "Build pristine wpa_supplicant with Linux nl80211, modern WPA3, AP/P2P/mesh, common EAP methods, OpenSSL and D-Bus. Onlynux supplies /usr-merged native systemd units and tmpfiles metadata; deprecated WEP/TKIP, Gentoo source edits and OpenRC files are not imported.",
       "references": ["https://w1.fi/wpa_supplicant/", "https://w1.fi/cgit/hostap/plain/wpa_supplicant/README"]
     },
+    "btrfs-progs": {
+      "provider": "gentoo",
+      "cpv": "sys-fs/btrfs-progs-7.1",
+      "license": "GPL-2.0-only",
+      "build_system": "autotools",
+      "source": {
+        "url": "https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v7.1.tar.xz",
+        "filename": "btrfs-progs-v7.1.tar.xz",
+        "sha512": "7e8652b95da866494cd3cc9a874c02f4b613f0775b24c112bb267fdc8f71d1e5cd231d0fcd0a42e42ccf5f9be50b1dd377a3dd7ccc8ae148027bca8b64284ff6"
+      },
+      "source_dir": "btrfs-progs-v7.1",
+      "configure_args": ["--bindir=/usr/sbin", "--disable-lzo", "--disable-zstd", "--disable-convert", "--disable-documentation", "--disable-python", "--disable-libudev", "--enable-backtrace", "--with-crypto=builtin"],
+      "build_command": "make -j\"$jobs\" V=1",
+      "check_command": "./btrfs --version | grep -F 'btrfs-progs v7.1'",
+      "package_command": "make V=1 DESTDIR=\"$pkgdir\" install && find \"$pkgdir\" -name '*.la' -delete",
+      "reviewed_dependencies": {
+        "builddeps": ["gcc", "make", "binutils", "pkg-config"],
+        "targetdeps": ["glibc", "util-linux", "zlib"],
+        "checkdeps": [],
+        "rundeps": ["glibc>=2.39", "util-linux", "zlib"]
+      },
+      "review_reason": "Build the pristine upstream Btrfs utilities and shared library with the built-in checksum implementation. Optional conversion, Python, documentation, LZO, Zstd and libudev integration stay disabled until those independent stacks are part of the verified base; no Gentoo phases, patches, OpenRC files or distribution branding are imported.",
+      "references": ["https://btrfs.readthedocs.io/en/latest/", "https://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git/"]
+    },
     "ca-certificates": {
       "provider": "gentoo",
       "cpv": "app-misc/ca-certificates-20260601.3.112.5",
