@@ -1,0 +1,83 @@
+{
+  "adapter": {
+    "build_command": "make -j\"$jobs\" V=1",
+    "build_system": "autotools",
+    "check_command": "./btrfs --version | grep -F 'btrfs-progs v7.1'",
+    "configure_args": [
+      "--bindir=/usr/sbin",
+      "--disable-lzo",
+      "--disable-zstd",
+      "--disable-convert",
+      "--disable-documentation",
+      "--disable-python",
+      "--disable-libudev",
+      "--enable-backtrace",
+      "--with-crypto=builtin"
+    ],
+    "cpv": "sys-fs/btrfs-progs-7.1",
+    "license": "GPL-2.0-only",
+    "package_command": "make V=1 DESTDIR=\"$pkgdir\" install && find \"$pkgdir\" -name '*.la' -delete",
+    "provider": "gentoo",
+    "references": [
+      "https://btrfs.readthedocs.io/en/latest/",
+      "https://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git/"
+    ],
+    "review_reason": "Build the pristine upstream Btrfs utilities and shared library with the built-in checksum implementation. Optional conversion, Python, documentation, LZO, Zstd and libudev integration stay disabled until those independent stacks are part of the verified base; no Gentoo phases, patches, OpenRC files or distribution branding are imported.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "pkg-config"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "util-linux",
+        "zlib"
+      ],
+      "targetdeps": [
+        "glibc",
+        "util-linux",
+        "zlib"
+      ]
+    },
+    "source": {
+      "filename": "btrfs-progs-v7.1.tar.xz",
+      "sha512": "7e8652b95da866494cd3cc9a874c02f4b613f0775b24c112bb267fdc8f71d1e5cd231d0fcd0a42e42ccf5f9be50b1dd377a3dd7ccc8ae148027bca8b64284ff6",
+      "url": "https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v7.1.tar.xz"
+    },
+    "source_dir": "btrfs-progs-v7.1"
+  },
+  "dependency_decision": "Build the pristine upstream Btrfs utilities and shared library with the built-in checksum implementation. Optional conversion, Python, documentation, LZO, Zstd and libudev integration stay disabled until those independent stacks are part of the verified base; no Gentoo phases, patches, OpenRC files or distribution branding are imported.",
+  "evidence": {
+    "cpv": "sys-fs/btrfs-progs-7.1",
+    "ebuild_sha256": "f12268392668f41e32bfa2c32c7e17d93792284b8a65213101eeafc97820b498",
+    "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+    "metadata": {
+      "BDEPEND": "virtual/pkgconfig man? ( || ( ( dev-lang/python:3.15 dev-python/sphinx[python_targets_python3_15(-)] dev-python/sphinx-rtd-theme[python_targets_python3_15(-)] ) ( dev-lang/python:3.14 dev-python/sphinx[python_targets_python3_14(-)] dev-python/sphinx-rtd-theme[python_targets_python3_14(-)] ) ( dev-lang/python:3.13 dev-python/sphinx[python_targets_python3_13(-)] dev-python/sphinx-rtd-theme[python_targets_python3_13(-)] ) ( dev-lang/python:3.12 dev-python/sphinx[python_targets_python3_12(-)] dev-python/sphinx-rtd-theme[python_targets_python3_12(-)] ) ) ) verify-sig? ( sec-keys/openpgp-keys-dsterba ) virtual/pkgconfig verify-sig? ( || ( app-alternatives/gpg app-crypt/gnupg[-alternatives(-)] ) >=app-portage/gemato-20 )",
+      "DEFINED_PHASES": "compile configure install postinst postrm prepare setup test unpack",
+      "DEPEND": "dev-libs/lzo:2= sys-apps/util-linux:=[static-libs(+)?] virtual/zlib:= convert? ( sys-fs/e2fsprogs:= reiserfs? ( >=sys-fs/reiserfsprogs-3.6.27 ) ) udev? ( virtual/libudev:= ) zstd? ( app-arch/zstd:= ) >=sys-kernel/linux-headers-5.10 convert? ( sys-apps/acl ) static? ( dev-libs/lzo:2[static-libs(+)] sys-apps/util-linux:0[static-libs(+)] virtual/zlib:=[static-libs(+)] convert? ( sys-fs/e2fsprogs[static-libs(+)] reiserfs? ( >=sys-fs/reiserfsprogs-3.6.27[static-libs(+)] ) ) zstd? ( app-arch/zstd[static-libs(+)] ) )",
+      "DESCRIPTION": "Btrfs filesystem utilities",
+      "EAPI": "8",
+      "HOMEPAGE": "https://btrfs.readthedocs.io/en/latest/",
+      "IDEPEND": "",
+      "INHERITED": "eapi9-pipestatus multiprocessing toolchain-funcs python-utils-r1 python-any-r1 shell-completion udev verify-sig",
+      "IUSE": "+convert +man experimental reiserfs static static-libs udev +zstd verify-sig",
+      "KEYWORDS": "~alpha amd64 arm arm64 ~loong ~mips ppc ppc64 ~riscv ~s390 ~sparc x86",
+      "LICENSE": "GPL-2",
+      "PDEPEND": "",
+      "RDEPEND": "dev-libs/lzo:2= sys-apps/util-linux:=[static-libs(+)?] virtual/zlib:= convert? ( sys-fs/e2fsprogs:= reiserfs? ( >=sys-fs/reiserfsprogs-3.6.27 ) ) udev? ( virtual/libudev:= ) zstd? ( app-arch/zstd:= )",
+      "REQUIRED_USE": "static? ( !udev )",
+      "RESTRICT": "test",
+      "SLOT": "0/0",
+      "SRC_URI": "https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v7.1.tar.xz verify-sig? ( https://mirrors.edge.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v7.1.tar.sign )"
+    },
+    "name": "btrfs-progs",
+    "version": "7.1"
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
