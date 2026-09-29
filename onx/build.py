@@ -9,6 +9,8 @@ import stat
 import subprocess
 import tarfile
 import tempfile
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 from .recipe import read
@@ -65,11 +67,20 @@ def fetch(source, cache):
         temp = Path(temporary.name)
         try:
             request = urllib.request.Request(source["url"], headers={"User-Agent": "onx-tools/0.1"})
-            with urllib.request.urlopen(request, timeout=120) as response:
-                if not response.url.startswith("https://"):
-                    raise ValueError("insecure download redirect")
-                while chunk := response.read(1024 * 1024):
-                    temporary.write(chunk)
+            for attempt in range(3):
+                temporary.seek(0)
+                temporary.truncate(0)
+                try:
+                    with urllib.request.urlopen(request, timeout=120) as response:
+                        if not response.url.startswith("https://"):
+                            raise ValueError("insecure download redirect")
+                        while chunk := response.read(1024 * 1024):
+                            temporary.write(chunk)
+                    break
+                except (TimeoutError, urllib.error.URLError):
+                    if attempt == 2:
+                        raise
+                    time.sleep(2 ** attempt)
             temporary.flush()
             verify(temp)
             temp.replace(path)

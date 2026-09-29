@@ -4,6 +4,7 @@ import json
 import tarfile
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 from onx.deps import reduce, translate, Unsupported
 from onx.recipe import render, read, write
@@ -89,6 +90,14 @@ class Recipes(unittest.TestCase):
             m=recipe(); source=m["source"]
             (Path(d)/(source["sha512"]+"-"+source["filename"])).write_bytes(b"tampered")
             with self.assertRaisesRegex(ValueError,"checksum"): fetch(source,d)
+    def test_download_retries_transient_failures(self):
+        with tempfile.TemporaryDirectory() as d:
+            source=recipe()["source"]
+            with patch("onx.build.urllib.request.urlopen",side_effect=TimeoutError("slow")) as opened, \
+                 patch("onx.build.time.sleep") as slept:
+                with self.assertRaises(TimeoutError): fetch(source,d)
+            self.assertEqual(opened.call_count,3)
+            self.assertEqual(slept.call_count,2)
     def test_archive_traversal(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)/"bad.tar"
