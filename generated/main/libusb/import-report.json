@@ -1,0 +1,77 @@
+{
+  "adapter": {
+    "build_system": "autotools",
+    "check_command": "make check && test -s libusb/.libs/libusb-1.0.so",
+    "configure_args": [
+      "--libdir=/usr/lib",
+      "--enable-shared",
+      "--disable-static",
+      "--enable-udev",
+      "--disable-debug-log",
+      "--disable-tests-build"
+    ],
+    "cpv": "dev-libs/libusb-1.0.30",
+    "license": "LGPL-2.1-or-later",
+    "package_command": "make DESTDIR=\"$pkgdir\" install && find \"$pkgdir\" -name '*.la' -delete",
+    "provider": "gentoo",
+    "references": [
+      "https://libusb.info/",
+      "https://github.com/libusb/libusb"
+    ],
+    "review_reason": "Build the pristine shared libusb library with native systemd/libudev device discovery. Static archives, debug logging, hardware-dependent test binaries and Gentoo patches/phases are not imported; the upstream make check target remains enabled for the configured library.",
+    "reviewed_dependencies": {
+      "builddeps": [
+        "gcc",
+        "make",
+        "binutils",
+        "pkg-config"
+      ],
+      "checkdeps": [],
+      "rundeps": [
+        "glibc>=2.39",
+        "systemd"
+      ],
+      "targetdeps": [
+        "glibc",
+        "systemd"
+      ]
+    },
+    "source": {
+      "filename": "libusb-1.0.30.tar.bz2",
+      "sha512": "b14241bc499cdf353bb7fe02cea9a754b011f40ef0d0376ff8921f129f888b514d481e54c6aa380be04f655e027aaf4d6d9eba142b15758dea2e32f64af7b0c2",
+      "url": "https://github.com/libusb/libusb/releases/download/v1.0.30/libusb-1.0.30.tar.bz2"
+    },
+    "source_dir": "libusb-1.0.30"
+  },
+  "dependency_decision": "Build the pristine shared libusb library with native systemd/libudev device discovery. Static archives, debug logging, hardware-dependent test binaries and Gentoo patches/phases are not imported; the upstream make check target remains enabled for the configured library.",
+  "evidence": {
+    "cpv": "dev-libs/libusb-1.0.30",
+    "ebuild_sha256": "febe8485ad39d6374760a83cf94397b2c5d9ec8742378e6e79ad34c3070e6b15",
+    "gentoo_commit": "0e4ff85c8ca9036d26b5c028a93742aaca63733a",
+    "metadata": {
+      "BDEPEND": "doc? ( app-text/doxygen ) verify-sig? ( sec-keys/openpgp-keys-libusb ) >=app-portage/elt-patches-20250306 verify-sig? ( || ( app-alternatives/gpg app-crypt/gnupg[-alternatives(-)] ) >=app-portage/gemato-20 )",
+      "DEFINED_PHASES": "compile configure install prepare test unpack",
+      "DEPEND": "udev? ( >=virtual/libudev-208:=[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_s390_32(-)?,abi_s390_64(-)?] ) !udev? ( virtual/os-headers )",
+      "DESCRIPTION": "Userspace access to USB devices",
+      "EAPI": "8",
+      "HOMEPAGE": "https://libusb.info/ https://github.com/libusb/libusb",
+      "IDEPEND": "",
+      "INHERITED": "toolchain-funcs libtool out-of-source-utils multibuild multilib multilib-build multilib-minimal eapi9-pipestatus verify-sig",
+      "IUSE": "debug doc examples static-libs test udev abi_x86_32 abi_x86_64 abi_x86_x32 abi_mips_n32 abi_mips_n64 abi_mips_o32 abi_s390_32 abi_s390_64 verify-sig",
+      "KEYWORDS": "~alpha ~amd64 ~arm ~arm64 ~hppa ~loong ~m68k ~mips ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~x64-macos",
+      "LICENSE": "LGPL-2.1",
+      "PDEPEND": "",
+      "RDEPEND": "udev? ( >=virtual/libudev-208:=[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_s390_32(-)?,abi_s390_64(-)?] )",
+      "REQUIRED_USE": "static-libs? ( !udev )",
+      "RESTRICT": "!test? ( test )",
+      "SLOT": "1",
+      "SRC_URI": "https://github.com/libusb/libusb/releases/download/v1.0.30/libusb-1.0.30.tar.bz2 verify-sig? ( https://github.com/libusb/libusb/releases/download/v1.0.30/libusb-1.0.30.tar.bz2.asc )"
+    },
+    "name": "libusb",
+    "version": "1.0.30"
+  },
+  "notes": [
+    "No ebuild phases, eclasses or distribution patches are copied.",
+    "Review status is not a successful build claim."
+  ]
+}
