@@ -1,0 +1,31 @@
+name: Audit upstream source digest
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: HTTPS source archive URL
+        required: true
+        type: string
+      filename:
+        description: Expected archive filename
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  sha512:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download and hash upstream archive
+        env:
+          SOURCE_URL: ${{ inputs.url }}
+          SOURCE_FILENAME: ${{ inputs.filename }}
+        run: |
+          case "$SOURCE_URL" in https://*) ;; *) echo 'source URL must use HTTPS' >&2; exit 2;; esac
+          case "$SOURCE_FILENAME" in ''|*/*|.|..) echo 'invalid filename' >&2; exit 2;; esac
+          curl --fail --location --proto '=https' --tlsv1.2 --retry 3 --output "$SOURCE_FILENAME" "$SOURCE_URL"
+          test -s "$SOURCE_FILENAME"
+          sha512sum "$SOURCE_FILENAME"
