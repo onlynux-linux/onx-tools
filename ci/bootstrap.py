@@ -9,6 +9,7 @@ commands={"gcc":["gcc","-dumpfullversion"],"g++":["g++","-dumpfullversion"],"mak
           "glibc-locales":["locale","--version"],
           "bash":["bash","--version"],"grep":["grep","--version"],"perl":["perl","-e","printf \"%vd\\n\", $^V"],
           "meson":["meson","--version"],"ninja":["ninja","--version"],"pkg-config":["pkg-config","--version"],
+          "cmake":["cmake","--version"],
           "bison":["bison","--version"],"flex":["flex","--version"],
           "autoconf":["autoconf","--version"],"automake":["automake","--version"],"libtool":["libtoolize","--version"],
           "lzip":["lzip","--version"],
