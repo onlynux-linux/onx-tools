@@ -1718,7 +1718,7 @@
       },
       "source_dir": "glibc-2.44",
       "configure_args": ["--libdir=/usr/lib", "--libexecdir=/usr/lib", "--with-headers=/usr/include", "--enable-kernel=6.1", "--enable-stack-protector=strong", "--enable-bind-now", "--enable-fortify-source", "--enable-multi-arch", "--disable-werror", "--disable-profile", "--disable-nscd", "--without-selinux"],
-      "configure_command": "mkdir -p _build && cd _build && libc_cv_slibdir=/usr/lib libc_cv_rtlddir=/usr/lib ../configure --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --with-headers=/usr/include --enable-kernel=6.1 --enable-stack-protector=strong --enable-bind-now --enable-fortify-source --enable-multi-arch --disable-werror --disable-profile --disable-nscd --without-selinux",
+      "configure_command": "mkdir -p _kernel-headers _build && cp -a /usr/include/linux /usr/include/asm-generic _kernel-headers/ && cp -a /usr/include/x86_64-linux-gnu/asm _kernel-headers/asm && cd _build && libc_cv_slibdir=/usr/lib libc_cv_rtlddir=/usr/lib ../configure --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --with-headers=\"$PWD/../_kernel-headers\" --enable-kernel=6.1 --enable-stack-protector=strong --enable-bind-now --enable-fortify-source --enable-multi-arch --disable-werror --disable-profile --disable-nscd --without-selinux",
       "build_command": "make -j\"$jobs\"",
       "check_command": "make -j2 subdirs='elf nptl string stdlib' check",
       "package_command": "make install_root=\"$pkgdir\" install && rm -f \"$pkgdir/etc/ld.so.cache\" \"$pkgdir/var/cache/ldconfig/aux-cache\" && find \"$pkgdir\" -type d -empty -delete",
