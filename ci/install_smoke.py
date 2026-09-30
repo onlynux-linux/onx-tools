@@ -72,13 +72,14 @@ def visit(name):
 for name in sorted(by_name, key=lambda item: (preferred.get(item, 4), item)):
     visit(name)
 
+root_only = {"onlynux-filesystem", "glibc", "glibc-locales", "libgcc", "linux"}
 for package in ordered:
     name = json.loads(package.with_suffix(".build.json").read_text())["package"]["name"]
     subprocess.run([
         "tatami", "-vv", "--root", str(root), "--force-no-chroot",
         "--allow-untrusted", "--force-overwrite", "install", str(package),
     ], check=True)
-    if name != "onlynux-filesystem":
+    if name not in root_only:
         subprocess.run([
             "tatami", "-vv", "--allow-untrusted", "--force-overwrite",
             "install", str(package),

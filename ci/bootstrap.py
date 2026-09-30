@@ -13,6 +13,8 @@ commands={"gcc":["gcc","-dumpfullversion"],"g++":["g++","-dumpfullversion"],"mak
           "bison":["bison","--version"],"flex":["flex","--version"],
           "autoconf":["autoconf","--version"],"automake":["automake","--version"],"libtool":["libtoolize","--version"],
           "lzip":["lzip","--version"],
+          "python3":["python3","--version"],
+          "linux-headers":["dpkg-query","-W","-f=${Version}\\n","linux-libc-dev"],
           "gperf":["gperf","--version"],
           "python3-jinja2":["python3","-c","import jinja2; print(jinja2.__version__)"],
           "python3-pefile":["python3","-c","import pefile; print(pefile.__version__)"],
