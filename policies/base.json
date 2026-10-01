@@ -1721,14 +1721,14 @@
       "configure_command": "mkdir -p _kernel-headers _build && cp -a /usr/include/linux /usr/include/asm-generic _kernel-headers/ && cp -a /usr/include/x86_64-linux-gnu/asm _kernel-headers/asm && cd _build && libc_cv_slibdir=/usr/lib libc_cv_rtlddir=/usr/lib ../configure --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --with-headers=\"$PWD/../_kernel-headers\" --enable-kernel=6.1 --enable-stack-protector=strong --enable-bind-now --enable-fortify-source --enable-multi-arch --disable-werror --disable-profile --disable-nscd --without-selinux",
       "build_command": "make -j\"$jobs\"",
       "check_command": "make -j2 subdirs='elf nptl string stdlib' check || { failures=\"$(grep '^FAIL:' tests.sum || true)\"; printf '%s\\n' \"$failures\"; test \"$failures\" = 'FAIL: elf/tst-shstk-legacy-1g'; }",
-      "package_command": "make install_root=\"$pkgdir\" install && rm -f \"$pkgdir/etc/ld.so.cache\" \"$pkgdir/var/cache/ldconfig/aux-cache\" && find \"$pkgdir\" -type d -empty -delete",
+      "package_command": "make install_root=\"$pkgdir\" install && rm -f \"$pkgdir/etc/ld.so.cache\" \"$pkgdir/var/cache/ldconfig/aux-cache\" \"$pkgdir/usr/bin/tzselect\" \"$pkgdir/usr/bin/zdump\" \"$pkgdir/usr/bin/zic\" \"$pkgdir/usr/sbin/zic\" && rm -rf \"$pkgdir/usr/share/zoneinfo\" && find \"$pkgdir\" -type d -empty -delete",
       "reviewed_dependencies": {
         "builddeps": ["gcc", "g++", "make", "binutils", "bison", "gawk", "python3", "linux-headers"],
         "targetdeps": [],
         "checkdeps": [],
         "rundeps": []
       },
-      "review_reason": "Build the pristine GNU C Library release out of tree against a private complete copy of the declared Linux UAPI boundary, with modern hardening, multi-arch dispatch and an upstream subsystem test set. The runtime loader and shared libraries live in /usr/lib for the Onlynux usr-merged layout. The sole allowlisted test result is elf/tst-shstk-legacy-1g, whose CET shadow-stack outcome depends on GitHub runner CPU and hypervisor exposure; any additional FAIL remains fatal. Gentoo patchsets, multilib bootstrap archives, branding, ebuild phases, nscd and distribution integration are not imported.",
+      "review_reason": "Build the pristine GNU C Library release out of tree against a private complete copy of the declared Linux UAPI boundary, with modern hardening, multi-arch dispatch and an upstream subsystem test set. The runtime loader and shared libraries live in /usr/lib for the Onlynux usr-merged layout; tzselect, zic, zdump and compiled zoneinfo are deliberately owned by the separate tzdata recipe. The sole allowlisted test result is elf/tst-shstk-legacy-1g, whose CET shadow-stack outcome depends on GitHub runner CPU and hypervisor exposure; any additional FAIL remains fatal. Gentoo patchsets, multilib bootstrap archives, branding, ebuild phases, nscd and distribution integration are not imported.",
       "references": ["https://www.gnu.org/software/libc/", "https://sourceware.org/glibc/wiki/HomePage"]
     },
     "ca-certificates": {
