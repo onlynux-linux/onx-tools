@@ -645,7 +645,7 @@
       "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
       "build_system": "configure",
       "source": {
-        "url": "https://downloads.sourceforge.net/traceroute/traceroute-{version}.tar.gz",
+        "url": "https://master.dl.sourceforge.net/project/traceroute/traceroute/traceroute-{version}/traceroute-{version}.tar.gz?viasf=1",
         "filename": "traceroute-{version}.tar.gz",
         "sha512": "4557e6091cd34edd9761ffa5c75e13d63e7ae17c9d060f18306487cd5c1e7eece8a7ef3ddc6bf40f78d1014ed38ce2411c14d839251412978b2da0915180be93"
       },
@@ -828,7 +828,7 @@
       "license": "GPL-2.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later",
       "build_system": "autotools",
       "source": {
-        "url": "https://downloads.sourceforge.net/procps-ng/procps-ng-{version}.tar.xz",
+        "url": "https://master.dl.sourceforge.net/project/procps-ng/Production/procps-ng-{version}.tar.xz?viasf=1",
         "filename": "procps-ng-{version}.tar.xz",
         "sha512": "c499aa14b6c94eda3a455bfe0d2d3c74c79dd718bffbd20207bd0831cb87725b83a76e4ee537a49ddf112bd1248a156d35da00035cbcd4c22037a20dcb4bdc9c"
       },
@@ -1080,7 +1080,7 @@
       "license": "GPL-2.0-only",
       "build_system": "autotools",
       "source": {
-        "url": "https://downloads.sourceforge.net/acpid2/acpid-{version}.tar.xz",
+        "url": "https://master.dl.sourceforge.net/project/acpid2/acpid-{version}.tar.xz?viasf=1",
         "filename": "acpid-{version}.tar.xz",
         "sha512": "2bf92295b55bb44fe83074b3e0c1ae639f63edaeea84b2184ae95b38852be40f380d5413110b8c0fcb2efc2ec01bf4764e1dcb97022fc724bebbfc35c0b63c81"
       },
@@ -1615,7 +1615,7 @@
       "license": "GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND LicenseRef-Public-Domain",
       "build_system": "meson",
       "source": {
-        "url": "https://github.com/systemd/systemd/archive/refs/tags/v261.3.tar.gz",
+        "url": "https://codeload.github.com/systemd/systemd/tar.gz/refs/tags/v261.3",
         "filename": "systemd-261.3.tar.gz",
         "sha512": "b271feced437bda2b33a158a0c5a013f42ec335e7266d8b45c160e79454885985c9451f8575775760a3c8534ac7ec20afa669180d606c94efea3cabba28456e1"
       },

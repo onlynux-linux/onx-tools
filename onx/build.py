@@ -72,7 +72,7 @@ def fetch(source, cache):
                 temporary.seek(0)
                 temporary.truncate(0)
                 try:
-                    with urllib.request.urlopen(request, timeout=120) as response:
+                    with urllib.request.urlopen(request, timeout=300) as response:
                         if not response.url.startswith("https://"):
                             raise ValueError("insecure download redirect")
                         while chunk := response.read(1024 * 1024):
