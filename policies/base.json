@@ -1752,7 +1752,7 @@
         "builddeps": ["gcc", "g++", "make", "binutils", "bison", "gawk", "python3", "linux-headers"],
         "targetdeps": ["glibc"],
         "checkdeps": [],
-        "rundeps": ["glibc=2.44-r0"]
+        "rundeps": ["glibc"]
       },
       "review_reason": "Compile the complete upstream SUPPORTED locale collection with the localedef built from the same pristine glibc 2.44 source and package only the generated locale archive. The C and C.UTF-8 locales remain built into glibc; no host locale archive, Gentoo locale selection, ebuild phase, patchset or distribution-specific locale policy is imported.",
       "references": ["https://www.gnu.org/software/libc/manual/html_node/Locales.html", "https://sourceware.org/glibc/wiki/HomePage"]
