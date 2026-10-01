@@ -67,7 +67,8 @@ def fetch(source, cache):
         temp = Path(temporary.name)
         try:
             request = urllib.request.Request(source["url"], headers={"User-Agent": "onx-tools/0.1"})
-            for attempt in range(3):
+            attempts = 6
+            for attempt in range(attempts):
                 temporary.seek(0)
                 temporary.truncate(0)
                 try:
@@ -78,9 +79,9 @@ def fetch(source, cache):
                             temporary.write(chunk)
                     break
                 except (TimeoutError, urllib.error.URLError):
-                    if attempt == 2:
+                    if attempt == attempts - 1:
                         raise
-                    time.sleep(2 ** attempt)
+                    time.sleep(min(5 * (2 ** attempt), 30))
             temporary.flush()
             verify(temp)
             temp.replace(path)

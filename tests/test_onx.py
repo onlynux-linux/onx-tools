@@ -96,8 +96,9 @@ class Recipes(unittest.TestCase):
             with patch("onx.build.urllib.request.urlopen",side_effect=TimeoutError("slow")) as opened, \
                  patch("onx.build.time.sleep") as slept:
                 with self.assertRaises(TimeoutError): fetch(source,d)
-            self.assertEqual(opened.call_count,3)
-            self.assertEqual(slept.call_count,2)
+            self.assertEqual(opened.call_count,6)
+            self.assertEqual(slept.call_count,5)
+            self.assertEqual([call.args[0] for call in slept.call_args_list],[5,10,20,30,30])
     def test_archive_traversal(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)/"bad.tar"
